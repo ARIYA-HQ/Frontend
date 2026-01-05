@@ -3,21 +3,15 @@ import { Link, useNavigate } from 'react-router-dom';
 import { EyeSlashIcon, EyeIcon, UserIcon, BuildingStorefrontIcon, ArrowRightIcon } from '@heroicons/react/24/outline';
 import { BriefcaseIcon } from '@heroicons/react/24/solid';
 import { Button } from '../../components/ui/Button';
+import { redirectToRoleSubdomain } from '../../utils/subdomain';
 
 const SignupPage = () => {
   const navigate = useNavigate();
   const [role, setRole] = useState('personal_planner');
 
   const handleProceed = () => {
-    if (role === 'vendor') {
-      navigate('/auth/vendor-signup');
-    } else if (role === 'professional_event_planner') {
-      navigate('/auth/professional-planner-signup');
-    } else {
-      // Both planner types go to planner signup, potentially with a query param
-      // For now we just route them to the existing planner signup
-      navigate('/auth/planner-signup');
-    }
+    // Redirect directly to the appropriate subdomain based on selected role
+    redirectToRoleSubdomain(role);
   };
 
   return (

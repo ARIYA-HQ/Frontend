@@ -1,0 +1,75 @@
+/**
+ * Utility functions for handling subdomain routing
+ */
+
+const BASE_DOMAIN = window.location.hostname;
+
+/**
+ * Get the current subdomain from the URL
+ */
+export function getCurrentSubdomain(): string | null {
+  const parts = BASE_DOMAIN.split('.');
+  if (parts.length >= 3) {
+    return parts[0];
+  }
+  return null;
+}
+
+/**
+ * Get the main domain (without subdomain)
+ */
+export function getMainDomain(): string {
+  const parts = BASE_DOMAIN.split('.');
+  if (parts.length >= 3) {
+    // Return the last two parts (e.g., "ariya.com")
+    return parts.slice(-2).join('.');
+  }
+  return BASE_DOMAIN;
+}
+
+/**
+ * Redirect to a specific subdomain
+ */
+export function redirectToSubdomain(subdomain: string, path: string = '/'): void {
+  const mainDomain = getMainDomain();
+  const newUrl = `https://${subdomain}.${mainDomain}${path}`;
+  window.location.href = newUrl;
+}
+
+/**
+ * Get the appropriate dashboard path based on user role
+ */
+export function getDashboardPathByRole(role: string): string {
+  switch (role) {
+    case 'vendor':
+      return '/dashboard/vendor';
+    case 'admin':
+      return '/dashboard/admin';
+    case 'professional_event_planner':
+      return '/dashboard'; // Same as personal planner
+    case 'personal_planner':
+    default:
+      return '/dashboard';
+  }
+}
+
+/**
+ * Redirect to the appropriate subdomain based on user role
+ */
+export function redirectToRoleSubdomain(role: string): void {
+  const subdomainMap: Record<string, string> = {
+    vendor: 'vendor',
+    professional_event_planner: 'pro',
+    personal_planner: 'planner',
+    admin: 'admin'
+  };
+
+  const subdomain = subdomainMap[role];
+  if (subdomain) {
+    const dashboardPath = getDashboardPathByRole(role);
+    redirectToSubdomain(subdomain, dashboardPath);
+  } else {
+    // Default to main domain if role doesn't have a specific subdomain
+    window.location.href = getDashboardPathByRole(role);
+  }
+}

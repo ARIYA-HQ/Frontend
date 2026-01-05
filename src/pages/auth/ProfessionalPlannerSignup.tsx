@@ -13,6 +13,7 @@ import {
 import { CheckIcon } from '@heroicons/react/24/solid';
 import { Button } from '../../components/ui/Button';
 import userService from '../../services/userService';
+import { redirectToRoleSubdomain } from '../../utils/subdomain';
 
 type Step = 1 | 2 | 3 | 4 | 5 | 6 | 7 | 8 | 9;
 
@@ -91,9 +92,9 @@ const ProfessionalPlannerSignup = () => {
                 // Store user data and token
                 localStorage.setItem('user', JSON.stringify(response.data));
                 localStorage.setItem('authToken', response.data.token || '');
-                
-                // Navigate to onboarding
-                navigate('/onboarding');
+
+                // Redirect to professional planner subdomain
+                redirectToRoleSubdomain('professional_event_planner');
             } else {
                 console.error('Registration failed:', response.message);
             }

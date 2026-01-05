@@ -12,6 +12,7 @@ import {
 } from '@heroicons/react/24/outline';
 import { CheckIcon } from '@heroicons/react/24/solid';
 import { Button } from '../../components/ui/Button';
+import { redirectToRoleSubdomain } from '../../utils/subdomain';
 
 type Step = 1 | 2 | 3 | 4;
 
@@ -344,13 +345,13 @@ const VendorSignup = () => {
 
                             <div className="space-y-4">
                                 <Button
-                                    onClick={() => navigate('/onboarding')}
+                                    onClick={() => redirectToRoleSubdomain('vendor')}
                                     className="w-full h-18 bg-[#1D2939] dark:bg-gray-800 text-white rounded-2xl text-[11px] font-black uppercase tracking-[0.3em] shadow-2xl dark:shadow-none hover:scale-[1.05] transition-all flex items-center justify-center gap-4 group"
                                 >
                                     Start Onboarding
                                     <ArrowRightIcon className="w-5 h-5 group-hover:translate-x-3 transition-transform" />
                                 </Button>
-                                <button onClick={() => navigate('/onboarding')} className="w-full text-[10px] font-black uppercase tracking-[0.4em] text-gray-300 dark:text-gray-600 hover:text-[#D0771E] transition-colors py-4">Skip for later</button>
+                                <button onClick={() => redirectToRoleSubdomain('vendor')} className="w-full text-[10px] font-black uppercase tracking-[0.4em] text-gray-300 dark:text-gray-600 hover:text-[#D0771E] transition-colors py-4">Skip for later</button>
                             </div>
                         </div>
                     )}

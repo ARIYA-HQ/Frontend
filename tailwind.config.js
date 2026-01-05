@@ -6,7 +6,6 @@ export default {
     "./node_modules/@untitledui/icons/**/*.{js,ts,jsx,tsx}",
     "./public/**/*.html",
   ],
-  darkMode: 'class',
   theme: {
     extend: {
       colors: {
@@ -48,13 +47,8 @@ export default {
       'xs': '0px 1px 2px 0px rgba(16, 24, 40, 0.05)',
     }
   },
-  fontFamily: {
-    sans: ['Inter', 'system-ui', 'sans-serif'],
-    serif: ['ui-serif', 'Georgia', 'Cambria', '"Times New Roman"', 'Times', 'serif'],
-    mono: ['ui-monospace', 'SFMono-Regular', 'Menlo', 'Monaco', 'Consolas', '"Liberation Mono"', '"Courier New"', 'monospace'],
-  },
-},
-plugins: [
-  require('tailwindcss-animate'),
-],
+  darkMode: 'class',
+  plugins: [
+    require('tailwindcss-animate'),
+  ],
 }

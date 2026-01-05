@@ -16,12 +16,16 @@ body {
   min-width: 320px;
   min-height: 100vh;
   font-feature-settings: "liga" 1, "calt" 1;
-  background-color: #F4F6F8;
   transition: background-color 0.2s ease;
 }
 
-.dark body {
+html:not(.dark) body {
+  background-color: #F4F6F8;
+}
+
+html.dark body {
   background-color: #111827;
+  color: #f9fafb;
 }
 
 @keyframes fade-in {

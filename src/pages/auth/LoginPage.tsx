@@ -3,6 +3,8 @@ import { Link, useNavigate } from 'react-router-dom';
 import { EyeSlashIcon, EyeIcon } from '@heroicons/react/24/outline';
 import { Button } from '../../components/ui/Button';
 import userService from '../../services/userService';
+import { authService } from '../../services/authService';
+import { redirectToRoleSubdomain } from '../../utils/subdomain';
 
 const LoginPage = () => {
   const navigate = useNavigate();
@@ -24,15 +26,8 @@ const LoginPage = () => {
         authService.setCurrentUser(response.data.user);
         authService.setToken(response.data.token);
         
-        // Redirect based on role
-        if (response.data.user.role === 'vendor') {
-          navigate('/dashboard/vendor');
-        } else if (response.data.user.role === 'admin') {
-          navigate('/dashboard/admin');
-        } else {
-          // Unified dashboard for both personal_planner and professional_event_planner
-          navigate('/dashboard');
-        }
+        // Redirect to appropriate subdomain based on role
+        redirectToRoleSubdomain(response.data.user.role);
       } else {
         setError(response.error?.message || 'Login failed. Please check your credentials.');
       }
@@ -158,7 +153,7 @@ const LoginPage = () => {
 
           <div className="text-center mt-12">
             <p className="text-[11px] font-black uppercase tracking-widest text-gray-400 dark:text-gray-500">
-              First time here? <Link to="/auth/signup" className="text-[#D0771E] ml-2 border-b border-[#D0771E]/20 pb-0.5 hover:border-[#D0771E] transition-all">Create an Identity</Link>
+              First time here? <Link to="/auth/signup" className="text-[#D0771E] ml-2 border-b border-[#D0771E]/20 pb-0.5 hover:border-[#D0771E] transition-all cursor-pointer hover:text-[#D0771E]/80">CREATE AN ACCOUNT</Link>
             </p>
           </div>
         </div>

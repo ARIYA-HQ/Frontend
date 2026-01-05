@@ -16,65 +16,45 @@ export const ThemeProvider = ({ children }: { children: ReactNode }) => {
     // Get saved theme from storage or default to 'light'
     const savedTheme = storage.get<Theme>(STORAGE_KEYS.THEME);
     const initialTheme = savedTheme || 'light';
-    
+
     // Apply theme immediately to prevent flash
     if (typeof document !== 'undefined') {
-      if (initialTheme === 'dark') {
-        document.documentElement.classList.add('dark');
-        document.documentElement.setAttribute('data-theme', 'dark');
-      } else {
-        document.documentElement.classList.remove('dark');
-        document.documentElement.setAttribute('data-theme', 'light');
-      }
-    }
-    
-    return initialTheme;
-  });
-
-  useEffect(() => {
-    // Apply theme to document element when theme changes
-    // This is a backup to ensure the class is always applied
-    if (typeof document !== 'undefined') {
       const root = document.documentElement;
-      
-      // Remove both classes first to avoid conflicts
-      root.classList.remove('dark', 'light');
-      
-      if (theme === 'dark') {
+
+      if (initialTheme === 'dark') {
         root.classList.add('dark');
         root.setAttribute('data-theme', 'dark');
       } else {
         root.classList.remove('dark');
         root.setAttribute('data-theme', 'light');
       }
-      
-      // Force a reflow to ensure the change is applied
-      void root.offsetHeight;
+    }
+
+    return initialTheme;
+  });
+
+  // Apply theme to document element whenever theme changes
+  useEffect(() => {
+    if (typeof document !== 'undefined') {
+      const root = document.documentElement;
+
+      // First remove the dark class to ensure clean state
+      root.classList.remove('dark');
+
+      if (theme === 'dark') {
+        root.classList.add('dark');
+        root.setAttribute('data-theme', 'dark');
+      } else {
+        root.setAttribute('data-theme', 'light');
+      }
+
+      // Save theme to storage
+      storage.set(STORAGE_KEYS.THEME, theme);
     }
   }, [theme]);
 
-  // Save theme to storage when theme changes
-  useEffect(() => {
-    storage.set(STORAGE_KEYS.THEME, theme);
-  }, [theme]);
-
   const toggleTheme = () => {
-    setThemeState(prev => {
-      const newTheme = prev === 'light' ? 'dark' : 'light';
-      
-      // Apply theme immediately to DOM (synchronously)
-      if (typeof document !== 'undefined') {
-        if (newTheme === 'dark') {
-          document.documentElement.classList.add('dark');
-          document.documentElement.setAttribute('data-theme', 'dark');
-        } else {
-          document.documentElement.classList.remove('dark');
-          document.documentElement.setAttribute('data-theme', 'light');
-        }
-      }
-      
-      return newTheme;
-    });
+    setThemeState(prev => prev === 'light' ? 'dark' : 'light');
   };
 
   const setTheme = (newTheme: Theme) => {

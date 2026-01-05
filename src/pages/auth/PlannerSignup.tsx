@@ -12,6 +12,7 @@ import {
 } from '@heroicons/react/24/outline';
 import { CheckIcon } from '@heroicons/react/24/solid';
 import { Button } from '../../components/ui/Button';
+import { redirectToRoleSubdomain } from '../../utils/subdomain';
 
 type Step = 1 | 2 | 3 | 4 | 5 | 6 | 7 | 8 | 9;
 
@@ -467,7 +468,7 @@ const PlannerSignup = () => {
                             </p>
 
                             <Button
-                                onClick={() => navigate('/onboarding')}
+                                onClick={() => redirectToRoleSubdomain('personal_planner')}
                                 className="w-full max-w-xs h-18 bg-[#1D2939] dark:bg-gray-800 text-white rounded-2xl text-[11px] font-black uppercase tracking-[0.3em] shadow-2xl dark:shadow-none hover:scale-110 transition-all mb-8 group flex items-center justify-center gap-4"
                             >
                                 Start Onboarding
