@@ -1,0 +1,73 @@
+/* Typography styles following Untitled UI patterns */
+
+.text-display-1 {
+  @apply text-4xl font-bold tracking-tight;
+}
+
+.text-display-2 {
+  @apply text-3xl font-bold tracking-tight;
+}
+
+.text-display-3 {
+  @apply text-2xl font-bold tracking-tight;
+}
+
+.text-heading-1 {
+  @apply text-xl font-semibold;
+}
+
+.text-heading-2 {
+  @apply text-lg font-semibold;
+}
+
+.text-heading-3 {
+  @apply text-base font-semibold;
+}
+
+.text-body-lg {
+  @apply text-base;
+}
+
+.text-body-md {
+  @apply text-sm;
+}
+
+.text-body-sm {
+  @apply text-xs;
+}
+
+.text-label-lg {
+  @apply text-sm font-medium;
+}
+
+.text-label-md {
+  @apply text-xs font-medium;
+}
+
+.text-muted {
+  @apply text-gray-500 dark:text-gray-400;
+}
+
+.text-accent {
+  @apply text-indigo-600 dark:text-indigo-400;
+}
+
+/* Responsive typography */
+@media (min-width: 640px) {
+  .text-display-1 {
+    @apply text-5xl;
+  }
+}
+
+/* Utility classes for common text styles */
+.text-primary {
+  color: rgb(var(--color-text-default));
+}
+
+.text-secondary {
+  color: rgb(var(--color-text-muted));
+}
+
+.text-tertiary {
+  color: rgb(var(--color-text-subtle));
+}
