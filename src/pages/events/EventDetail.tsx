@@ -15,6 +15,8 @@ import {
   CheckCircleIcon,
   DocumentArrowUpIcon
 } from '@heroicons/react/24/outline';
+import EditEventModal from '../../components/events/EditEventModal';
+import ShareModal from '../../components/ui/ShareModal';
 
 // Interfaces for our state
 interface Task {
@@ -59,6 +61,9 @@ const EventDetail = () => {
   const [guests] = useState(mockGuests.filter(g => g.eventId === eventId));
   const [budget] = useState(mockBudget);
   const [activeTab, setActiveTab] = useState('overview');
+  const [isEditModalOpen, setIsEditModalOpen] = useState(false);
+  const [isShareModalOpen, setIsShareModalOpen] = useState(false);
+  const [currentEvent, setCurrentEvent] = useState(mockEvents.find(e => e.id === eventId) || mockEvents[0]);
 
   // Interactive State
   const [tasks, setTasks] = useState<Task[]>([
@@ -129,6 +134,10 @@ const EventDetail = () => {
     }
   };
 
+  const handleUpdateEvent = (updatedEvent: any) => {
+    setCurrentEvent({ ...currentEvent, ...updatedEvent });
+  };
+
   // Calculate budget stats
   const totalSpent = budget.items.reduce((sum, item) => sum + item.spentAmount, 0);
   const remainingBudget = budget.totalBudget - totalSpent;
@@ -161,10 +170,16 @@ const EventDetail = () => {
             </div>
           </div>
           <div className="flex gap-4">
-            <button className="px-8 py-4 bg-black text-white text-[10px] font-black uppercase tracking-[0.2em] hover:bg-[#D0771E] transition-all rounded-xl shadow-xl shadow-gray-200 dark:shadow-none">
+            <button
+              onClick={() => setIsEditModalOpen(true)}
+              className="px-8 py-4 bg-black text-white text-[10px] font-black uppercase tracking-[0.2em] hover:bg-[#D0771E] transition-all rounded-xl shadow-xl shadow-gray-200 dark:shadow-none"
+            >
               Edit Manifest
             </button>
-            <button className="px-8 py-4 bg-white border-2 border-black text-black text-[10px] font-black uppercase tracking-[0.2em] hover:bg-black hover:text-white transition-all rounded-xl">
+            <button
+              onClick={() => setIsShareModalOpen(true)}
+              className="px-8 py-4 bg-white border-2 border-black text-black text-[10px] font-black uppercase tracking-[0.2em] hover:bg-black hover:text-white transition-all rounded-xl"
+            >
               Share Concept
             </button>
           </div>
@@ -717,6 +732,19 @@ const EventDetail = () => {
           </div>
         )}
       </div>
+      <EditEventModal
+        isOpen={isEditModalOpen}
+        onClose={() => setIsEditModalOpen(false)}
+        event={currentEvent}
+        onSave={handleUpdateEvent}
+      />
+
+      <ShareModal
+        isOpen={isShareModalOpen}
+        onClose={() => setIsShareModalOpen(false)}
+        title={currentEvent.title}
+        url={`https://ariya.com/events/${currentEvent.id}`}
+      />
     </div >
   );
 };

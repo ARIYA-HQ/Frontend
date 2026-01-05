@@ -19,6 +19,7 @@ interface Event {
     year: number;
     title: string;
     color: string;
+    darkColor?: string; // Add specific dark mode color classes
     company: string;
     location: string;
     time: string;
@@ -38,16 +39,17 @@ const VendorCalendar = () => {
         location: '',
         time: '10:00 AM',
         status: 'pending',
-        color: 'bg-orange-50 text-[#D0771E] border-orange-100'
+        color: 'bg-orange-50 text-[#D0771E] border-orange-100',
+        darkColor: 'dark:bg-orange-900/20 dark:text-orange-400 dark:border-orange-800'
     });
 
     const [events, setEvents] = useState<Event[]>([
-        { id: '1', date: 30, month: 7, year: 2024, title: "Groomers appt.", color: "bg-orange-50 text-[#D0771E] border-orange-100", company: "PetCare", location: "Lagos", time: "09:00 AM", clientEmail: "care@petcare.com", status: 'confirmed', description: "Monthly grooming session for Max." },
-        { id: '2', date: 3, month: 8, year: 2024, title: "Meeting w/ Chris", color: "bg-rose-50 text-rose-700 border-rose-100", company: "Chris & Co", location: "Remote", time: "11:30 AM", clientEmail: "chris@co.com", status: 'confirmed' },
-        { id: '3', date: 5, month: 8, year: 2024, title: "Lunch w/ Mom", color: "bg-blue-50 text-blue-700 border-blue-100", company: "Family", location: "Abuja", time: "01:00 PM", status: 'confirmed' },
-        { id: '4', date: 15, month: 8, year: 2024, title: "Unity Bank Retreat", color: "bg-orange-50 text-[#D0771E] border-orange-100", company: "Unity Bank", location: "Transcorp Hilton", time: "08:00 AM", clientEmail: "info@unitybank.com", status: 'confirmed' },
-        { id: '5', date: 22, month: 8, year: 2024, title: "Important work meeting", color: "bg-rose-50 text-rose-700 border-rose-100", company: "Ariya HQ", location: "Office", time: "02:00 PM", status: 'pending' },
-        { id: '6', date: 26, month: 8, year: 2024, title: "Wedding - Adele & John", color: "bg-orange-50 text-[#D0771E] border-orange-100", company: "Private Client", location: "Lagos Event Center", time: "12:00 PM", status: 'confirmed' },
+        { id: '1', date: 30, month: 7, year: 2024, title: "Groomers appt.", color: "bg-orange-50 text-[#D0771E] border-orange-100", darkColor: "dark:bg-orange-900/20 dark:text-orange-400 dark:border-orange-800", company: "PetCare", location: "Lagos", time: "09:00 AM", clientEmail: "care@petcare.com", status: 'confirmed', description: "Monthly grooming session for Max." },
+        { id: '2', date: 3, month: 8, year: 2024, title: "Meeting w/ Chris", color: "bg-rose-50 text-rose-700 border-rose-100", darkColor: "dark:bg-rose-900/20 dark:text-rose-400 dark:border-rose-800", company: "Chris & Co", location: "Remote", time: "11:30 AM", clientEmail: "chris@co.com", status: 'confirmed' },
+        { id: '3', date: 5, month: 8, year: 2024, title: "Lunch w/ Mom", color: "bg-blue-50 text-blue-700 border-blue-100", darkColor: "dark:bg-blue-900/20 dark:text-blue-400 dark:border-blue-800", company: "Family", location: "Abuja", time: "01:00 PM", status: 'confirmed' },
+        { id: '4', date: 15, month: 8, year: 2024, title: "Unity Bank Retreat", color: "bg-orange-50 text-[#D0771E] border-orange-100", darkColor: "dark:bg-orange-900/20 dark:text-orange-400 dark:border-orange-800", company: "Unity Bank", location: "Transcorp Hilton", time: "08:00 AM", clientEmail: "info@unitybank.com", status: 'confirmed' },
+        { id: '5', date: 22, month: 8, year: 2024, title: "Important work meeting", color: "bg-rose-50 text-rose-700 border-rose-100", darkColor: "dark:bg-rose-900/20 dark:text-rose-400 dark:border-rose-800", company: "Ariya HQ", location: "Office", time: "02:00 PM", status: 'pending' },
+        { id: '6', date: 26, month: 8, year: 2024, title: "Wedding - Adele & John", color: "bg-orange-50 text-[#D0771E] border-orange-100", darkColor: "dark:bg-orange-900/20 dark:text-orange-400 dark:border-orange-800", company: "Private Client", location: "Lagos Event Center", time: "12:00 PM", status: 'confirmed' },
     ]);
 
     const daysOfWeek = ['S', 'M', 'T', 'W', 'T', 'F', 'S'];
@@ -184,6 +186,7 @@ const VendorCalendar = () => {
             year: newEventForm.year || currentDate.getFullYear(),
             title: newEventForm.title,
             color: newEventForm.color || "bg-orange-50 text-[#D0771E] border-orange-100",
+            darkColor: "dark:bg-orange-900/20 dark:text-orange-400 dark:border-orange-800",
             company: newEventForm.company,
             location: newEventForm.location || "TBD",
             time: newEventForm.time || "10:00 AM",
@@ -199,7 +202,8 @@ const VendorCalendar = () => {
             location: '',
             time: '10:00 AM',
             status: 'pending',
-            color: 'bg-orange-50 text-[#D0771E] border-orange-100'
+            color: 'bg-orange-50 text-[#D0771E] border-orange-100',
+            darkColor: 'dark:bg-orange-900/20 dark:text-orange-400 dark:border-orange-800'
         });
     };
 
@@ -214,7 +218,7 @@ const VendorCalendar = () => {
     }, [events]);
 
     const renderMonthView = () => (
-        <div className="grid grid-cols-7 bg-white">
+        <div className="grid grid-cols-7 bg-white dark:bg-gray-900">
             {calendarGrid.map((item, idx) => {
                 const dayEvents = events.filter(e => e.date === item.date && e.month === item.month && e.year === item.year);
                 const isCurrentMonth = item.type === 'current';
@@ -222,12 +226,12 @@ const VendorCalendar = () => {
                 const isToday = item.date === today.getDate() && item.month === today.getMonth() && item.year === today.getFullYear();
 
                 return (
-                    <div key={idx} className={`min-h-[160px] p-4 border-r border-b border-gray-50 last:border-r-0 transition-all hover:bg-orange-50/10 group ${!isCurrentMonth ? 'bg-gray-50/30' : ''}`}>
+                    <div key={idx} className={`min-h-[160px] p-4 border-r border-b border-gray-50 dark:border-gray-800 last:border-r-0 transition-all hover:bg-orange-50/10 dark:hover:bg-orange-900/10 group ${!isCurrentMonth ? 'bg-gray-50/30 dark:bg-gray-800/30' : ''}`}>
                         <div className="flex items-center justify-between mb-4">
                             <span
                                 onClick={() => isCurrentMonth && setCurrentDate(new Date(item.year, item.month, item.date))}
-                                className={`text-xs font-black leading-none w-8 h-8 flex items-center justify-center rounded-2xl cursor-pointer transition-all ${isToday ? 'bg-[#1D2939] text-white shadow-xl shadow-gray-200' :
-                                    isCurrentMonth ? 'text-[#1D2939] group-hover:bg-white group-hover:shadow-sm' : 'text-gray-300'
+                                className={`text-xs font-black leading-none w-8 h-8 flex items-center justify-center rounded-2xl cursor-pointer transition-all ${isToday ? 'bg-[#1D2939] dark:bg-white text-white dark:text-black shadow-xl shadow-gray-200 dark:shadow-none' :
+                                    isCurrentMonth ? 'text-[#1D2939] dark:text-gray-100 group-hover:bg-white dark:group-hover:bg-gray-800 group-hover:shadow-sm' : 'text-gray-300 dark:text-gray-600'
                                     }`}>
                                 {item.date}
                             </span>
@@ -237,7 +241,7 @@ const VendorCalendar = () => {
                                         e.stopPropagation();
                                         handleQuickAdd(item);
                                     }}
-                                    className="opacity-0 group-hover:opacity-100 p-1.5 hover:bg-white rounded-xl transition-all text-gray-400 hover:text-[#D0771E]"
+                                    className="opacity-0 group-hover:opacity-100 p-1.5 hover:bg-white dark:hover:bg-gray-800 rounded-xl transition-all text-gray-400 hover:text-[#D0771E]"
                                 >
                                     <PlusIcon className="w-3.5 h-3.5" />
                                 </button>
@@ -248,7 +252,7 @@ const VendorCalendar = () => {
                                 <div
                                     key={event.id}
                                     onClick={() => setSelectedEvent(event)}
-                                    className={`${event.color} px-3 py-2 rounded-xl text-[9px] font-black truncate leading-tight cursor-pointer hover:shadow-sm border transition-all active:scale-95 uppercase tracking-tight`}
+                                    className={`${event.color} ${event.darkColor} px-3 py-2 rounded-xl text-[9px] font-black truncate leading-tight cursor-pointer hover:shadow-sm border transition-all active:scale-95 uppercase tracking-tight`}
                                 >
                                     {event.title}
                                 </div>
@@ -266,14 +270,16 @@ const VendorCalendar = () => {
     );
 
     const renderWeekView = () => (
-        <div className="grid grid-cols-7 bg-white divide-x divide-gray-50">
+        <div className="grid grid-cols-7 bg-white dark:bg-gray-900 divide-x divide-gray-50 dark:divide-gray-800">
             {weekGrid.map((item, idx) => {
                 const dayEvents = events.filter(e => e.date === item.date && e.month === item.month && e.year === item.year);
+                const isToday = currentDate.getDate() === item.date && currentDate.getMonth() === item.month;
+
                 return (
-                    <div key={idx} className="min-h-[600px] p-6 group hover:bg-orange-50/5">
+                    <div key={idx} className="min-h-[600px] p-6 group hover:bg-orange-50/5 dark:hover:bg-orange-900/5">
                         <div className="text-center mb-8">
-                            <p className="text-[10px] font-black text-gray-400 uppercase tracking-widest mb-1">{fullDaysOfWeek[idx]}</p>
-                            <span className={`text-xl font-black w-10 h-10 flex items-center justify-center mx-auto rounded-2xl ${currentDate.getDate() === item.date && currentDate.getMonth() === item.month ? 'bg-[#1D2939] text-white shadow-lg shadow-gray-200' : 'text-[#1D2939]'
+                            <p className="text-[10px] font-black text-gray-400 dark:text-gray-500 uppercase tracking-widest mb-1">{fullDaysOfWeek[idx]}</p>
+                            <span className={`text-xl font-black w-10 h-10 flex items-center justify-center mx-auto rounded-2xl ${isToday ? 'bg-[#1D2939] dark:bg-white text-white dark:text-black shadow-lg shadow-gray-200 dark:shadow-none' : 'text-[#1D2939] dark:text-white'
                                 }`}>
                                 {item.date}
                             </span>
@@ -283,7 +289,7 @@ const VendorCalendar = () => {
                                 <div
                                     key={event.id}
                                     onClick={() => setSelectedEvent(event)}
-                                    className={`${event.color} p-4 rounded-2xl border cursor-pointer hover:shadow-md transition-all active:scale-95`}
+                                    className={`${event.color} ${event.darkColor} p-4 rounded-2xl border cursor-pointer hover:shadow-md transition-all active:scale-95`}
                                 >
                                     <p className="text-[10px] font-black uppercase tracking-widest opacity-70 mb-1">{event.time}</p>
                                     <p className="text-xs font-black uppercase tracking-tight leading-tight">{event.title}</p>
@@ -292,7 +298,7 @@ const VendorCalendar = () => {
                             ))}
                             <button
                                 onClick={() => handleQuickAdd(item)}
-                                className="w-full py-3 border border-dashed border-gray-100 rounded-2xl text-[9px] font-black text-gray-400 uppercase tracking-widest hover:border-orange-200 hover:text-orange-400 transition-all opacity-0 group-hover:opacity-100"
+                                className="w-full py-3 border border-dashed border-gray-100 dark:border-gray-800 rounded-2xl text-[9px] font-black text-gray-400 dark:text-gray-600 uppercase tracking-widest hover:border-orange-200 dark:hover:border-orange-800 hover:text-orange-400 transition-all opacity-0 group-hover:opacity-100"
                             >
                                 <PlusIcon className="w-4 h-4 mx-auto" />
                             </button>
@@ -306,11 +312,11 @@ const VendorCalendar = () => {
     const renderDayView = () => {
         const dayEvents = events.filter(e => e.date === currentDate.getDate() && e.month === currentDate.getMonth() && e.year === currentDate.getFullYear());
         return (
-            <div className="bg-white p-10 min-h-[600px]">
+            <div className="bg-white dark:bg-gray-900 p-10 min-h-[600px]">
                 <div className="flex items-center gap-6 mb-12">
-                    <span className="text-6xl font-black text-[#1D2939] leading-none">{currentDate.getDate()}</span>
+                    <span className="text-6xl font-black text-[#1D2939] dark:text-white leading-none">{currentDate.getDate()}</span>
                     <div>
-                        <p className="text-xl font-black text-[#1D2939] uppercase tracking-widest">{fullDaysOfWeek[currentDate.getDay()]}</p>
+                        <p className="text-xl font-black text-[#1D2939] dark:text-white uppercase tracking-widest">{fullDaysOfWeek[currentDate.getDay()]}</p>
                         <p className="text-sm font-black text-[#D0771E] uppercase tracking-widest">{months[currentDate.getMonth()]}, {currentDate.getFullYear()}</p>
                     </div>
                 </div>
@@ -319,12 +325,12 @@ const VendorCalendar = () => {
                         <div
                             key={event.id}
                             onClick={() => setSelectedEvent(event)}
-                            className={`${event.color} p-8 rounded-[32px] border flex items-center justify-between hover:shadow-lg transition-all cursor-pointer`}
+                            className={`${event.color} ${event.darkColor} p-8 rounded-[32px] border flex items-center justify-between hover:shadow-lg transition-all cursor-pointer`}
                         >
                             <div className="flex gap-10 items-center">
                                 <div className="text-center min-w-[80px]">
                                     <p className="text-sm font-black uppercase tracking-widest">{event.time}</p>
-                                    <p className="text-[10px] font-black text-gray-400 uppercase tracking-[0.2em] mt-1">START</p>
+                                    <p className="text-[10px] font-black opacity-60 uppercase tracking-[0.2em] mt-1">START</p>
                                 </div>
                                 <div className="h-10 w-px bg-current opacity-20"></div>
                                 <div>
@@ -342,9 +348,9 @@ const VendorCalendar = () => {
                             <Button className="rounded-2xl h-12 px-8">View Details</Button>
                         </div>
                     )) : (
-                        <div className="text-center py-20 border-2 border-dashed border-gray-50 rounded-[40px]">
-                            <p className="text-sm font-black text-gray-300 uppercase tracking-widest">No events scheduled for today</p>
-                            <Button variant="outline" className="mt-6 rounded-2xl" onClick={handleAddEvent}>Schedule Something</Button>
+                        <div className="text-center py-20 border-2 border-dashed border-gray-50 dark:border-gray-800 rounded-[40px]">
+                            <p className="text-sm font-black text-gray-300 dark:text-gray-600 uppercase tracking-widest">No events scheduled for today</p>
+                            <Button variant="outline" className="mt-6 rounded-2xl dark:border-gray-700 dark:text-white" onClick={handleAddEvent}>Schedule Something</Button>
                         </div>
                     )}
                 </div>
@@ -358,35 +364,35 @@ const VendorCalendar = () => {
         });
 
         return (
-            <div className="bg-white divide-y divide-gray-50">
+            <div className="bg-white dark:bg-gray-900 divide-y divide-gray-50 dark:divide-gray-800">
                 {sortedEvents.map(event => (
                     <div
                         key={event.id}
                         onClick={() => setSelectedEvent(event)}
-                        className="p-8 hover:bg-gray-50/50 transition-colors flex items-center justify-between group cursor-pointer"
+                        className="p-8 hover:bg-gray-50/50 dark:hover:bg-gray-800/50 transition-colors flex items-center justify-between group cursor-pointer"
                     >
                         <div className="flex items-center gap-12">
                             <div className="text-center min-w-[60px]">
-                                <p className="text-xs font-black text-gray-400 uppercase tracking-widest mb-1">{months[event.month].substring(0, 3)}</p>
-                                <p className="text-2xl font-black text-[#1D2939] leading-none">{event.date}</p>
+                                <p className="text-xs font-black text-gray-400 dark:text-gray-500 uppercase tracking-widest mb-1">{months[event.month].substring(0, 3)}</p>
+                                <p className="text-2xl font-black text-[#1D2939] dark:text-white leading-none">{event.date}</p>
                             </div>
                             <div>
-                                <h4 className="text-lg font-black uppercase tracking-tight mb-1">{event.title}</h4>
+                                <h4 className="text-lg font-black text-[#1D2939] dark:text-white uppercase tracking-tight mb-1">{event.title}</h4>
                                 <div className="flex gap-4">
-                                    <p className="flex items-center text-[9px] font-black text-gray-400 uppercase tracking-widest group-hover:text-[#D0771E] transition-colors">
+                                    <p className="flex items-center text-[9px] font-black text-gray-400 dark:text-gray-500 uppercase tracking-widest group-hover:text-[#D0771E] transition-colors">
                                         <ClockIcon className="w-3 h-3 mr-1" /> {event.time}
                                     </p>
-                                    <p className="flex items-center text-[9px] font-black text-gray-400 uppercase tracking-widest">
+                                    <p className="flex items-center text-[9px] font-black text-gray-400 dark:text-gray-500 uppercase tracking-widest">
                                         <MapPinIcon className="w-3 h-3 mr-1" /> {event.location}
                                     </p>
                                 </div>
                             </div>
                         </div>
                         <div className="flex items-center gap-4">
-                            <span className={`px-4 py-2 rounded-2xl text-[9px] font-black uppercase tracking-widest ${event.color} border`}>
+                            <span className={`px-4 py-2 rounded-2xl text-[9px] font-black uppercase tracking-widest ${event.color} ${event.darkColor} border`}>
                                 {event.status}
                             </span>
-                            <Button variant="outline" className="h-10 w-10 p-0 rounded-xl group-hover:border-[#D0771E] group-hover:text-[#D0771E] transition-all">
+                            <Button variant="outline" className="h-10 w-10 p-0 rounded-xl border-gray-100 dark:border-gray-700 text-gray-400 dark:text-gray-500 group-hover:border-[#D0771E] group-hover:text-[#D0771E] transition-all">
                                 <ChevronRightIcon className="w-4 h-4 mx-auto" />
                             </Button>
                         </div>
@@ -399,19 +405,19 @@ const VendorCalendar = () => {
     const renderModal = () => {
         if (!selectedEvent) return null;
         return (
-            <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-[#1D2939]/40 backdrop-blur-sm animate-in fade-in duration-300">
-                <PremiumCard className="w-full max-w-xl p-0 overflow-hidden animate-in zoom-in-95 duration-300 shadow-2xl">
-                    <div className={`${selectedEvent.color} px-10 py-12 border-b`}>
+            <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-[#1D2939]/40 dark:bg-black/60 backdrop-blur-sm animate-in fade-in duration-300">
+                <PremiumCard className="w-full max-w-xl p-0 overflow-hidden animate-in zoom-in-95 duration-300 shadow-2xl dark:bg-gray-900 border-none">
+                    <div className={`${selectedEvent.color} ${selectedEvent.darkColor} px-10 py-12 border-b dark:border-white/5`}>
                         <div className="flex justify-between items-start mb-10">
                             <div>
-                                <span className="bg-white/50 px-3 py-1.5 rounded-xl text-[10px] font-black uppercase tracking-[0.2em] mb-4 inline-block">
+                                <span className="bg-white/50 dark:bg-black/20 px-3 py-1.5 rounded-xl text-[10px] font-black uppercase tracking-[0.2em] mb-4 inline-block">
                                     {selectedEvent.status}
                                 </span>
                                 <h3 className="text-3xl font-black uppercase tracking-tight">{selectedEvent.title}</h3>
                             </div>
                             <button
                                 onClick={() => setSelectedEvent(null)}
-                                className="p-3 hover:bg-black/5 rounded-2xl transition-colors"
+                                className="p-3 hover:bg-black/5 dark:hover:bg-white/5 rounded-2xl transition-colors"
                             >
                                 <PlusIcon className="w-6 h-6 rotate-45" />
                             </button>
@@ -429,36 +435,36 @@ const VendorCalendar = () => {
                             </div>
                         </div>
                     </div>
-                    <div className="p-10 bg-white">
+                    <div className="p-10 bg-white dark:bg-gray-900 text-[#1D2939] dark:text-white">
                         <div className="mb-10">
-                            <p className="text-[10px] font-black text-gray-400 uppercase tracking-widest mb-3">Client Details</p>
+                            <p className="text-[10px] font-black text-gray-400 dark:text-gray-500 uppercase tracking-widest mb-3">Client Details</p>
                             <div className="flex items-center gap-4">
-                                <div className="w-12 h-12 rounded-2xl bg-gray-50 flex items-center justify-center">
-                                    <span className="text-xl font-black text-[#1D2939]">{selectedEvent.company[0]}</span>
+                                <div className="w-12 h-12 rounded-2xl bg-gray-50 dark:bg-gray-800 flex items-center justify-center">
+                                    <span className="text-xl font-black text-[#1D2939] dark:text-white">{selectedEvent.company[0]}</span>
                                 </div>
                                 <div>
                                     <h4 className="text-base font-black uppercase tracking-tight">{selectedEvent.company}</h4>
-                                    <p className="text-xs text-gray-500">{selectedEvent.clientEmail || "No email provided"}</p>
+                                    <p className="text-xs text-gray-500 dark:text-gray-400">{selectedEvent.clientEmail || "No email provided"}</p>
                                 </div>
                             </div>
                         </div>
                         {selectedEvent.description && (
                             <div className="mb-10">
-                                <p className="text-[10px] font-black text-gray-400 uppercase tracking-widest mb-3">Notes</p>
-                                <p className="text-sm text-gray-600 line-clamp-3 leading-relaxed">{selectedEvent.description}</p>
+                                <p className="text-[10px] font-black text-gray-400 dark:text-gray-500 uppercase tracking-widest mb-3">Notes</p>
+                                <p className="text-sm text-gray-600 dark:text-gray-300 line-clamp-3 leading-relaxed">{selectedEvent.description}</p>
                             </div>
                         )}
                         <div className="grid grid-cols-2 gap-4">
-                            <Button variant="outline" className="rounded-2xl h-14 uppercase text-[10px] tracking-widest border-gray-100">
+                            <Button variant="outline" className="rounded-2xl h-14 uppercase text-[10px] tracking-widest border-gray-100 dark:border-gray-700 dark:text-gray-300">
                                 Message Client
                             </Button>
-                            <Button className="rounded-2xl h-14 uppercase text-[10px] tracking-widest shadow-orange-100">
+                            <Button className="rounded-2xl h-14 uppercase text-[10px] tracking-widest shadow-orange-100 dark:shadow-none">
                                 Edit Details
                             </Button>
-                            <Button variant="outline" className="rounded-2xl h-14 uppercase text-[10px] tracking-widest border-gray-100">
+                            <Button variant="outline" className="rounded-2xl h-14 uppercase text-[10px] tracking-widest border-gray-100 dark:border-gray-700 dark:text-gray-300">
                                 Reschedule
                             </Button>
-                            <Button variant="destructive" className="rounded-2xl h-14 uppercase text-[10px] tracking-widest shadow-red-50">
+                            <Button variant="destructive" className="rounded-2xl h-14 uppercase text-[10px] tracking-widest shadow-red-50 dark:shadow-none">
                                 Cancel Booking
                             </Button>
                         </div>
@@ -471,74 +477,74 @@ const VendorCalendar = () => {
     const renderNewEventModal = () => {
         if (!showNewEventModal) return null;
         return (
-            <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-[#1D2939]/40 backdrop-blur-sm animate-in fade-in duration-300">
-                <PremiumCard className="w-full max-w-xl p-0 animate-in zoom-in-95 duration-300 shadow-2xl overflow-hidden">
-                    <div className="px-10 py-10 bg-[#F3F0EB]/30 border-b flex justify-between items-center">
-                        <h3 className="text-2xl font-black uppercase tracking-tighter">New Booking</h3>
+            <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-[#1D2939]/40 dark:bg-black/60 backdrop-blur-sm animate-in fade-in duration-300">
+                <PremiumCard className="w-full max-w-xl p-0 animate-in zoom-in-95 duration-300 shadow-2xl overflow-hidden bg-white dark:bg-gray-900 border-none">
+                    <div className="px-10 py-10 bg-[#F3F0EB]/30 dark:bg-gray-800/30 border-b dark:border-gray-800 flex justify-between items-center">
+                        <h3 className="text-2xl font-black uppercase tracking-tighter text-[#1D2939] dark:text-white">New Booking</h3>
                         <button
                             onClick={() => setShowNewEventModal(false)}
-                            className="p-3 hover:bg-black/5 rounded-2xl transition-colors"
+                            className="p-3 hover:bg-black/5 dark:hover:bg-white/5 rounded-2xl transition-colors text-[#1D2939] dark:text-white"
                         >
                             <PlusIcon className="w-6 h-6 rotate-45" />
                         </button>
                     </div>
                     <div className="p-10 space-y-6">
                         <div className="space-y-2">
-                            <label className="text-[10px] font-black text-gray-400 uppercase tracking-widest">Event Title</label>
+                            <label className="text-[10px] font-black text-gray-400 dark:text-gray-500 uppercase tracking-widest">Event Title</label>
                             <input
                                 type="text"
                                 value={newEventForm.title}
                                 onChange={(e) => setNewEventForm({ ...newEventForm, title: e.target.value })}
                                 placeholder="e.g. Wedding - Adele & John"
-                                className="w-full h-14 px-6 rounded-2xl bg-gray-50 border-none focus:ring-2 focus:ring-[#D0771E] transition-all text-sm font-black uppercase"
+                                className="w-full h-14 px-6 rounded-2xl bg-gray-50 dark:bg-gray-800 border-none focus:ring-2 focus:ring-[#D0771E] transition-all text-sm font-black uppercase text-[#1D2939] dark:text-white placeholder:text-gray-400 dark:placeholder:text-gray-600"
                             />
                         </div>
                         <div className="grid grid-cols-2 gap-4">
                             <div className="space-y-2">
-                                <label className="text-[10px] font-black text-gray-400 uppercase tracking-widest">Client / Company</label>
+                                <label className="text-[10px] font-black text-gray-400 dark:text-gray-500 uppercase tracking-widest">Client / Company</label>
                                 <input
                                     type="text"
                                     value={newEventForm.company}
                                     onChange={(e) => setNewEventForm({ ...newEventForm, company: e.target.value })}
                                     placeholder="e.g. Private Client"
-                                    className="w-full h-14 px-6 rounded-2xl bg-gray-50 border-none focus:ring-2 focus:ring-[#D0771E] transition-all text-sm font-black uppercase"
+                                    className="w-full h-14 px-6 rounded-2xl bg-gray-50 dark:bg-gray-800 border-none focus:ring-2 focus:ring-[#D0771E] transition-all text-sm font-black uppercase text-[#1D2939] dark:text-white placeholder:text-gray-400 dark:placeholder:text-gray-600"
                                 />
                             </div>
                             <div className="space-y-2">
-                                <label className="text-[10px] font-black text-gray-400 uppercase tracking-widest">Time</label>
+                                <label className="text-[10px] font-black text-gray-400 dark:text-gray-500 uppercase tracking-widest">Time</label>
                                 <input
                                     type="text"
                                     value={newEventForm.time}
                                     onChange={(e) => setNewEventForm({ ...newEventForm, time: e.target.value })}
                                     placeholder="e.g. 12:00 PM"
-                                    className="w-full h-14 px-6 rounded-2xl bg-gray-50 border-none focus:ring-2 focus:ring-[#D0771E] transition-all text-sm font-black uppercase"
+                                    className="w-full h-14 px-6 rounded-2xl bg-gray-50 dark:bg-gray-800 border-none focus:ring-2 focus:ring-[#D0771E] transition-all text-sm font-black uppercase text-[#1D2939] dark:text-white placeholder:text-gray-400 dark:placeholder:text-gray-600"
                                 />
                             </div>
                         </div>
                         <div className="space-y-2">
-                            <label className="text-[10px] font-black text-gray-400 uppercase tracking-widest">Location</label>
+                            <label className="text-[10px] font-black text-gray-400 dark:text-gray-500 uppercase tracking-widest">Location</label>
                             <input
                                 type="text"
                                 value={newEventForm.location}
                                 onChange={(e) => setNewEventForm({ ...newEventForm, location: e.target.value })}
                                 placeholder="e.g. Lagos Event Center"
-                                className="w-full h-14 px-6 rounded-2xl bg-gray-50 border-none focus:ring-2 focus:ring-[#D0771E] transition-all text-sm font-black uppercase"
+                                className="w-full h-14 px-6 rounded-2xl bg-gray-50 dark:bg-gray-800 border-none focus:ring-2 focus:ring-[#D0771E] transition-all text-sm font-black uppercase text-[#1D2939] dark:text-white placeholder:text-gray-400 dark:placeholder:text-gray-600"
                             />
                         </div>
                         <div className="space-y-2">
-                            <label className="text-[10px] font-black text-gray-400 uppercase tracking-widest">Description (Optional)</label>
+                            <label className="text-[10px] font-black text-gray-400 dark:text-gray-500 uppercase tracking-widest">Description (Optional)</label>
                             <textarea
                                 value={newEventForm.description}
                                 onChange={(e) => setNewEventForm({ ...newEventForm, description: e.target.value })}
                                 placeholder="Add notes about this booking..."
-                                className="w-full h-32 p-6 rounded-2xl bg-gray-50 border-none focus:ring-2 focus:ring-[#D0771E] transition-all text-sm font-medium resize-none"
+                                className="w-full h-32 p-6 rounded-2xl bg-gray-50 dark:bg-gray-800 border-none focus:ring-2 focus:ring-[#D0771E] transition-all text-sm font-medium resize-none text-[#1D2939] dark:text-white placeholder:text-gray-400 dark:placeholder:text-gray-600"
                             />
                         </div>
                         <div className="pt-4 flex gap-4">
-                            <Button variant="outline" className="flex-1 rounded-2xl h-14 border-gray-100" onClick={() => setShowNewEventModal(false)}>
+                            <Button variant="outline" className="flex-1 rounded-2xl h-14 border-gray-100 dark:border-gray-700 dark:text-gray-300" onClick={() => setShowNewEventModal(false)}>
                                 Cancel
                             </Button>
-                            <Button className="flex-1 rounded-2xl h-14 shadow-orange-100" onClick={handleSaveNewEvent}>
+                            <Button className="flex-1 rounded-2xl h-14 shadow-orange-100 dark:shadow-none" onClick={handleSaveNewEvent}>
                                 Save Booking
                             </Button>
                         </div>
@@ -558,14 +564,14 @@ const VendorCalendar = () => {
                 subtitle="Track bookings, inquiries, and availability"
                 actions={
                     <div className="flex gap-4">
-                        <Button variant="outline" className="h-12 px-6 rounded-2xl border-gray-100" onClick={handleToday}>
+                        <Button variant="outline" className="h-12 px-6 rounded-2xl border-gray-100 dark:border-gray-700 dark:text-gray-300" onClick={handleToday}>
                             Today
                         </Button>
-                        <Button variant="outline" className="h-12 px-6 rounded-2xl border-gray-100">
+                        <Button variant="outline" className="h-12 px-6 rounded-2xl border-gray-100 dark:border-gray-700 dark:text-gray-300">
                             <AdjustmentsHorizontalIcon className="w-4 h-4 mr-2" />
                             Settings
                         </Button>
-                        <Button className="h-12 px-8 rounded-2xl shadow-xl shadow-orange-100" onClick={handleAddEvent}>
+                        <Button className="h-12 px-8 rounded-2xl shadow-xl shadow-orange-100 dark:shadow-none" onClick={handleAddEvent}>
                             <PlusIcon className="w-5 h-5 mr-2" />
                             New Event
                         </Button>
@@ -576,23 +582,23 @@ const VendorCalendar = () => {
             <div className="flex flex-col lg:flex-row gap-10">
                 {/* Left Panel: Mini Calendar */}
                 <div className="w-full lg:w-96 space-y-8">
-                    <PremiumCard className="p-10">
+                    <PremiumCard className="p-10 bg-white dark:bg-gray-950 border-gray-100 dark:border-gray-800">
                         <div className="flex justify-between items-center mb-10">
-                            <h2 className="text-sm font-black text-[#1D2939] uppercase tracking-widest">
+                            <h2 className="text-sm font-black text-[#1D2939] dark:text-white uppercase tracking-widest">
                                 {months[currentDate.getMonth()].substring(0, 3)} {currentDate.getFullYear()}
                             </h2>
                             <div className="flex gap-1">
-                                <button onClick={handlePrev} className="p-2 hover:bg-gray-50 rounded-xl transition-colors text-gray-400">
+                                <button onClick={handlePrev} className="p-2 hover:bg-gray-50 dark:hover:bg-gray-800 rounded-xl transition-colors text-gray-400 dark:text-gray-500">
                                     <ChevronLeftIcon className="w-4 h-4" />
                                 </button>
-                                <button onClick={handleNext} className="p-2 hover:bg-gray-50 rounded-xl transition-colors text-gray-400">
+                                <button onClick={handleNext} className="p-2 hover:bg-gray-50 dark:hover:bg-gray-800 rounded-xl transition-colors text-gray-400 dark:text-gray-500">
                                     <ChevronRightIcon className="w-4 h-4" />
                                 </button>
                             </div>
                         </div>
                         <div className="grid grid-cols-7 gap-y-6 text-center">
                             {daysOfWeek.map((day, idx) => (
-                                <span key={idx} className="text-[10px] font-black text-gray-400 uppercase tracking-widest">{day}</span>
+                                <span key={idx} className="text-[10px] font-black text-gray-400 dark:text-gray-600 uppercase tracking-widest">{day}</span>
                             ))}
                             {calendarGrid.map((item, idx) => (
                                 <div key={idx} className="h-10 flex items-center justify-center">
@@ -602,10 +608,10 @@ const VendorCalendar = () => {
                                             if (item.type !== 'current') setView('Month');
                                         }}
                                         className={`text-xs font-black cursor-pointer rounded-2xl w-9 h-9 flex items-center justify-center transition-all ${currentDate.getDate() === item.date && currentDate.getMonth() === item.month && item.type === 'current'
-                                            ? 'bg-[#1D2939] text-white shadow-xl shadow-gray-200'
+                                            ? 'bg-[#1D2939] dark:bg-white text-white dark:text-black shadow-xl shadow-gray-200 dark:shadow-none'
                                             : item.type === 'current'
-                                                ? 'text-gray-500 hover:bg-gray-50'
-                                                : 'text-gray-200 opacity-50'
+                                                ? 'text-gray-500 dark:text-gray-400 hover:bg-gray-50 dark:hover:bg-gray-800'
+                                                : 'text-gray-200 dark:text-gray-800 opacity-50'
                                             }`}>
                                         {item.date}
                                     </span>
@@ -615,7 +621,7 @@ const VendorCalendar = () => {
                     </PremiumCard>
 
                     <PremiumCard
-                        className="p-10 bg-gradient-to-br from-[#1D2939] to-[#2D3848] text-white cursor-pointer group"
+                        className="p-10 bg-gradient-to-br from-[#1D2939] to-[#2D3848] dark:from-black dark:to-gray-900 text-white cursor-pointer group"
                         onClick={() => nextBooking && setSelectedEvent(nextBooking)}
                     >
                         <div className="flex items-center gap-3 mb-6">
@@ -646,32 +652,32 @@ const VendorCalendar = () => {
 
                 {/* Right Panel: Main Calendar */}
                 <div className="flex-1">
-                    <PremiumCard className="overflow-hidden">
+                    <PremiumCard className="overflow-hidden bg-white dark:bg-gray-950 border-gray-100 dark:border-gray-800">
                         {/* Calendar Sub-header */}
-                        <div className="px-10 py-8 flex items-center justify-between border-b border-gray-50 bg-[#F3F0EB]/30">
+                        <div className="px-10 py-8 flex items-center justify-between border-b border-gray-50 dark:border-gray-800 bg-[#F3F0EB]/30 dark:bg-gray-900/30">
                             <div className="flex items-center gap-8">
-                                <h2 className="text-2xl font-black text-[#1D2939] uppercase tracking-tighter">
+                                <h2 className="text-2xl font-black text-[#1D2939] dark:text-white uppercase tracking-tighter">
                                     {view === 'Month' ? `${months[currentDate.getMonth()]} ${currentDate.getFullYear()}` :
                                         view === 'Week' ? `Week of ${currentDate.getDate()} ${months[currentDate.getMonth()].substring(0, 3)} ${currentDate.getFullYear()}` :
                                             `${months[currentDate.getMonth()]} ${currentDate.getDate()}, ${currentDate.getFullYear()}`}
                                 </h2>
-                                <div className="flex bg-white rounded-2xl p-1 border border-gray-100 shadow-sm">
-                                    <button onClick={handlePrev} className="p-2 hover:text-[#D0771E] transition-colors">
+                                <div className="flex bg-white dark:bg-gray-900 rounded-2xl p-1 border border-gray-100 dark:border-gray-700 shadow-sm">
+                                    <button onClick={handlePrev} className="p-2 hover:text-[#D0771E] transition-colors text-gray-500 dark:text-gray-400">
                                         <ChevronLeftIcon className="w-5 h-5" />
                                     </button>
-                                    <div className="w-px h-6 bg-gray-50 my-auto mx-1"></div>
-                                    <button onClick={handleNext} className="p-2 hover:text-[#D0771E] transition-colors">
+                                    <div className="w-px h-6 bg-gray-50 dark:bg-gray-800 my-auto mx-1"></div>
+                                    <button onClick={handleNext} className="p-2 hover:text-[#D0771E] transition-colors text-gray-500 dark:text-gray-400">
                                         <ChevronRightIcon className="w-5 h-5" />
                                     </button>
                                 </div>
                             </div>
 
-                            <div className="flex bg-gray-100 rounded-[20px] p-1.5 border border-gray-200 shadow-inner">
+                            <div className="flex bg-gray-100 dark:bg-gray-800 rounded-[20px] p-1.5 border border-gray-200 dark:border-gray-700 shadow-inner">
                                 {calendarViews.map((v) => (
                                     <button
                                         key={v}
                                         onClick={() => setView(v)}
-                                        className={`px-6 py-2.5 text-[10px] font-black uppercase tracking-widest rounded-2xl transition-all ${view === v ? 'bg-white text-[#1D2939] shadow-md ring-1 ring-gray-100' : 'text-gray-400 hover:text-gray-600'
+                                        className={`px-6 py-2.5 text-[10px] font-black uppercase tracking-widest rounded-2xl transition-all ${view === v ? 'bg-white dark:bg-gray-700 text-[#1D2939] dark:text-white shadow-md ring-1 ring-gray-100 dark:ring-gray-700' : 'text-gray-400 dark:text-gray-500 hover:text-gray-600 dark:hover:text-gray-300'
                                             }`}
                                     >
                                         {v}
@@ -682,9 +688,9 @@ const VendorCalendar = () => {
 
                         {/* Calendar Grid Header (Only for Month/Week) */}
                         {(view === 'Month' || view === 'Week') && (
-                            <div className="grid grid-cols-7 border-b border-gray-50 bg-white">
+                            <div className="grid grid-cols-7 border-b border-gray-50 dark:border-gray-800 bg-white dark:bg-gray-900">
                                 {fullDaysOfWeek.map((day, idx) => (
-                                    <div key={idx} className="py-6 text-center text-[10px] font-black text-gray-400 uppercase tracking-[0.2em] border-r border-gray-50 last:border-r-0">
+                                    <div key={idx} className="py-6 text-center text-[10px] font-black text-gray-400 dark:text-gray-600 uppercase tracking-[0.2em] border-r border-gray-50 dark:border-gray-800 last:border-r-0">
                                         {day}
                                     </div>
                                 ))}
@@ -692,7 +698,7 @@ const VendorCalendar = () => {
                         )}
 
                         {/* View Content Rendering */}
-                        <div className="bg-white">
+                        <div className="bg-white dark:bg-gray-900">
                             {view === 'Month' && renderMonthView()}
                             {view === 'Week' && renderWeekView()}
                             {view === 'Day' && renderDayView()}

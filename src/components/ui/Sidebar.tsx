@@ -70,6 +70,7 @@ const vendorNavigation = [
   { name: 'Calendar', href: '/dashboard/vendor/calendar', icon: CalendarDaysIcon },
   { name: 'Finances', href: '/dashboard/vendor/finances', icon: BanknotesIcon },
   { name: 'Growth', href: '/dashboard/vendor/growth', icon: ArrowTrendingUpIcon },
+  { name: 'Messages', href: '/messages', icon: ChatBubbleLeftRightIcon },
   { name: 'Settings', href: '/dashboard/vendor/settings', icon: Cog6ToothIcon },
 ];
 

@@ -40,7 +40,7 @@ const QuoteEngine = ({ isOpen, onClose, inquiry, mode = 'create' }: QuoteEngineP
                     leaveFrom="opacity-100"
                     leaveTo="opacity-0"
                 >
-                    <div className="fixed inset-0 bg-[#344054]/40 backdrop-blur-sm transition-opacity" />
+                    <div className="fixed inset-0 bg-[#344054]/40 dark:bg-black/60 backdrop-blur-sm transition-opacity" />
                 </Transition.Child>
 
                 <div className="fixed inset-0 overflow-hidden">
@@ -56,19 +56,19 @@ const QuoteEngine = ({ isOpen, onClose, inquiry, mode = 'create' }: QuoteEngineP
                                 leaveTo="translate-x-full"
                             >
                                 <Dialog.Panel className={`pointer-events-auto w-screen ${isViewMode ? 'max-w-5xl' : 'max-w-2xl'}`}>
-                                    <div className="flex h-full flex-col bg-[#F3F0EB] shadow-2xl relative overflow-hidden">
+                                    <div className="flex h-full flex-col bg-[#F3F0EB] dark:bg-gray-950 shadow-2xl relative overflow-hidden">
                                         {/* Header */}
-                                        <div className="flex items-center justify-between px-10 py-8 border-b border-gray-100 sticky top-0 bg-[#F3F0EB]/80 backdrop-blur-md z-10">
+                                        <div className="flex items-center justify-between px-10 py-8 border-b border-gray-100 dark:border-gray-800 sticky top-0 bg-[#F3F0EB]/80 dark:bg-gray-950/80 backdrop-blur-md z-10">
                                             <div>
-                                                <h2 className="text-xl font-black text-[#1D2939] uppercase tracking-widest">
+                                                <h2 className="text-xl font-black text-[#1D2939] dark:text-white uppercase tracking-widest">
                                                     {isViewMode ? 'Quote Details' : 'Create Quotation'}
                                                 </h2>
                                                 <p className="text-[10px] font-black text-[#D0771E] uppercase tracking-[0.2em] mt-1">
                                                     {inquiry?.company || 'New Inquiry'} • {inquiry?.event || 'General Event'}
                                                 </p>
                                             </div>
-                                            <button onClick={onClose} className="p-3 hover:bg-white rounded-full transition-all shadow-sm border border-transparent hover:border-gray-200">
-                                                <XMarkIcon className="w-6 h-6 text-[#1D2939]" />
+                                            <button onClick={onClose} className="p-3 hover:bg-white dark:hover:bg-gray-800 rounded-full transition-all shadow-sm border border-transparent hover:border-gray-200 dark:hover:border-gray-700">
+                                                <XMarkIcon className="w-6 h-6 text-[#1D2939] dark:text-white" />
                                             </button>
                                         </div>
 
@@ -112,53 +112,53 @@ const QuoteEngine = ({ isOpen, onClose, inquiry, mode = 'create' }: QuoteEngineP
                                                         </div>
 
                                                         {/* Details Grid */}
-                                                        <div className="grid grid-cols-2 lg:grid-cols-3 gap-8 p-10 bg-white rounded-[32px] border border-gray-100 shadow-sm">
+                                                        <div className="grid grid-cols-2 lg:grid-cols-3 gap-8 p-10 bg-white dark:bg-gray-900 rounded-[32px] border border-gray-100 dark:border-gray-800 shadow-sm">
                                                             <div className="space-y-1.5">
                                                                 <p className="text-[10px] font-black uppercase tracking-widest text-[#D0771E]">Event Date</p>
-                                                                <p className="text-sm font-black text-[#1D2939]">April 12-14, 2024</p>
+                                                                <p className="text-sm font-black text-[#1D2939] dark:text-white">April 12-14, 2024</p>
                                                             </div>
                                                             <div className="space-y-1.5">
                                                                 <p className="text-[10px] font-black uppercase tracking-widest text-[#D0771E]">Location</p>
-                                                                <p className="text-sm font-black text-[#1D2939]">Transcorp Hilton, Abuja</p>
+                                                                <p className="text-sm font-black text-[#1D2939] dark:text-white">Transcorp Hilton, Abuja</p>
                                                             </div>
                                                             <div className="space-y-1.5">
                                                                 <p className="text-[10px] font-black uppercase tracking-widest text-[#D0771E]">Duration</p>
-                                                                <p className="text-sm font-black text-[#1D2939]">3 Planning Days</p>
+                                                                <p className="text-sm font-black text-[#1D2939] dark:text-white">3 Planning Days</p>
                                                             </div>
                                                             <div className="space-y-1.5">
                                                                 <p className="text-[10px] font-black uppercase tracking-widest text-[#D0771E]">Guest Count</p>
-                                                                <p className="text-sm font-black text-[#1D2939]">150 Attendees</p>
+                                                                <p className="text-sm font-black text-[#1D2939] dark:text-white">150 Attendees</p>
                                                             </div>
                                                             <div className="space-y-1.5">
                                                                 <p className="text-[10px] font-black uppercase tracking-widest text-[#D0771E]">Event Type</p>
-                                                                <p className="text-sm font-black text-[#1D2939]">Corporate Retreat</p>
+                                                                <p className="text-sm font-black text-[#1D2939] dark:text-white">Corporate Retreat</p>
                                                             </div>
                                                             <div className="space-y-1.5">
                                                                 <p className="text-[10px] font-black uppercase tracking-widest text-[#D0771E]">Coverage</p>
-                                                                <p className="text-sm font-black text-[#1D2939]">Comprehensive</p>
+                                                                <p className="text-sm font-black text-[#1D2939] dark:text-white">Comprehensive</p>
                                                             </div>
                                                         </div>
 
                                                         {/* Services Table */}
                                                         <div className="space-y-6">
-                                                            <h4 className="text-[11px] font-black uppercase tracking-[0.25em] text-[#1D2939] pl-2">Services & Package Breakdown</h4>
-                                                            <div className="p-10 bg-white rounded-[32px] border border-gray-100 shadow-sm space-y-4">
+                                                            <h4 className="text-[11px] font-black uppercase tracking-[0.25em] text-[#1D2939] dark:text-white pl-2">Services & Package Breakdown</h4>
+                                                            <div className="p-10 bg-white dark:bg-gray-900 rounded-[32px] border border-gray-100 dark:border-gray-800 shadow-sm space-y-4">
                                                                 {[
                                                                     { name: 'Event Photography (3 Days)', price: '₦450,000' },
                                                                     { name: 'Professional Photo Editing', price: '₦85,000' },
                                                                     { name: 'High-Resolution Digital Gallery', price: '₦25,000' },
                                                                     { name: 'Same-Day Highlight Reel', price: '₦40,000' }
                                                                 ].map((service, idx) => (
-                                                                    <div key={idx} className="flex justify-between items-center py-3 border-b border-gray-50 last:border-0 hover:bg-gray-50/50 px-4 rounded-xl transition-colors">
-                                                                        <span className="text-sm font-medium text-[#475467]">{service.name}</span>
-                                                                        <span className="text-sm font-black text-[#1D2939]">{service.price}</span>
+                                                                    <div key={idx} className="flex justify-between items-center py-3 border-b border-gray-50 dark:border-gray-800 last:border-0 hover:bg-gray-50/50 dark:hover:bg-gray-800/50 px-4 rounded-xl transition-colors">
+                                                                        <span className="text-sm font-medium text-[#475467] dark:text-gray-300">{service.name}</span>
+                                                                        <span className="text-sm font-black text-[#1D2939] dark:text-white">{service.price}</span>
                                                                     </div>
                                                                 ))}
                                                             </div>
                                                         </div>
 
                                                         {/* Totals Summary */}
-                                                        <div className="p-10 bg-[#1D2939] rounded-[32px] text-white space-y-6 shadow-2xl relative overflow-hidden">
+                                                        <div className="p-10 bg-[#1D2939] dark:bg-black rounded-[32px] text-white space-y-6 shadow-2xl relative overflow-hidden">
                                                             <div className="absolute top-0 right-0 w-64 h-64 bg-white/[0.03] rounded-full -mr-32 -mt-32"></div>
                                                             <div className="space-y-4 relative z-10">
                                                                 <div className="flex justify-between text-[11px] font-black uppercase tracking-widest opacity-40">
@@ -182,21 +182,21 @@ const QuoteEngine = ({ isOpen, onClose, inquiry, mode = 'create' }: QuoteEngineP
                                                     </div>
 
                                                     {/* Sidebar: Timeline & Profile */}
-                                                    <div className="w-full lg:w-96 bg-white/40 p-10 space-y-12 backdrop-blur-sm border-l border-gray-100">
+                                                    <div className="w-full lg:w-96 bg-white/40 dark:bg-gray-900/40 p-10 space-y-12 backdrop-blur-sm border-l border-gray-100 dark:border-gray-800">
                                                         {/* Client Profile */}
                                                         <div className="space-y-6">
                                                             <h4 className="text-[10px] font-black uppercase tracking-[0.2em] text-[#D0771E]">Requester Profile</h4>
-                                                            <div className="flex flex-col items-center text-center p-8 bg-white rounded-[32px] border border-gray-100 shadow-sm group">
+                                                            <div className="flex flex-col items-center text-center p-8 bg-white dark:bg-gray-900 rounded-[32px] border border-gray-100 dark:border-gray-800 shadow-sm group">
                                                                 <div className="relative mb-6">
                                                                     <img src="https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?q=80&w=120&auto=format&fit=crop" alt="Client" className="w-24 h-24 rounded-[32px] object-cover shadow-xl group-hover:scale-110 transition-transform duration-500" />
-                                                                    <div className="absolute -bottom-2 -right-2 w-8 h-8 bg-[#D0771E] rounded-2xl flex items-center justify-center text-white border-4 border-white">
+                                                                    <div className="absolute -bottom-2 -right-2 w-8 h-8 bg-[#D0771E] rounded-2xl flex items-center justify-center text-white border-4 border-white dark:border-gray-900">
                                                                         <CalendarIcon className="w-4 h-4" />
                                                                     </div>
                                                                 </div>
-                                                                <h4 className="text-lg font-black text-[#1D2939]">Timilehin Oripeloye</h4>
+                                                                <h4 className="text-lg font-black text-[#1D2939] dark:text-white">Timilehin Oripeloye</h4>
                                                                 <p className="text-[10px] font-black text-[#D0771E] uppercase tracking-widest mt-1">Lead Event Planner</p>
-                                                                <div className="mt-6 pt-6 border-t border-gray-50 w-full flex justify-center gap-4">
-                                                                    <Button variant="outline" className="h-10 px-6 rounded-xl text-[9px] border-gray-200">View Profile</Button>
+                                                                <div className="mt-6 pt-6 border-t border-gray-50 dark:border-gray-800 w-full flex justify-center gap-4">
+                                                                    <Button variant="outline" className="h-10 px-6 rounded-xl text-[9px] border-gray-200 dark:border-gray-700 dark:text-gray-300">View Profile</Button>
                                                                 </div>
                                                             </div>
                                                         </div>
@@ -208,13 +208,13 @@ const QuoteEngine = ({ isOpen, onClose, inquiry, mode = 'create' }: QuoteEngineP
                                                                 {timeline.map((item, idx) => (
                                                                     <div key={idx} className="relative pl-8">
                                                                         {idx !== timeline.length - 1 && (
-                                                                            <div className="absolute left-[3.5px] top-4 bottom-[-40px] w-[1px] border-l-2 border-dashed border-gray-100"></div>
+                                                                            <div className="absolute left-[3.5px] top-4 bottom-[-40px] w-[1px] border-l-2 border-dashed border-gray-100 dark:border-gray-800"></div>
                                                                         )}
-                                                                        <div className={`absolute left-0 top-1 w-2.5 h-2.5 rounded-full border-2 bg-white ${item.status === 'completed' ? 'border-[#D0771E] shadow-[0_0_8px_rgba(208,119,30,0.4)]' : 'border-gray-200'}`}></div>
+                                                                        <div className={`absolute left-0 top-1 w-2.5 h-2.5 rounded-full border-2 dark:border-gray-700 bg-white dark:bg-gray-800 ${item.status === 'completed' ? 'border-[#D0771E] dark:border-[#D0771E] shadow-[0_0_8px_rgba(208,119,30,0.4)]' : 'border-gray-200'}`}></div>
                                                                         <div className="space-y-1.5">
-                                                                            <p className="text-[9px] font-black text-gray-400 uppercase tracking-widest">{item.date}</p>
-                                                                            <p className="text-xs font-black text-[#1D2939] uppercase tracking-tight">{item.event}</p>
-                                                                            <p className="text-[10px] font-medium text-gray-400 leading-relaxed">{item.description}</p>
+                                                                            <p className="text-[9px] font-black text-gray-400 dark:text-gray-500 uppercase tracking-widest">{item.date}</p>
+                                                                            <p className="text-xs font-black text-[#1D2939] dark:text-white uppercase tracking-tight">{item.event}</p>
+                                                                            <p className="text-[10px] font-medium text-gray-400 dark:text-gray-500 leading-relaxed">{item.description}</p>
                                                                         </div>
                                                                     </div>
                                                                 ))}
@@ -222,12 +222,12 @@ const QuoteEngine = ({ isOpen, onClose, inquiry, mode = 'create' }: QuoteEngineP
                                                         </div>
 
                                                         {/* Actions */}
-                                                        <div className="space-y-4 pt-10 border-t border-gray-100">
-                                                            <Button className="w-full h-14 rounded-2xl shadow-xl shadow-orange-100 flex items-center justify-center gap-3">
+                                                        <div className="space-y-4 pt-10 border-t border-gray-100 dark:border-gray-800">
+                                                            <Button className="w-full h-14 rounded-2xl shadow-xl shadow-orange-100 dark:shadow-none bg-[#D0771E] text-white flex items-center justify-center gap-3">
                                                                 <ArrowDownTrayIcon className="w-5 h-5" />
                                                                 Export Quotation
                                                             </Button>
-                                                            <Button variant="outline" className="w-full h-14 rounded-2xl border-gray-200 text-gray-600 flex items-center justify-center gap-3">
+                                                            <Button variant="outline" className="w-full h-14 rounded-2xl border-gray-200 dark:border-gray-700 text-gray-600 dark:text-gray-300 flex items-center justify-center gap-3">
                                                                 <DocumentDuplicateIcon className="w-5 h-5" />
                                                                 Duplicate Quote
                                                             </Button>
@@ -240,11 +240,11 @@ const QuoteEngine = ({ isOpen, onClose, inquiry, mode = 'create' }: QuoteEngineP
                                                     {/* Section Label */}
                                                     <div className="flex items-center gap-4">
                                                         <div className="w-1.5 h-6 bg-[#D0771E] rounded-full"></div>
-                                                        <h4 className="text-[11px] font-black uppercase tracking-[0.25em] text-[#1D2939]">Basic Information</h4>
+                                                        <h4 className="text-[11px] font-black uppercase tracking-[0.25em] text-[#1D2939] dark:text-white">Basic Information</h4>
                                                     </div>
 
                                                     {/* Quote Info Input Group */}
-                                                    <div className="grid grid-cols-1 md:grid-cols-2 gap-8 bg-white p-10 rounded-[32px] border border-gray-100 shadow-sm">
+                                                    <div className="grid grid-cols-1 md:grid-cols-2 gap-8 bg-white dark:bg-gray-900 p-10 rounded-[32px] border border-gray-100 dark:border-gray-800 shadow-sm">
                                                         <div className="md:col-span-2">
                                                             <FormField
                                                                 label="Quote Title"
@@ -273,38 +273,38 @@ const QuoteEngine = ({ isOpen, onClose, inquiry, mode = 'create' }: QuoteEngineP
                                                         <div className="flex items-center justify-between">
                                                             <div className="flex items-center gap-4">
                                                                 <div className="w-1.5 h-6 bg-[#D0771E] rounded-full"></div>
-                                                                <h4 className="text-[11px] font-black uppercase tracking-[0.25em] text-[#1D2939]">Services & Pricing</h4>
+                                                                <h4 className="text-[11px] font-black uppercase tracking-[0.25em] text-[#1D2939] dark:text-white">Services & Pricing</h4>
                                                             </div>
                                                             <Button variant="ghost" className="text-[#D0771E] text-[10px] font-black uppercase tracking-widest">+ Add Row</Button>
                                                         </div>
 
-                                                        <div className="bg-white rounded-[32px] border border-gray-100 shadow-sm overflow-hidden">
+                                                        <div className="bg-white dark:bg-gray-900 rounded-[32px] border border-gray-100 dark:border-gray-800 shadow-sm overflow-hidden">
                                                             <div className="p-2 space-y-1">
                                                                 {[
                                                                     { name: 'Full Day Event Photography', price: '450,000' },
                                                                     { name: 'Premium Photo Album (High-Gloss)', price: '120,000' }
                                                                 ].map((item, idx) => (
-                                                                    <div key={idx} className="flex flex-col md:flex-row gap-4 p-6 hover:bg-gray-50 rounded-[24px] transition-colors border-b border-gray-50 last:border-0">
+                                                                    <div key={idx} className="flex flex-col md:flex-row gap-4 p-6 hover:bg-gray-50 dark:hover:bg-gray-800 rounded-[24px] transition-colors border-b border-gray-50 dark:border-gray-800 last:border-0">
                                                                         <div className="flex-1">
-                                                                            <FormField label="Service Name" defaultValue={item.name} className="bg-transparent border-0 p-0 shadow-none focus:ring-0" />
+                                                                            <FormField label="Service Name" defaultValue={item.name} className="bg-transparent border-0 p-0 shadow-none focus:ring-0 text-[#1D2939] dark:text-white" />
                                                                         </div>
                                                                         <div className="w-full md:w-48">
-                                                                            <FormField label="Price (₦)" defaultValue={item.price} className="bg-transparent border-0 p-0 shadow-none focus:ring-0" />
+                                                                            <FormField label="Price (₦)" defaultValue={item.price} className="bg-transparent border-0 p-0 shadow-none focus:ring-0 text-[#1D2939] dark:text-white" />
                                                                         </div>
                                                                     </div>
                                                                 ))}
-                                                                <div className="p-10 border-2 border-dashed border-gray-100 rounded-[24px] flex flex-col items-center justify-center group hover:border-[#D0771E]/30 transition-all cursor-pointer">
-                                                                    <div className="w-12 h-12 bg-gray-50 rounded-2xl flex items-center justify-center text-gray-300 group-hover:bg-[#D0771E] group-hover:text-white transition-all mb-4">
+                                                                <div className="p-10 border-2 border-dashed border-gray-100 dark:border-gray-800 rounded-[24px] flex flex-col items-center justify-center group hover:border-[#D0771E]/30 transition-all cursor-pointer">
+                                                                    <div className="w-12 h-12 bg-gray-50 dark:bg-gray-800 rounded-2xl flex items-center justify-center text-gray-300 dark:text-gray-600 group-hover:bg-[#D0771E] group-hover:text-white transition-all mb-4">
                                                                         <PencilSquareIcon className="w-6 h-6" />
                                                                     </div>
-                                                                    <p className="text-[10px] font-black uppercase tracking-widest text-gray-300 group-hover:text-[#D0771E]">Click to Add More Services</p>
+                                                                    <p className="text-[10px] font-black uppercase tracking-widest text-gray-300 dark:text-gray-600 group-hover:text-[#D0771E]">Click to Add More Services</p>
                                                                 </div>
                                                             </div>
                                                         </div>
                                                     </div>
 
                                                     {/* Totals Summary */}
-                                                    <div className="p-10 bg-[#1D2939] rounded-[32px] text-white space-y-6 shadow-2xl">
+                                                    <div className="p-10 bg-[#1D2939] dark:bg-black rounded-[32px] text-white space-y-6 shadow-2xl">
                                                         <div className="grid grid-cols-1 md:grid-cols-2 gap-10">
                                                             <div className="space-y-4">
                                                                 <div className="flex justify-between text-[11px] font-black uppercase tracking-widest opacity-40">
@@ -333,13 +333,13 @@ const QuoteEngine = ({ isOpen, onClose, inquiry, mode = 'create' }: QuoteEngineP
                                         </div>
 
                                         {/* Footer Buttons */}
-                                        <div className="p-10 border-t border-gray-100 bg-[#F3F0EB]/80 backdrop-blur-md sticky bottom-0 z-10">
+                                        <div className="p-10 border-t border-gray-100 dark:border-gray-800 bg-[#F3F0EB]/80 dark:bg-gray-950/80 backdrop-blur-md sticky bottom-0 z-10">
                                             {!isViewMode && (
                                                 <div className="flex gap-4">
-                                                    <Button variant="outline" className="flex-1 h-14 rounded-2xl border-gray-200 text-gray-600 font-black uppercase tracking-widest text-[11px]" onClick={onClose}>
+                                                    <Button variant="outline" className="flex-1 h-14 rounded-2xl border-gray-200 dark:border-gray-700 text-gray-600 dark:text-gray-400 hover:bg-gray-50 dark:hover:bg-gray-800 font-black uppercase tracking-widest text-[11px]" onClick={onClose}>
                                                         Discard Draft
                                                     </Button>
-                                                    <Button className="flex-[2] h-14 rounded-2xl shadow-xl shadow-orange-100 font-black uppercase tracking-widest text-[11px]">
+                                                    <Button className="flex-[2] h-14 rounded-2xl shadow-xl shadow-orange-100 dark:shadow-none bg-[#D0771E] text-white font-black uppercase tracking-widest text-[11px]">
                                                         Finalize & Send Quotation
                                                     </Button>
                                                 </div>

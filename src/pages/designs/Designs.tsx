@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useRef } from 'react';
 import {
     PlusIcon,
     ArrowLeftIcon,
@@ -318,6 +318,23 @@ const Designs = () => {
 
     // Use the global UI context for notifications
     const { addNotification } = useUI();
+    const fileInputRef = useRef<HTMLInputElement>(null);
+    const [isUploading, setIsUploading] = useState(false);
+
+    const handleFileUpload = (e: React.ChangeEvent<HTMLInputElement>) => {
+        const file = e.target.files?.[0];
+        if (file) {
+            setIsUploading(true);
+            setTimeout(() => {
+                setIsUploading(false);
+                addNotification({ message: `${file.name} uploaded to assets!`, type: 'success' });
+            }, 2000);
+        }
+    };
+
+    const triggerUpload = () => {
+        fileInputRef.current?.click();
+    };
 
     // Canvas State
     const [canvasState, setCanvasState] = useState<CanvasState>({
@@ -604,13 +621,11 @@ const Designs = () => {
                             <PageHeader
                                 title="Design Gallery"
                                 subtitle="Create and manage your event stationery"
-                                breadcrumbs={[
-                                    { label: 'Dashboard', href: '/' },
-                                    { label: 'Designs', href: '/designs' }
-                                ]}
-                                action={
+                                breadcrumb="Designs"
+                                actions={
                                     <Button
-                                        onClick={() => addNotification({ message: 'Asset uploader coming soon!', type: 'info' })}
+                                        onClick={triggerUpload}
+                                        isLoading={isUploading}
                                         className="bg-[#1D2939] text-white px-6 py-2.5 rounded-xl font-bold text-xs uppercase tracking-widest hover:bg-black transition-all flex items-center gap-2"
                                     >
                                         <PlusIcon className="w-4 h-4" /> New Asset
@@ -641,14 +656,18 @@ const Designs = () => {
                     <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-8">
                         {/* Upload Card */}
                         <PremiumCard
-                            onClick={() => addNotification({ message: 'Asset uploader coming soon!', type: 'info' })}
-                            className="bg-gray-50 dark:bg-gray-800 border-dashed border-2 border-gray-200 dark:border-gray-700 hover:border-[#D0771E] dark:hover:border-[#D0771E] flex flex-col items-center justify-center cursor-pointer min-h-[300px] shadow-none dark:shadow-none group"
+                            onClick={triggerUpload}
+                            className={`bg-gray-50 dark:bg-gray-800 border-dashed border-2 border-gray-200 dark:border-gray-700 hover:border-[#D0771E] dark:hover:border-[#D0771E] flex flex-col items-center justify-center cursor-pointer min-h-[300px] shadow-none dark:shadow-none group ${isUploading ? 'opacity-50 pointer-events-none' : ''}`}
                         >
                             <div className="w-16 h-16 rounded-full bg-white dark:bg-gray-900 shadow-sm dark:shadow-none flex items-center justify-center mb-6 group-hover:scale-110 transition-transform">
-                                <PlusIcon className="w-6 h-6 text-[#D0771E]" />
+                                {isUploading ? (
+                                    <div className="w-6 h-6 border-2 border-[#D0771E] border-t-transparent rounded-full animate-spin" />
+                                ) : (
+                                    <PlusIcon className="w-6 h-6 text-[#D0771E]" />
+                                )}
                             </div>
-                            <h3 className="font-black text-xs text-[#1D2939] uppercase tracking-widest mb-1">Create Blank</h3>
-                            <p className="text-[10px] font-bold text-gray-400">Start from scratch</p>
+                            <h3 className="font-black text-xs text-[#1D2939] uppercase tracking-widest mb-1">{isUploading ? 'Uploading...' : 'Create Blank'}</h3>
+                            <p className="text-[10px] font-bold text-gray-400">{isUploading ? 'Adding to your library' : 'Start from scratch'}</p>
                         </PremiumCard>
 
                         {/* Design Category Cards */}
@@ -709,11 +728,11 @@ const Designs = () => {
                                 </div>
                             </div>
 
-                                <div className="flex items-center gap-4">
-                                    <div className="flex bg-gray-50 dark:bg-gray-800 rounded-xl p-1 gap-1 border border-gray-100 dark:border-gray-700">
-                                        <button className="p-2 hover:bg-white dark:hover:bg-gray-700 rounded-lg text-gray-400 dark:text-gray-300 hover:text-gray-900 dark:hover:text-white transition-all shadow-sm dark:shadow-none"><DevicePhoneMobileIcon className="w-4 h-4" /></button>
-                                        <button className="p-2 bg-white dark:bg-gray-900 rounded-lg text-[#1D2939] dark:text-white shadow-sm dark:shadow-none"><ArrowsPointingOutIcon className="w-4 h-4" /></button>
-                                    </div>
+                            <div className="flex items-center gap-4">
+                                <div className="flex bg-gray-50 dark:bg-gray-800 rounded-xl p-1 gap-1 border border-gray-100 dark:border-gray-700">
+                                    <button className="p-2 hover:bg-white dark:hover:bg-gray-700 rounded-lg text-gray-400 dark:text-gray-300 hover:text-gray-900 dark:hover:text-white transition-all shadow-sm dark:shadow-none"><DevicePhoneMobileIcon className="w-4 h-4" /></button>
+                                    <button className="p-2 bg-white dark:bg-gray-900 rounded-lg text-[#1D2939] dark:text-white shadow-sm dark:shadow-none"><ArrowsPointingOutIcon className="w-4 h-4" /></button>
+                                </div>
                                 <div className="h-6 w-px bg-gray-100"></div>
                                 <Button onClick={handleSaveDesign} isDisabled={isSaving} variant="primary" size="sm" className="rounded-xl text-[10px] font-black uppercase tracking-widest px-6 bg-[#1D2939] hover:bg-black text-white shadow-xl shadow-gray-200/50 h-10">
                                     {isSaving ? 'Saving...' : 'Export Asset'}
@@ -1404,6 +1423,13 @@ const Designs = () => {
                 )}
 
             </div>
+            <input
+                type="file"
+                ref={fileInputRef}
+                onChange={handleFileUpload}
+                className="hidden"
+                accept="image/*,.pdf,.doc,.docx"
+            />
         </div>
     );
 };

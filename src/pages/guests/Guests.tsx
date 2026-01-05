@@ -7,7 +7,16 @@ import {
     PencilSquareIcon,
     ChevronLeftIcon,
     ChevronRightIcon,
-    DocumentDuplicateIcon
+    DocumentDuplicateIcon,
+    CheckBadgeIcon,
+    ClockIcon,
+    XCircleIcon,
+    QrCodeIcon,
+    MagnifyingGlassIcon,
+    UserGroupIcon,
+    MapPinIcon,
+    CakeIcon,
+    EnvelopeOpenIcon
 } from '@heroicons/react/24/outline';
 import {
     Chart as ChartJS,
@@ -17,9 +26,12 @@ import {
     CategoryScale,
     LinearScale,
     BarElement,
+    PointElement,
+    LineElement,
     Title,
+    Filler
 } from 'chart.js';
-import { Doughnut, Bar } from 'react-chartjs-2';
+import { Doughnut, Bar, Line } from 'react-chartjs-2';
 import PageHeader from '../../components/ui/PageHeader';
 import PremiumTabs from '../../components/ui/PremiumTabs';
 import PremiumCard from '../../components/ui/PremiumCard';
@@ -45,12 +57,16 @@ ChartJS.register(
     CategoryScale,
     LinearScale,
     BarElement,
-    Title
+    PointElement,
+    LineElement,
+    Title,
+    Filler
 );
 
 const Guests = () => {
     const [activeTab, setActiveTab] = useState('Guest List');
     const [isAddGuestModalOpen, setIsAddGuestModalOpen] = useState(false);
+    const [checkInSearch, setCheckInSearch] = useState('');
 
     // Seating State
     const [tables, setTables] = useState<Table[]>([
@@ -60,10 +76,10 @@ const Guests = () => {
 
     // Mock Stats
     const stats = [
-        { label: 'Total Guest', value: '1,500', color: 'text-[#D0771E]' },
-        { label: 'Guest Accepted', value: '1,200', color: 'text-[#D0771E]' },
-        { label: 'Guest Pending', value: '100', color: 'text-[#D0771E]' },
-        { label: 'Guest Declined', value: '300', color: 'text-[#D0771E]' },
+        { label: 'Total Invitees', value: '1,500', color: 'text-[#D0771E]' },
+        { label: 'Confirmed', value: '1,200', color: 'text-green-600' },
+        { label: 'Waitlist', value: '45', color: 'text-gray-500' },
+        { label: 'Declined', value: '300', color: 'text-red-500' },
     ];
 
     // Mock Guest Data
@@ -84,21 +100,27 @@ const Guests = () => {
         setGuests((prev: any[]) => prev.map((g: any) => g.id === guestId ? { ...g, checkedIn: !g.checkedIn } : g));
     };
 
+    // Filter guests for Check-in search
+    const filteredCheckInGuests = guests.filter(g =>
+        g.name.toLowerCase().includes(checkInSearch.toLowerCase()) ||
+        g.role.toLowerCase().includes(checkInSearch.toLowerCase())
+    );
+
     const getStatusColor = (status: string) => {
         switch (status) {
-            case 'Confirmed': return 'bg-green-100 text-green-700';
-            case 'Pending': return 'bg-yellow-100 text-yellow-700';
-            case 'Declined': return 'bg-red-100 text-red-700';
-            default: return 'bg-gray-100 text-gray-700';
+            case 'Confirmed': return 'bg-green-100 text-green-700 dark:bg-green-900/40 dark:text-green-400';
+            case 'Pending': return 'bg-yellow-100 text-yellow-700 dark:bg-yellow-900/40 dark:text-yellow-400';
+            case 'Declined': return 'bg-red-100 text-red-700 dark:bg-red-900/40 dark:text-red-400';
+            default: return 'bg-gray-100 text-gray-700 dark:bg-gray-800 dark:text-gray-400';
         }
     };
 
     const getCategoryColor = (category: string) => {
         switch (category) {
-            case 'Family': return 'bg-purple-100 text-purple-700';
-            case 'Friend': return 'bg-blue-100 text-blue-700';
-            case 'Work': return 'bg-indigo-100 text-indigo-700';
-            default: return 'bg-gray-100 text-gray-700';
+            case 'Family': return 'bg-purple-100 text-purple-700 dark:bg-purple-900/40 dark:text-purple-400';
+            case 'Friend': return 'bg-blue-100 text-blue-700 dark:bg-blue-900/40 dark:text-blue-400';
+            case 'Work': return 'bg-indigo-100 text-indigo-700 dark:bg-indigo-900/40 dark:text-indigo-400';
+            default: return 'bg-gray-100 text-gray-700 dark:bg-gray-800 dark:text-gray-400';
         }
     };
 
@@ -129,10 +151,10 @@ const Guests = () => {
                 <PremiumTabs
                     tabs={[
                         { id: 'Guest List', label: 'Guest List' },
-                        { id: 'RSVP', label: 'RSVP' },
+                        { id: 'RSVP', label: 'RSVP Tracker' },
                         { id: 'Seating Chart', label: 'Seating Chart' },
-                        { id: 'Guest Analytics', label: 'Guest Analytics' },
-                        { id: 'Check-ins', label: 'Check-ins' }
+                        { id: 'Guest Analytics', label: 'Analytics' },
+                        { id: 'Check-ins', label: 'Concierge Check-in' }
                     ]}
                     activeTab={activeTab}
                     onChange={setActiveTab}
@@ -140,224 +162,232 @@ const Guests = () => {
                 />
             </div>
 
-            {/* Stats Grid - Always visible? Or only on Guest List? Design implies always vs tab content. Let's keep it above for now unless tab changes layout drastically */}
-            {activeTab === 'Guest List' && (
-                <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-5 gap-6 mb-10">
-                    {stats.map((stat, idx) => (
-                        <StatCard
-                            key={idx}
-                            label={stat.label}
-                            value={stat.value}
-                            icon={<PlusIcon className="w-5 h-5" />}
-                            iconBgColor="bg-orange-50"
-                        />
-                    ))}
-                    {/* Invitation Link Card */}
-                    <PremiumCard className="bg-[#FFF8F3]/50 dark:bg-orange-900/10 border-[#FADEC9]/50 dark:border-orange-800/30 flex flex-col justify-center">
-                        <div className="flex justify-between items-center mb-3">
-                            <span className="text-[10px] font-black text-gray-400 dark:text-gray-400 uppercase tracking-widest">Invitation Link</span>
-                            <DocumentDuplicateIcon className="w-4 h-4 text-[#D0771E] cursor-pointer hover:scale-110 transition-transform" />
-                        </div>
-                        <div className="bg-white/80 dark:bg-gray-800/80 border border-[#FADEC9] dark:border-orange-800/30 rounded-xl px-4 py-2 text-[10px] font-black text-[#D0771E] truncate tracking-widest uppercase">
-                            Ariya.com/Invitation
-                        </div>
-                    </PremiumCard>
-                </div>
-            )}
-
             {/* Guest List Content */}
             {activeTab === 'Guest List' && (
-                <PremiumCard hover={false} className="border-none shadow-2xl dark:shadow-none p-0 overflow-hidden">
-                    {/* Toolbar */}
-                    <div className="p-6 border-b border-gray-50 dark:border-gray-700 flex flex-col sm:flex-row gap-6 justify-between items-center">
-                        <div className="flex gap-4 w-full sm:w-auto">
-                            <PremiumSearch
-                                placeholder="Search guests..."
-                                className="max-w-xs"
+                <>
+                    <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-5 gap-6 mb-10">
+                        {stats.map((stat, idx) => (
+                            <StatCard
+                                key={idx}
+                                label={stat.label}
+                                value={stat.value}
+                                icon={<PlusIcon className="w-5 h-5" />}
+                                iconBgColor="bg-orange-50 dark:bg-orange-900/20"
                             />
-                            <button className="flex items-center gap-2 px-6 py-3 border border-gray-200 dark:border-gray-700 rounded-2xl text-[10px] font-black uppercase tracking-widest text-gray-500 dark:text-gray-400 hover:bg-gray-50 dark:hover:bg-gray-800 transition-all">
-                                <FunnelIcon className="w-4 h-4" />
-                                Filter
-                            </button>
-                        </div>
+                        ))}
+                        <PremiumCard className="bg-[#FFF8F3]/50 dark:bg-orange-900/10 border-[#FADEC9]/50 dark:border-orange-800/30 flex flex-col justify-center">
+                            <div className="flex justify-between items-center mb-3">
+                                <span className="text-[10px] font-black text-gray-400 dark:text-gray-400 uppercase tracking-widest">Invitation Link</span>
+                                <DocumentDuplicateIcon className="w-4 h-4 text-[#D0771E] cursor-pointer hover:scale-110 transition-transform" />
+                            </div>
+                            <div className="bg-white/80 dark:bg-gray-800/80 border border-[#FADEC9] dark:border-orange-800/30 rounded-xl px-4 py-2 text-[10px] font-black text-[#D0771E] truncate tracking-widest uppercase">
+                                Ariya.com/Invitation
+                            </div>
+                        </PremiumCard>
                     </div>
 
-                    {/* Table Header Section */}
-                    <div className="px-8 py-6 flex items-center justify-between border-b border-gray-50 dark:border-gray-700">
-                        <div className="flex items-center gap-3">
-                            <h2 className="text-xs font-black text-gray-900 dark:text-white uppercase tracking-widest">Main Guest Guest List</h2>
-                            <span className="bg-purple-50 dark:bg-purple-900/20 text-purple-600 dark:text-purple-400 text-[10px] font-black uppercase tracking-widest px-3 py-1 rounded-full border border-purple-100/50 dark:border-purple-800/30">1,500 Guests</span>
+                    <PremiumCard hover={false} className="border-none shadow-2xl dark:shadow-none p-0 overflow-hidden">
+                        {/* Toolbar */}
+                        <div className="p-6 border-b border-gray-50 dark:border-gray-700 flex flex-col sm:flex-row gap-6 justify-between items-center">
+                            <div className="flex gap-4 w-full sm:w-auto">
+                                <PremiumSearch
+                                    placeholder="Search guests..."
+                                    className="max-w-xs"
+                                />
+                                <button className="flex items-center gap-2 px-6 py-3 border border-gray-200 dark:border-gray-700 rounded-2xl text-[10px] font-black uppercase tracking-widest text-gray-500 dark:text-gray-400 hover:bg-gray-50 dark:hover:bg-gray-800 transition-all">
+                                    <FunnelIcon className="w-4 h-4" />
+                                    Filter
+                                </button>
+                            </div>
                         </div>
-                    </div>
 
-                    {/* Table */}
-                    <div className="overflow-x-auto">
-                        <table className="w-full text-left">
-                            <thead className="bg-[#FCFCFC] dark:bg-gray-800/50 border-b border-gray-100 dark:border-gray-700 font-inter">
-                                <tr>
-                                    <th className="px-8 py-5 w-10 text-[10px] font-black text-gray-400 dark:text-gray-400 uppercase tracking-widest">
-                                        <input type="checkbox" className="w-4 h-4 rounded border-[#D9D9D9] dark:border-gray-600 text-[#D0771E] focus:ring-[#D0771E]" />
-                                    </th>
-                                    <th className="px-8 py-5 text-[10px] font-black text-gray-400 dark:text-gray-400 uppercase tracking-widest">Name</th>
-                                    <th className="px-8 py-5 text-[10px] font-black text-gray-400 dark:text-gray-400 uppercase tracking-widest">Contact</th>
-                                    <th className="px-8 py-5 text-[10px] font-black text-gray-400 dark:text-gray-400 uppercase tracking-widest text-center">Status</th>
-                                    <th className="px-8 py-5 text-[10px] font-black text-gray-400 dark:text-gray-400 uppercase tracking-widest text-center">Extras</th>
-                                    <th className="px-8 py-5 text-[10px] font-black text-gray-400 dark:text-gray-400 uppercase tracking-widest text-center">Category</th>
-                                    <th className="px-8 py-5 text-[10px] font-black text-gray-400 dark:text-gray-400 uppercase tracking-widest">Dietary</th>
-                                    <th className="px-8 py-5 w-24"></th>
-                                </tr>
-                            </thead>
-                            <tbody className="divide-y divide-gray-50 dark:divide-gray-700 font-inter">
-                                {guests.map((guest: any) => (
-                                    <tr key={guest.id} className="hover:bg-[#FCFCFC] dark:hover:bg-gray-800/50 transition-colors group">
-                                        <td className="px-8 py-5">
+                        {/* Table Header Section */}
+                        <div className="px-8 py-6 flex items-center justify-between border-b border-gray-50 dark:border-gray-700">
+                            <div className="flex items-center gap-3">
+                                <h2 className="text-xs font-black text-gray-900 dark:text-white uppercase tracking-widest">Master Guest List</h2>
+                                <span className="bg-purple-50 dark:bg-purple-900/20 text-purple-600 dark:text-purple-400 text-[10px] font-black uppercase tracking-widest px-3 py-1 rounded-full border border-purple-100/50 dark:border-purple-800/30">{guests.length} Guests</span>
+                            </div>
+                        </div>
+
+                        {/* Table */}
+                        <div className="overflow-x-auto">
+                            <table className="w-full text-left">
+                                <thead className="bg-[#FCFCFC] dark:bg-gray-800/50 border-b border-gray-100 dark:border-gray-700 font-inter">
+                                    <tr>
+                                        <th className="px-8 py-5 w-10 text-[10px] font-black text-gray-400 dark:text-gray-400 uppercase tracking-widest">
                                             <input type="checkbox" className="w-4 h-4 rounded border-[#D9D9D9] dark:border-gray-600 text-[#D0771E] focus:ring-[#D0771E]" />
-                                        </td>
-                                        <td className="px-8 py-5">
-                                            <div className="flex items-center gap-3">
-                                                <img src={guest.avatar} alt="" className="w-10 h-10 rounded-full object-cover border-2 border-white dark:border-gray-700 shadow-sm dark:shadow-none" />
-                                                <div>
-                                                    <div className="text-sm font-bold text-gray-900 dark:text-white">{guest.name}</div>
-                                                    <div className="text-[10px] font-bold text-gray-400 dark:text-gray-400 uppercase tracking-widest">{guest.role}</div>
-                                                </div>
-                                            </div>
-                                        </td>
-                                        <td className="px-8 py-5">
-                                            <div className="text-xs font-bold text-gray-600 dark:text-gray-300">{guest.email}</div>
-                                            <div className="text-[10px] font-bold text-gray-400 dark:text-gray-500 mt-0.5">{guest.phone}</div>
-                                        </td>
-                                        <td className="px-8 py-5 text-center">
-                                            <span className={`inline-flex items-center px-3 py-1 bg-white dark:bg-gray-800 border dark:border-gray-700 rounded-full text-[10px] font-black uppercase tracking-widest ${getStatusColor(guest.status)}`}>
-                                                {guest.status}
-                                            </span>
-                                        </td>
-                                        <td className="px-8 py-5 text-center text-sm font-black text-gray-700 dark:text-white">
-                                            {guest.extras}
-                                        </td>
-                                        <td className="px-8 py-5 text-center">
-                                            <span className={`inline-flex items-center px-3 py-1 rounded-full text-[10px] font-black uppercase tracking-widest ${getCategoryColor(guest.category)}`}>
-                                                {guest.category}
-                                            </span>
-                                        </td>
-                                        <td className="px-8 py-5 text-xs font-bold text-gray-500 dark:text-gray-400">
-                                            {guest.dietary}
-                                        </td>
-                                        <td className="px-8 py-5 text-right">
-                                            <div className="flex justify-end gap-3 opacity-0 group-hover:opacity-100 transition-opacity">
-                                                <button className="p-2 text-gray-400 dark:text-gray-500 hover:text-red-500 dark:hover:text-red-400 hover:bg-red-50 dark:hover:bg-red-900/20 rounded-lg transition-colors">
-                                                    <TrashIcon className="w-4 h-4" />
-                                                </button>
-                                                <button className="p-2 text-gray-400 hover:text-[#D0771E] hover:bg-orange-50 rounded-lg transition-colors">
-                                                    <PencilSquareIcon className="w-4 h-4" />
-                                                </button>
-                                            </div>
-                                        </td>
+                                        </th>
+                                        <th className="px-8 py-5 text-[10px] font-black text-gray-400 dark:text-gray-400 uppercase tracking-widest">Name</th>
+                                        <th className="px-8 py-5 text-[10px] font-black text-gray-400 dark:text-gray-400 uppercase tracking-widest">Contact</th>
+                                        <th className="px-8 py-5 text-[10px] font-black text-gray-400 dark:text-gray-400 uppercase tracking-widest text-center">Status</th>
+                                        <th className="px-8 py-5 text-[10px] font-black text-gray-400 dark:text-gray-400 uppercase tracking-widest text-center">Extras</th>
+                                        <th className="px-8 py-5 text-[10px] font-black text-gray-400 dark:text-gray-400 uppercase tracking-widest text-center">Category</th>
+                                        <th className="px-8 py-5 text-[10px] font-black text-gray-400 dark:text-gray-400 uppercase tracking-widest">Dietary</th>
+                                        <th className="px-8 py-5 w-24"></th>
                                     </tr>
-                                ))}
-                            </tbody>
-                        </table>
-                    </div>
-
-                    {/* Pagination */}
-                    <div className="px-6 py-4 border-t border-gray-200 flex items-center justify-between">
-                        <button className="flex items-center gap-1 text-sm font-medium text-gray-700 hover:text-gray-900 px-3 py-2 border border-gray-300 rounded-lg hover:bg-gray-50">
-                            <ChevronLeftIcon className="w-4 h-4" />
-                            Previous
-                        </button>
-                        <div className="hidden sm:flex gap-2 text-sm">
-                            <button className="px-3 py-1 rounded bg-gray-100 text-gray-900 font-medium">1</button>
-                            <button className="px-3 py-1 rounded text-gray-600 hover:bg-gray-50">2</button>
-                            <button className="px-3 py-1 rounded text-gray-600 hover:bg-gray-50">3</button>
-                            <span className="px-2 py-1 text-gray-400">...</span>
-                            <button className="px-3 py-1 rounded text-gray-600 hover:bg-gray-50">8</button>
-                            <button className="px-3 py-1 rounded text-gray-600 hover:bg-gray-50">9</button>
-                            <button className="px-3 py-1 rounded text-gray-600 hover:bg-gray-50">10</button>
+                                </thead>
+                                <tbody className="divide-y divide-gray-50 dark:divide-gray-700 font-inter">
+                                    {guests.map((guest: any) => (
+                                        <tr key={guest.id} className="hover:bg-[#FCFCFC] dark:hover:bg-gray-800/50 transition-colors group">
+                                            <td className="px-8 py-5">
+                                                <input type="checkbox" className="w-4 h-4 rounded border-[#D9D9D9] dark:border-gray-600 text-[#D0771E] focus:ring-[#D0771E]" />
+                                            </td>
+                                            <td className="px-8 py-5">
+                                                <div className="flex items-center gap-3">
+                                                    <img src={guest.avatar} alt="" className="w-10 h-10 rounded-full object-cover border-2 border-white dark:border-gray-700 shadow-sm dark:shadow-none" />
+                                                    <div>
+                                                        <div className="text-sm font-bold text-gray-900 dark:text-white">{guest.name}</div>
+                                                        <div className="text-[10px] font-bold text-gray-400 dark:text-gray-400 uppercase tracking-widest">{guest.role}</div>
+                                                    </div>
+                                                </div>
+                                            </td>
+                                            <td className="px-8 py-5">
+                                                <div className="text-xs font-bold text-gray-600 dark:text-gray-300">{guest.email}</div>
+                                                <div className="text-[10px] font-bold text-gray-400 dark:text-gray-500 mt-0.5">{guest.phone}</div>
+                                            </td>
+                                            <td className="px-8 py-5 text-center">
+                                                <span className={`inline-flex items-center px-3 py-1 rounded-full text-[10px] font-black uppercase tracking-widest ${getStatusColor(guest.status)}`}>
+                                                    {guest.status}
+                                                </span>
+                                            </td>
+                                            <td className="px-8 py-5 text-center text-sm font-black text-gray-700 dark:text-white">
+                                                {guest.extras}
+                                            </td>
+                                            <td className="px-8 py-5 text-center">
+                                                <span className={`inline-flex items-center px-3 py-1 rounded-full text-[10px] font-black uppercase tracking-widest ${getCategoryColor(guest.category)}`}>
+                                                    {guest.category}
+                                                </span>
+                                            </td>
+                                            <td className="px-8 py-5 text-xs font-bold text-gray-500 dark:text-gray-400">
+                                                {guest.dietary}
+                                            </td>
+                                            <td className="px-8 py-5 text-right">
+                                                <div className="flex justify-end gap-3 opacity-0 group-hover:opacity-100 transition-opacity">
+                                                    <button className="p-2 text-gray-400 dark:text-gray-500 hover:text-red-500 dark:hover:text-red-400 hover:bg-red-50 dark:hover:bg-red-900/20 rounded-lg transition-colors">
+                                                        <TrashIcon className="w-4 h-4" />
+                                                    </button>
+                                                    <button className="p-2 text-gray-400 hover:text-[#D0771E] hover:bg-orange-50 rounded-lg transition-colors">
+                                                        <PencilSquareIcon className="w-4 h-4" />
+                                                    </button>
+                                                </div>
+                                            </td>
+                                        </tr>
+                                    ))}
+                                </tbody>
+                            </table>
                         </div>
-                        <button className="flex items-center gap-1 text-sm font-medium text-gray-700 hover:text-gray-900 px-3 py-2 border border-gray-300 rounded-lg hover:bg-gray-50">
-                            Next
-                            <ChevronRightIcon className="w-4 h-4" />
-                        </button>
-                    </div>
-                </PremiumCard>
+                    </PremiumCard>
+                </>
             )}
 
             {/* RSVP Content */}
             {activeTab === 'RSVP' && (
-                <div className="space-y-8">
-                    <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
-                        <PremiumCard hover={false} className="border-none shadow-2xl shadow-gray-100/50 flex flex-col items-center">
-                            <h3 className="text-[10px] font-black text-gray-400 uppercase tracking-widest mb-10">RSVP Status Breakdown</h3>
-                            <div className="w-56 h-56 relative">
-                                <Doughnut
+                <div className="space-y-8 animate-in fade-in duration-500">
+                    {/* KPI Cards */}
+                    <div className="grid grid-cols-1 md:grid-cols-4 gap-6">
+                        <PremiumCard className="p-6 dark:bg-gray-800 border-none">
+                            <div className="flex gap-4">
+                                <div className="p-3 bg-blue-50 dark:bg-blue-900/30 rounded-2xl text-blue-600 dark:text-blue-400">
+                                    <EnvelopeOpenIcon className="w-6 h-6" />
+                                </div>
+                                <div>
+                                    <p className="text-[10px] font-black text-gray-400 dark:text-gray-500 uppercase tracking-widest">Sent</p>
+                                    <h3 className="text-2xl font-black text-[#1D2939] dark:text-white">1,500</h3>
+                                    <p className="text-[10px] font-bold text-green-500 mt-1">100% Delivered</p>
+                                </div>
+                            </div>
+                        </PremiumCard>
+                        <PremiumCard className="p-6 dark:bg-gray-800 border-none">
+                            <div className="flex gap-4">
+                                <div className="p-3 bg-green-50 dark:bg-green-900/30 rounded-2xl text-green-600 dark:text-green-400">
+                                    <CheckBadgeIcon className="w-6 h-6" />
+                                </div>
+                                <div>
+                                    <p className="text-[10px] font-black text-gray-400 dark:text-gray-500 uppercase tracking-widest">Accepted</p>
+                                    <h3 className="text-2xl font-black text-[#1D2939] dark:text-white">1,200</h3>
+                                    <p className="text-[10px] font-bold text-green-500 mt-1">80% Response Rate</p>
+                                </div>
+                            </div>
+                        </PremiumCard>
+                        <PremiumCard className="p-6 dark:bg-gray-800 border-none">
+                            <div className="flex gap-4">
+                                <div className="p-3 bg-orange-50 dark:bg-orange-900/30 rounded-2xl text-[#D0771E] dark:text-orange-400">
+                                    <ClockIcon className="w-6 h-6" />
+                                </div>
+                                <div>
+                                    <p className="text-[10px] font-black text-gray-400 dark:text-gray-500 uppercase tracking-widest">Pending</p>
+                                    <h3 className="text-2xl font-black text-[#1D2939] dark:text-white">100</h3>
+                                    <p className="text-[10px] font-bold text-orange-500 mt-1">ACTION NEEDED</p>
+                                </div>
+                            </div>
+                        </PremiumCard>
+                        <PremiumCard className="p-6 dark:bg-gray-800 border-none">
+                            <div className="flex gap-4">
+                                <div className="p-3 bg-red-50 dark:bg-red-900/30 rounded-2xl text-red-600 dark:text-red-400">
+                                    <XCircleIcon className="w-6 h-6" />
+                                </div>
+                                <div>
+                                    <p className="text-[10px] font-black text-gray-400 dark:text-gray-500 uppercase tracking-widest">Declined</p>
+                                    <h3 className="text-2xl font-black text-[#1D2939] dark:text-white">200</h3>
+                                    <p className="text-[10px] font-bold text-gray-400 mt-1">13% Total</p>
+                                </div>
+                            </div>
+                        </PremiumCard>
+                    </div>
+
+                    <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
+                        {/* Main Chart */}
+                        <PremiumCard className="lg:col-span-2 p-10 dark:bg-gray-800 border-none min-h-[400px]">
+                            <h3 className="text-sm font-black text-[#1D2939] dark:text-white uppercase tracking-widest mb-8">Response Timeline</h3>
+                            <div className="h-[300px]">
+                                <Line
                                     data={{
-                                        labels: ['Confirmed', 'Declined', 'Pending'],
-                                        datasets: [{
-                                            data: [1200, 300, 100],
-                                            backgroundColor: ['#D0771E', '#1D2939', '#FADEC9'],
-                                            borderWidth: 0,
-                                            hoverOffset: 10,
-                                            borderRadius: 4
-                                        }]
+                                        labels: ['Week 1', 'Week 2', 'Week 3', 'Week 4', 'Week 5'],
+                                        datasets: [
+                                            {
+                                                label: 'Responses',
+                                                data: [50, 150, 400, 800, 1200],
+                                                borderColor: '#D0771E',
+                                                backgroundColor: 'rgba(208, 119, 30, 0.1)',
+                                                fill: true,
+                                                tension: 0.4
+                                            }
+                                        ]
                                     }}
                                     options={{
-                                        cutout: '80%',
-                                        plugins: {
-                                            legend: { display: false },
-                                            tooltip: {
-                                                backgroundColor: '#1D2939',
-                                                titleFont: { size: 10, weight: 'bold', family: 'Inter' },
-                                                bodyFont: { size: 10, family: 'Inter' },
-                                                padding: 16,
-                                                cornerRadius: 12,
-                                                displayColors: false
+                                        responsive: true,
+                                        maintainAspectRatio: false,
+                                        plugins: { legend: { display: false } },
+                                        scales: {
+                                            y: {
+                                                grid: { color: 'rgba(0,0,0,0.05)' },
+                                                ticks: { font: { weight: 'bold' } }
+                                            },
+                                            x: {
+                                                grid: { display: false },
+                                                ticks: { font: { weight: 'bold' } }
                                             }
                                         }
                                     }}
                                 />
-                                <div className="absolute inset-0 flex flex-col items-center justify-center pointer-events-none">
-                                    <div className="text-3xl font-black text-gray-900 tracking-tighter">1,500</div>
-                                    <div className="text-[8px] font-black text-gray-400 uppercase tracking-widest">Total RSVP</div>
-                                </div>
-                            </div>
-                            <div className="mt-10 space-y-4 w-full">
-                                <div className="flex justify-between items-center bg-gray-50/50 p-4 rounded-2xl">
-                                    <div className="flex items-center gap-2">
-                                        <div className="w-2 h-2 rounded-full bg-[#D0771E]"></div>
-                                        <span className="text-[10px] font-black text-gray-500 uppercase tracking-widest">Confirmed</span>
-                                    </div>
-                                    <span className="text-sm font-black text-gray-900">1,200</span>
-                                </div>
-                                <div className="flex justify-between items-center bg-gray-50/50 p-4 rounded-2xl">
-                                    <div className="flex items-center gap-2">
-                                        <div className="w-2 h-2 rounded-full bg-[#1D2939]"></div>
-                                        <span className="text-[10px] font-black text-gray-500 uppercase tracking-widest">Declined</span>
-                                    </div>
-                                    <span className="text-sm font-black text-gray-900">300</span>
-                                </div>
-                                <div className="flex justify-between items-center bg-gray-50/50 p-4 rounded-2xl">
-                                    <div className="flex items-center gap-2">
-                                        <div className="w-2 h-2 rounded-full bg-[#FADEC9]"></div>
-                                        <span className="text-[10px] font-black text-gray-500 uppercase tracking-widest">Pending</span>
-                                    </div>
-                                    <span className="text-sm font-black text-gray-900">100</span>
-                                </div>
                             </div>
                         </PremiumCard>
-                        <PremiumCard hover={false} className="md:col-span-2 border-none shadow-2xl shadow-gray-100/50 p-10 font-sans">
-                            <h3 className="text-[10px] font-black text-gray-400 uppercase tracking-widest mb-10">Recent Responses Flow</h3>
-                            <div className="space-y-6">
-                                {guests.filter((g: any) => g.status !== 'Pending').slice(0, 5).map((guest: any) => (
-                                    <div key={guest.id} className="flex items-center justify-between p-6 bg-gray-50/30 rounded-3xl border border-gray-50/50 hover:bg-orange-50/20 transition-all">
-                                        <div className="flex items-center gap-4">
-                                            <img src={guest.avatar} className="w-12 h-12 rounded-full object-cover border-2 border-white shadow-sm" alt="" />
-                                            <div>
-                                                <div className="text-sm font-black text-gray-900">{guest.name}</div>
-                                                <div className="text-[10px] text-gray-400 font-black uppercase tracking-widest mt-0.5">{guest.category}</div>
-                                            </div>
+
+                        {/* Recent Activity Feed */}
+                        <PremiumCard className="p-0 overflow-hidden dark:bg-gray-800 border-none h-[470px]">
+                            <div className="p-8 border-b border-gray-50 dark:border-gray-700 bg-gray-50/50 dark:bg-gray-800/50">
+                                <h3 className="text-sm font-black text-[#1D2939] dark:text-white uppercase tracking-widest">Live Activity</h3>
+                            </div>
+                            <div className="h-[380px] overflow-y-auto p-6 space-y-6">
+                                {guests.slice(0, 6).map((guest, i) => (
+                                    <div key={i} className="flex gap-4 items-start animate-in slide-in-from-right-4" style={{ animationDelay: `${i * 100}ms` }}>
+                                        <div className={`mt-1 w-2 h-2 rounded-full shrink-0 ${guest.status === 'Confirmed' ? 'bg-green-500' : guest.status === 'Declined' ? 'bg-red-500' : 'bg-orange-500'}`} />
+                                        <div>
+                                            <p className="text-xs font-bold text-[#1D2939] dark:text-white">
+                                                <span className="font-black">{guest.name}</span> {guest.status === 'Confirmed' ? 'accepted invitation' : 'updated RSVP'}
+                                            </p>
+                                            <p className="text-[10px] font-medium text-gray-400 uppercase tracking-widest mt-1">2 mins ago</p>
                                         </div>
-                                        <span className={`px-4 py-2 rounded-2xl text-[10px] font-black uppercase tracking-widest shadow-sm ${getStatusColor(guest.status)}`}>
-                                            {guest.status}
-                                        </span>
                                     </div>
                                 ))}
                             </div>
@@ -368,132 +398,180 @@ const Guests = () => {
 
             {/* Guest Analytics Content */}
             {activeTab === 'Guest Analytics' && (
-                <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
-                    <PremiumCard hover={false} className="border-none shadow-2xl shadow-gray-100/50 p-10">
-                        <h3 className="text-[10px] font-black text-gray-400 uppercase tracking-widest mb-10 text-left">Category Distribution</h3>
-                        <div className="h-64">
-                            <Bar
-                                data={{
-                                    labels: ['Family', 'Friends', 'Work', 'VIP'],
-                                    datasets: [{
-                                        label: 'Guests',
-                                        data: [450, 600, 300, 150],
-                                        backgroundColor: '#D0771E',
-                                        borderRadius: 12,
-                                        barThickness: 32
-                                    }]
-                                }}
-                                options={{
-                                    plugins: { legend: { display: false } },
-                                    scales: {
-                                        y: { beginAtZero: true, grid: { color: '#F2F4F7' }, ticks: { font: { size: 10, weight: 'bold' } } },
-                                        x: { grid: { display: false }, ticks: { font: { size: 10, weight: 'bold' } } }
-                                    }
-                                }}
-                            />
-                        </div>
-                    </PremiumCard>
-                    <PremiumCard hover={false} className="border-none shadow-2xl shadow-gray-100/50 p-10">
-                        <h3 className="text-[10px] font-black text-gray-400 uppercase tracking-widest mb-10 text-left">Dietary Trends</h3>
-                        <div className="h-64 flex items-center justify-center">
-                            <Doughnut
-                                data={{
-                                    labels: ['None', 'Vegetarian', 'Gluten-free', 'Halal', 'Others'],
-                                    datasets: [{
-                                        data: [1000, 200, 150, 100, 50],
-                                        backgroundColor: ['#1D2939', '#D0771E', '#FADEC9', '#475467', '#98A2B3'],
-                                        borderWidth: 0,
-                                        hoverOffset: 12,
-                                        borderRadius: 4
-                                    }]
-                                }}
-                                options={{
-                                    cutout: '75%',
-                                    plugins: {
-                                        legend: {
-                                            position: 'right' as const,
-                                            labels: {
-                                                boxWidth: 6,
-                                                usePointStyle: true,
-                                                padding: 24,
-                                                font: { size: 10, weight: 'bold', family: 'Inter' }
-                                            }
+                <div className="space-y-8 animate-in fade-in duration-500">
+                    <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+                        {/* Breakdown 1: Category */}
+                        <PremiumCard className="p-8 dark:bg-gray-800 border-none">
+                            <div className="flex items-center gap-3 mb-8">
+                                <div className="p-3 rounded-xl bg-orange-50 dark:bg-orange-900/30 text-[#D0771E]">
+                                    <UserGroupIcon className="w-5 h-5" />
+                                </div>
+                                <h3 className="text-xs font-black text-[#1D2939] dark:text-white uppercase tracking-widest">Guest Composition</h3>
+                            </div>
+                            <div className="h-64 relative">
+                                <Doughnut
+                                    data={{
+                                        labels: ['Family', 'Friends', 'Colleagues', 'VIP'],
+                                        datasets: [{
+                                            data: [450, 600, 300, 150],
+                                            backgroundColor: ['#D0771E', '#1D2939', '#FADEC9', '#EAECF0'],
+                                            borderWidth: 0,
+                                            hoverOffset: 10,
+                                            borderRadius: 4
+                                        }]
+                                    }}
+                                    options={{ cutout: '70%', plugins: { legend: { position: 'bottom', labels: { usePointStyle: true, padding: 20, font: { size: 10, weight: 'bold' } } } } }}
+                                />
+                            </div>
+                        </PremiumCard>
+
+                        {/* Breakdown 2: Meals */}
+                        <PremiumCard className="p-8 dark:bg-gray-800 border-none">
+                            <div className="flex items-center gap-3 mb-8">
+                                <div className="p-3 rounded-xl bg-purple-50 dark:bg-purple-900/30 text-purple-600">
+                                    <CakeIcon className="w-5 h-5" />
+                                </div>
+                                <h3 className="text-xs font-black text-[#1D2939] dark:text-white uppercase tracking-widest">Dietary Requirements</h3>
+                            </div>
+                            <div className="h-64">
+                                <Bar
+                                    data={{
+                                        labels: ['Standard', 'Vegan', 'GF', 'Halal', 'Nut-Free'],
+                                        datasets: [{
+                                            label: 'Guests',
+                                            data: [850, 120, 80, 150, 45],
+                                            backgroundColor: '#1D2939',
+                                            borderRadius: 8,
+                                            barThickness: 24
+                                        }]
+                                    }}
+                                    options={{
+                                        plugins: { legend: { display: false } },
+                                        scales: {
+                                            x: { grid: { display: false }, ticks: { font: { size: 10, weight: 'bold' } } },
+                                            y: { display: false }
                                         }
-                                    }
-                                }}
-                            />
-                        </div>
-                    </PremiumCard>
+                                    }}
+                                />
+                            </div>
+                        </PremiumCard>
+
+                        {/* Breakdown 3: Locations */}
+                        <PremiumCard className="p-8 dark:bg-gray-800 border-none">
+                            <div className="flex items-center gap-3 mb-8">
+                                <div className="p-3 rounded-xl bg-blue-50 dark:bg-blue-900/30 text-blue-600">
+                                    <MapPinIcon className="w-5 h-5" />
+                                </div>
+                                <h3 className="text-xs font-black text-[#1D2939] dark:text-white uppercase tracking-widest">Geographic Distribution</h3>
+                            </div>
+                            <div className="space-y-4">
+                                {[
+                                    { loc: 'Lagos, NG', val: '65%', color: 'bg-[#D0771E]' },
+                                    { loc: 'London, UK', val: '20%', color: 'bg-[#1D2939]' },
+                                    { loc: 'New York, USA', val: '10%', color: 'bg-gray-400' },
+                                    { loc: 'Others', val: '5%', color: 'bg-gray-200' },
+                                ].map((item, i) => (
+                                    <div key={i} className="space-y-2">
+                                        <div className="flex justify-between text-[10px] font-black uppercase tracking-widest text-[#1D2939] dark:text-white">
+                                            <span>{item.loc}</span>
+                                            <span>{item.val}</span>
+                                        </div>
+                                        <div className="h-2 w-full bg-gray-100 dark:bg-gray-700 rounded-full overflow-hidden">
+                                            <div className={`h-full ${item.color}`} style={{ width: item.val }}></div>
+                                        </div>
+                                    </div>
+                                ))}
+                                <div className="pt-4 text-center">
+                                    <button className="text-[10px] font-black text-[#D0771E] uppercase tracking-widest hover:underline">View Full Map Report</button>
+                                </div>
+                            </div>
+                        </PremiumCard>
+                    </div>
                 </div>
             )}
 
             {/* Check-ins Content */}
             {activeTab === 'Check-ins' && (
-                <PremiumCard hover={false} className="border-none shadow-2xl shadow-gray-100/50 p-0 overflow-hidden">
-                    <div className="p-8 border-b border-gray-50 flex justify-between items-center bg-gray-50/10">
-                        <div>
-                            <h2 className="text-xl font-black text-[#1D2939] uppercase tracking-tight">On-site Check-in</h2>
-                            <p className="text-xs text-gray-500 font-bold uppercase tracking-widest mt-1">Manage guest arrivals in real-time</p>
-                        </div>
-                        <div className="text-right">
-                            <div className="text-2xl font-black text-[#D0771E]">
-                                {guests.filter(g => g.checkedIn).length} / {guests.length}
+                <div className="animate-in fade-in duration-500">
+                    <div className="bg-[#1D2939] dark:bg-black rounded-[40px] p-10 text-white mb-10 relative overflow-hidden">
+                        <div className="absolute top-0 right-0 w-64 h-64 bg-[#D0771E] rounded-full blur-[100px] opacity-20 pointer-events-none"></div>
+
+                        <div className="relative z-10 flex flex-col md:flex-row justify-between items-end gap-10">
+                            <div className="w-full md:w-1/2 space-y-8">
+                                <div>
+                                    <h2 className="text-3xl font-black uppercase tracking-tighter mb-2">Concierge Check-in Mode</h2>
+                                    <p className="text-sm font-medium text-gray-400">Manage guest arrivals in real-time. Use the scanner for QR passes.</p>
+                                </div>
+
+                                <div className="relative">
+                                    <MagnifyingGlassIcon className="absolute left-6 top-1/2 -translate-y-1/2 w-6 h-6 text-gray-400" />
+                                    <input
+                                        type="text"
+                                        placeholder="Search guest name or ticket ID..."
+                                        value={checkInSearch}
+                                        onChange={(e) => setCheckInSearch(e.target.value)}
+                                        className="w-full h-20 pl-16 pr-6 rounded-3xl bg-white/10 border-2 border-white/10 focus:border-[#D0771E] focus:bg-white/20 text-xl font-bold placeholder:text-gray-500 transition-all text-white"
+                                    />
+                                    <button className="absolute right-4 top-1/2 -translate-y-1/2 p-3 bg-[#D0771E] rounded-2xl hover:scale-105 active:scale-95 transition-all">
+                                        <QrCodeIcon className="w-6 h-6 text-white" />
+                                    </button>
+                                </div>
                             </div>
-                            <div className="text-[10px] text-gray-400 font-bold uppercase tracking-widest">Attendance Rate</div>
+
+                            <div className="flex gap-8 text-center bg-white/5 p-6 rounded-3xl border border-white/10 backdrop-blur-sm">
+                                <div>
+                                    <div className="text-4xl font-black">{guests.filter(g => g.checkedIn).length}</div>
+                                    <div className="text-[10px] font-black text-gray-400 uppercase tracking-widest mt-1">Checked In</div>
+                                </div>
+                                <div className="w-px bg-white/10"></div>
+                                <div>
+                                    <div className="text-4xl font-black text-gray-500">{guests.length - guests.filter(g => g.checkedIn).length}</div>
+                                    <div className="text-[10px] font-black text-gray-500 uppercase tracking-widest mt-1">Pending</div>
+                                </div>
+                            </div>
                         </div>
                     </div>
-                    <div className="overflow-x-auto text-left">
-                        <table className="w-full">
-                            <thead className="bg-[#FCFCFC] border-b border-gray-100">
-                                <tr className="text-[10px] font-black text-gray-400 uppercase tracking-widest">
-                                    <th className="px-8 py-5">Guest</th>
-                                    <th className="px-8 py-5">Category</th>
-                                    <th className="px-8 py-5 text-center">Status</th>
-                                    <th className="px-8 py-5 text-right">Action</th>
-                                </tr>
-                            </thead>
-                            <tbody className="divide-y divide-gray-50">
-                                {guests.map((guest: any) => (
-                                    <tr key={guest.id} className="hover:bg-orange-50/20 transition-colors">
-                                        <td className="px-8 py-4">
-                                            <div className="flex items-center gap-3 text-left">
-                                                <img src={guest.avatar} className="w-10 h-10 rounded-full object-cover border-2 border-white shadow-sm" alt="" />
-                                                <div className="text-sm font-bold text-gray-900">{guest.name}</div>
-                                            </div>
-                                        </td>
-                                        <td className="px-8 py-4 text-[10px] font-black text-gray-400 uppercase tracking-widest">{guest.category}</td>
-                                        <td className="px-8 py-4 text-center">
-                                            {guest.checkedIn ? (
-                                                <span className="inline-flex items-center gap-1.5 px-3 py-1 bg-green-50 text-green-700 rounded-full text-[10px] font-black uppercase tracking-widest border border-green-100/50">
-                                                    <div className="w-1 h-1 rounded-full bg-green-500 animate-pulse"></div>
-                                                    Arrived
-                                                </span>
-                                            ) : (
-                                                <span className="text-[10px] font-black text-gray-400 uppercase tracking-widest">Pending Arrival</span>
-                                            )}
-                                        </td>
-                                        <td className="px-8 py-4 text-right">
-                                            <button
-                                                onClick={() => handleToggleCheckIn(guest.id)}
-                                                className={`px-8 py-3 rounded-2xl text-[10px] font-black uppercase tracking-widest transition-all transform active:scale-95 ${guest.checkedIn
-                                                    ? 'bg-gray-100 text-gray-400 hover:bg-gray-200'
-                                                    : 'bg-[#1D2939] text-white hover:bg-black shadow-lg shadow-gray-200'
-                                                    }`}
-                                            >
-                                                {guest.checkedIn ? 'Undo' : 'Check-In'}
-                                            </button>
-                                        </td>
-                                    </tr>
-                                ))}
-                            </tbody>
-                        </table>
+
+                    <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+                        {filteredCheckInGuests.map((guest: any) => (
+                            <div key={guest.id} className={`p-6 rounded-3xl border cursor-pointer transition-all group ${guest.checkedIn
+                                ? 'bg-green-50 dark:bg-green-900/10 border-green-200 dark:border-green-900/30'
+                                : 'bg-white dark:bg-gray-800 border-gray-100 dark:border-gray-700 hover:shadow-xl hover:border-[#D0771E]/50'
+                                }`}
+                                onClick={() => handleToggleCheckIn(guest.id)}
+                            >
+                                <div className="flex items-center justify-between mb-6">
+                                    <div className="flex items-center gap-4">
+                                        <img src={guest.avatar} className={`w-14 h-14 rounded-full object-cover border-4 ${guest.checkedIn ? 'border-green-200' : 'border-gray-100 dark:border-gray-700'}`} alt="" />
+                                        <div>
+                                            <h3 className="text-lg font-black text-[#1D2939] dark:text-white leading-tight">{guest.name}</h3>
+                                            <p className="text-[10px] font-black text-gray-400 dark:text-gray-500 uppercase tracking-widest">{guest.category}</p>
+                                        </div>
+                                    </div>
+                                    {guest.checkedIn && (
+                                        <div className="p-2 bg-green-500 rounded-full text-white">
+                                            <CheckBadgeIcon className="w-6 h-6" />
+                                        </div>
+                                    )}
+                                </div>
+                                <div className="flex justify-between items-center">
+                                    <span className="text-xs font-bold text-gray-500 dark:text-gray-400">Table {Math.floor(Math.random() * 20) + 1}</span>
+                                    <button className={`px-6 py-2 rounded-xl text-[10px] font-black uppercase tracking-widest transition-colors ${guest.checkedIn
+                                        ? 'bg-transparent text-green-700 dark:text-green-500'
+                                        : 'bg-[#1D2939] text-white group-hover:bg-[#D0771E]'
+                                        }`}>
+                                        {guest.checkedIn ? 'Arrived 10:42 AM' : 'Tap to Check-In'}
+                                    </button>
+                                </div>
+                            </div>
+                        ))}
                     </div>
-                </PremiumCard>
+                </div>
             )}
 
             {/* Seating Chart Content */}
             {activeTab === 'Seating Chart' && (
-                <PremiumCard hover={false} className="border-none shadow-2xl shadow-gray-100/50 p-0 h-[calc(100vh-280px)] overflow-hidden">
+                <PremiumCard hover={false} className="border-none shadow-2xl dark:shadow-none p-0 h-[calc(100vh-280px)] overflow-hidden">
                     <SeatingChart
                         guests={guests.map((g: any) => ({ ...g, group: g.category }))}
                         tables={tables}

@@ -7,7 +7,6 @@ import PublicLayout from '../components/layout/PublicLayout';
 import PlannerDashboard from '../pages/dashboard/PlannerDashboard';
 import AdminDashboard from '../pages/dashboard/AdminDashboard';
 import BudgetTracker from '../pages/dashboard/BudgetTracker';
-import GuestList from '../pages/dashboard/GuestList';
 import AIPlanner from '../pages/dashboard/AIPlanner';
 import Seating from '../pages/dashboard/Seating';
 import EventWebsite from '../pages/dashboard/EventWebsite';
@@ -105,7 +104,6 @@ const AppRoutes = () => {
         <Route path="vendor" element={<VendorDashboardPage />} />
         <Route path="admin" element={<AdminDashboard />} />
         <Route path="ai-planner" element={<AIPlanner />} />
-        <Route path="guests" element={<GuestList />} />
         <Route path="seating" element={<Seating />} />
         <Route path="event-website" element={<EventWebsite />} />
         <Route path="registry" element={<Registry />} />

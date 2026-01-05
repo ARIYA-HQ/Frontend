@@ -297,6 +297,16 @@ const ClientsPage = () => {
                             <button
                               onClick={(e) => {
                                 e.stopPropagation();
+                                navigate(`/events/create?clientId=${client.id}&clientName=${encodeURIComponent(client.name)}&clientEmail=${encodeURIComponent(client.email)}`);
+                              }}
+                              className="p-2 text-gray-400 hover:text-green-600 hover:bg-green-50 dark:hover:bg-green-900/20 rounded-full transition-colors"
+                              title="Create Event"
+                            >
+                              <CalendarDaysIcon className="w-4 h-4" />
+                            </button>
+                            <button
+                              onClick={(e) => {
+                                e.stopPropagation();
                                 handleEditClient(client);
                               }}
                               className="p-2 text-gray-400 hover:text-[#D0771E] hover:bg-[#D0771E]/10 rounded-full transition-colors"

@@ -68,6 +68,8 @@ const EventWebsite = () => {
   const [showPublishModal, setShowPublishModal] = useState(false);
   const [publishStatus, setPublishStatus] = useState<'idle' | 'publishing' | 'optimizing' | 'deploying' | 'success'>('idle');
   const [showUpgradeModal, setShowUpgradeModal] = useState(false);
+  const [copiedLink, setCopiedLink] = useState(false);
+  const [isBroadcasting, setIsBroadcasting] = useState(false);
 
   // Visibility State
   const [visibleSections, setVisibleSections] = useState({
@@ -211,6 +213,17 @@ const EventWebsite = () => {
 
   const toggleSection = (section: keyof typeof visibleSections) => {
     setVisibleSections(prev => ({ ...prev, [section]: !prev[section] }));
+  };
+
+  const handleCopyLink = (url: string) => {
+    navigator.clipboard.writeText(url);
+    setCopiedLink(true);
+    setTimeout(() => setCopiedLink(false), 2000);
+  };
+
+  const handleBroadcast = () => {
+    setIsBroadcasting(true);
+    setTimeout(() => setIsBroadcasting(false), 3000);
   };
 
   // THE PREVIEW COMPONENT
@@ -394,8 +407,11 @@ const EventWebsite = () => {
                           <GlobeAltIcon className="w-5 h-5 text-[#D0771E] shrink-0" />
                           <span className="text-sm font-black truncate tracking-tight text-gray-700 dark:text-gray-300">ariya.io/{content.title.toLowerCase().replace(/[^a-z0-0]/g, '-')}</span>
                         </div>
-                        <button className="bg-white dark:bg-gray-700 p-3 rounded-2xl shadow-sm dark:shadow-none text-[#D0771E] border border-orange-100 dark:border-orange-900/30 hover:bg-orange-50 dark:hover:bg-gray-600 transition-colors">
-                          <LinkIcon className="w-5 h-5" />
+                        <button
+                          onClick={() => handleCopyLink(`ariya.io/${content.title.toLowerCase().replace(/[^a-z0-0]/g, '-')}`)}
+                          className={`p-3 rounded-2xl transition-all border ${copiedLink ? 'bg-green-500 text-white border-green-400' : 'bg-white dark:bg-gray-700 text-[#D0771E] border-orange-100 dark:border-orange-900/30 hover:bg-orange-50 dark:hover:bg-gray-600 shadow-sm dark:shadow-none'}`}
+                        >
+                          {copiedLink ? <CheckCircleIcon className="w-5 h-5" /> : <LinkIcon className="w-5 h-5" />}
                         </button>
                       </div>
                       <div className="flex gap-4">
@@ -479,7 +495,23 @@ const EventWebsite = () => {
             <div className="bg-gray-50 dark:bg-gray-800 px-8 py-3 rounded-full text-xs font-black text-gray-500 dark:text-gray-400 tracking-tighter border border-gray-100 dark:border-gray-700 lowercase shadow-inner dark:shadow-none">
               ariya.io/{content.title.toLowerCase().replace(/[^a-z0-0]/g, '-')}
             </div>
-            <button className="bg-[#D0771E] text-white px-10 py-3 rounded-2xl text-[10px] font-black uppercase tracking-widest shadow-xl dark:shadow-none shadow-orange-100 hover:bg-orange-600 active:scale-95 transition-all">Broadcast Link</button>
+            <button
+              onClick={handleBroadcast}
+              disabled={isBroadcasting}
+              className={`${isBroadcasting ? 'bg-green-500' : 'bg-[#D0771E] hover:bg-orange-600'} text-white px-10 py-3 rounded-2xl text-[10px] font-black uppercase tracking-widest shadow-xl dark:shadow-none shadow-orange-100 active:scale-95 transition-all flex items-center gap-2`}
+            >
+              {isBroadcasting ? (
+                <>
+                  <CheckCircleIcon className="w-4 h-4" />
+                  Broadcasted!
+                </>
+              ) : (
+                <>
+                  <RocketLaunchIcon className="w-4 h-4" />
+                  Broadcast Link
+                </>
+              )}
+            </button>
           </div>
           <div className="flex-1 overflow-y-auto pt-24 bg-gray-50 dark:bg-gray-900">
             <WebsitePreview isLive={true} />

@@ -1,5 +1,5 @@
 import { useState } from 'react';
-import { useParams } from 'react-router-dom';
+import { useNavigate, useParams } from 'react-router-dom';
 import {
   ChevronRightIcon,
   StarIcon,
@@ -13,9 +13,11 @@ import { MOCK_VENDORS } from '../../data/mockVendors';
 import PageHeader from '../../components/ui/PageHeader';
 import PremiumTabs from '../../components/ui/PremiumTabs';
 import PremiumCard from '../../components/ui/PremiumCard';
+import { DemoDataService } from '../../services/DemoDataService';
 
 const VendorDetail = () => {
   const { vendorId } = useParams();
+  const navigate = useNavigate();
   const [activeTab, setActiveTab] = useState('Overview');
   const [isQuoteModalOpen, setIsQuoteModalOpen] = useState(false);
 
@@ -43,6 +45,11 @@ const VendorDetail = () => {
       "https://images.unsplash.com/photo-1516280440614-6697288d5d38?ixlib=rb-1.2.1&auto=format&fit=crop&w=800&q=80",
       "https://images.unsplash.com/photo-1514525253440-b39345208668?ixlib=rb-1.2.1&auto=format&fit=crop&w=800&q=80"
     ]
+  };
+
+  const handleMessageVendor = () => {
+    DemoDataService.createConversation(vendor.name, `Hi ${vendor.name}, I'm interested in your services for my event.`);
+    navigate('/messages');
   };
 
   return (
@@ -430,7 +437,10 @@ const VendorDetail = () => {
                 >
                   Get Free Quote
                 </button>
-                <button className="w-full border border-gray-200 text-gray-600 py-4 rounded-xl text-[10px] font-black uppercase tracking-widest hover:bg-gray-50 transition-all hover:border-gray-300">
+                <button
+                  onClick={handleMessageVendor}
+                  className="w-full border border-gray-200 text-gray-600 py-4 rounded-xl text-[10px] font-black uppercase tracking-widest hover:bg-gray-50 transition-all hover:border-gray-300"
+                >
                   Message Vendor
                 </button>
               </div>

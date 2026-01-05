@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { XMarkIcon, CalendarIcon, ChevronDownIcon, CheckCircleIcon, ChevronRightIcon } from '@heroicons/react/24/outline';
+import { DemoDataService } from '../../services/DemoDataService';
 
 interface GetQuoteModalProps {
     isOpen: boolean;
@@ -10,7 +11,7 @@ interface GetQuoteModalProps {
 
 const steps = ['Event Details', 'Venue Details', 'Guest Info', 'Budget', 'Services'];
 
-const GetQuoteModal: React.FC<GetQuoteModalProps> = ({ isOpen, onClose }) => {
+const GetQuoteModal: React.FC<GetQuoteModalProps> = ({ isOpen, onClose, vendorName }) => {
     const navigate = useNavigate();
     const [activeStep, setActiveStep] = useState(0);
     const [isSubmitted, setIsSubmitted] = useState(false);
@@ -18,7 +19,7 @@ const GetQuoteModal: React.FC<GetQuoteModalProps> = ({ isOpen, onClose }) => {
     // Form State
     const [formData, setFormData] = useState({
         eventType: 'Wedding',
-        eventName: 'Wedding',
+        eventName: 'Wedding Ceremony',
         eventDate: '',
         dateFlexible: false,
         venueName: '',
@@ -39,7 +40,15 @@ const GetQuoteModal: React.FC<GetQuoteModalProps> = ({ isOpen, onClose }) => {
         if (activeStep < steps.length - 1) {
             setActiveStep(activeStep + 1);
         } else {
-            // Submit logic here
+            // Submit logic to persistence layer
+            DemoDataService.addInquiry({
+                clientName: 'Sarah & James (Demo)', // In a real app, this would be the logged in user
+                email: 'planner@ariya.com',
+                type: formData.eventType,
+                budget: formData.customBudget || formData.budgetRange,
+                eventDate: formData.eventDate || '2025-06-15',
+                details: `Inquiry for ${vendorName}. Services: ${formData.selectedServices.join(', ')}. Package: ${formData.package}`
+            });
             setIsSubmitted(true);
         }
     };
