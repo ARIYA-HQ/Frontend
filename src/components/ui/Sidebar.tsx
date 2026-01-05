@@ -141,7 +141,9 @@ const Sidebar = ({ isOpen, onClose, userRole = 'planner' }: SidebarProps) => {
                 {/* Mobile Content */}
                 <div className="flex grow flex-col gap-y-5 overflow-y-auto bg-[#F3F0EB] dark:bg-gray-900 px-6 pb-4 transition-colors">
                   <div className="flex h-20 shrink-0 items-center">
-                    <span className="font-['Krana_Fat'] text-[24px] text-[#D0771E] font-normal">Àrìyá</span>
+                    <div className="text-[#D0771E] font-black text-4xl tracking-tighter uppercase italic">
+                      Àriyá
+                    </div>
                     <div className="ml-4">
                       <span className="text-xs font-bold text-gray-500 dark:text-gray-400 uppercase tracking-wider">{getDashboardName()}</span>
                     </div>
@@ -188,7 +190,9 @@ const Sidebar = ({ isOpen, onClose, userRole = 'planner' }: SidebarProps) => {
       <div className="hidden lg:fixed lg:inset-y-0 lg:z-50 lg:flex lg:w-72 lg:flex-col">
         <div className="flex grow flex-col gap-y-8 overflow-y-auto bg-[#EEE9E5] dark:bg-gray-900 px-6 pb-4 border-r border-[#E5E0DA] dark:border-gray-800 transition-colors">
           <div className="flex h-24 shrink-0 items-center">
-            <span className="font-['Krana_Fat'] text-[28px] text-[#D0771E] font-normal tracking-wide">Àrìyá</span>
+            <div className="text-[#D0771E] font-black text-4xl tracking-tighter uppercase italic">
+              Àriyá
+            </div>
             <div className="ml-4">
               <span className="text-xs font-bold text-gray-500 dark:text-gray-400 uppercase tracking-wider">{getDashboardName()}</span>
             </div>

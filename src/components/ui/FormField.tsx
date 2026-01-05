@@ -33,7 +33,7 @@ export const FormField = ({
 }: FormFieldProps) => {
     const fieldId = id || name || label.toLowerCase().replace(/\s+/g, '-');
 
-    const baseInputClasses = `w-full rounded-2xl border ${error ? 'border-red-300' : 'border-gray-100'} bg-gray-50/30 px-5 py-4 text-xs font-bold text-[#1D2939] placeholder:text-gray-300 focus:bg-white focus:border-[#D0771E] focus:ring-4 focus:ring-orange-500/10 transition-all outline-none`;
+    const baseInputClasses = `w-full rounded-2xl border ${error ? 'border-red-300 dark:border-red-600' : 'border-gray-100 dark:border-gray-700'} bg-gray-50/30 dark:bg-gray-800/50 px-5 py-4 text-xs font-bold text-[#1D2939] dark:text-white placeholder:text-gray-300 dark:placeholder:text-gray-500 focus:bg-white dark:focus:bg-gray-800 focus:border-[#D0771E] dark:focus:border-[#D0771E] focus:ring-4 focus:ring-orange-500/10 dark:focus:ring-orange-500/20 transition-all outline-none`;
 
     const renderInput = () => {
         if (type === 'select') {
@@ -86,10 +86,10 @@ export const FormField = ({
     return (
         <div className="space-y-2.5 w-full">
             <div className="flex justify-between items-center px-1">
-                <label htmlFor={fieldId} className="block text-[10px] font-black text-gray-400 uppercase tracking-[0.2em]">
-                    {label} {required && <span className="text-red-400">*</span>}
+                <label htmlFor={fieldId} className="block text-[10px] font-black text-gray-400 dark:text-gray-500 uppercase tracking-[0.2em]">
+                    {label} {required && <span className="text-red-400 dark:text-red-400">*</span>}
                 </label>
-                {error && <span className="text-[9px] font-black text-red-500 uppercase tracking-widest">{error}</span>}
+                {error && <span className="text-[9px] font-black text-red-500 dark:text-red-400 uppercase tracking-widest">{error}</span>}
             </div>
             <div className="relative">
                 {renderInput()}

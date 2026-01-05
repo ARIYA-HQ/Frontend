@@ -119,7 +119,7 @@ const SignupPage = () => {
 
           <Button
             onClick={handleProceed}
-            className="w-full h-16 bg-[#D0771E] text-white rounded-2xl text-[11px] font-black uppercase tracking-[0.25em] shadow-2xl dark:shadow-none hover:translate-x-2 transition-all group flex items-center justify-center gap-4"
+            className="w-full h-16 bg-[#D0771E] text-white rounded-2xl text-[11px] font-black uppercase tracking-[0.25em] shadow-2xl shadow-orange-100 dark:shadow-none hover:translate-x-2 transition-all group flex items-center justify-center gap-4"
           >
             Initialize Onboarding
             <ArrowRightIcon className="w-5 h-5 group-hover:translate-x-2 transition-transform" />

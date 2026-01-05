@@ -120,16 +120,16 @@ const LoginPage = () => {
               <label className="flex items-center gap-3 cursor-pointer group">
                 <input
                   type="checkbox"
-                  className="w-6 h-6 border-gray-100 rounded-lg text-[#D0771E] focus:ring-[#D0771E]/20 transition-all cursor-pointer"
+                  className="w-6 h-6 border-gray-100 dark:border-gray-700 rounded-lg text-[#D0771E] focus:ring-[#D0771E]/20 transition-all cursor-pointer bg-white dark:bg-gray-800"
                 />
-                <span className="text-[11px] font-black text-gray-400 uppercase tracking-widest group-hover:text-[#1D2939] transition-colors">Remember my account</span>
+                <span className="text-[11px] font-black text-gray-400 dark:text-gray-500 uppercase tracking-widest group-hover:text-[#1D2939] dark:group-hover:text-white transition-colors">Remember my account</span>
               </label>
             </div>
 
             <Button
               type="submit"
               disabled={isLoading}
-              className="w-full h-16 bg-[#D0771E] text-white rounded-2xl text-[11px] font-black uppercase tracking-[0.25em] shadow-2xl shadow-orange-100 hover:translate-y-[-2px] active:translate-y-[0px] transition-all duration-300 !mt-10 disabled:opacity-70 disabled:cursor-not-allowed"
+              className="w-full h-16 bg-[#D0771E] text-white rounded-2xl text-[11px] font-black uppercase tracking-[0.25em] shadow-2xl shadow-orange-100 dark:shadow-none hover:translate-y-[-2px] active:translate-y-[0px] transition-all duration-300 !mt-10 disabled:opacity-70 disabled:cursor-not-allowed"
             >
               {isLoading ? 'Logging In...' : 'Log In to Dashboard'}
             </Button>
@@ -138,37 +138,37 @@ const LoginPage = () => {
           {/* Divider */}
           <div className="relative my-16">
             <div className="absolute inset-0 flex items-center">
-              <div className="w-full border-t border-gray-50"></div>
+              <div className="w-full border-t border-gray-50 dark:border-gray-800"></div>
             </div>
             <div className="relative flex justify-center">
-              <span className="px-6 bg-white text-[10px] font-black uppercase tracking-[0.3em] text-gray-300">Security Layer</span>
+              <span className="px-6 bg-white dark:bg-gray-900 text-[10px] font-black uppercase tracking-[0.3em] text-gray-300 dark:text-gray-600">Security Layer</span>
             </div>
           </div>
 
           {/* Social Auth */}
           <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
-            <button className="flex items-center justify-center gap-4 h-16 bg-white border border-gray-100 rounded-2xl hover:bg-gray-50 hover:shadow-lg transition-all duration-300 group">
+            <button className="flex items-center justify-center gap-4 h-16 bg-white dark:bg-gray-800 border border-gray-100 dark:border-gray-700 rounded-2xl hover:bg-gray-50 dark:hover:bg-gray-700 hover:shadow-lg dark:hover:shadow-none transition-all duration-300 group">
               <img src="https://www.svgrepo.com/show/475656/google-color.svg" alt="Google" className="w-5 h-5 group-hover:scale-110 transition-transform" />
-              <span className="text-[10px] font-black uppercase tracking-widest text-[#1D2939]">Google Sync</span>
+              <span className="text-[10px] font-black uppercase tracking-widest text-[#1D2939] dark:text-white">Google Sync</span>
             </button>
-            <button className="flex items-center justify-center gap-4 h-16 bg-[#1D2939] border border-[#1D2939] rounded-2xl hover:opacity-90 hover:shadow-lg transition-all duration-300 group">
-              <img src="https://www.svgrepo.com/show/303108/apple-black-logo.svg" alt="Apple" className="w-5 h-5 invert group-hover:scale-110 transition-transform" />
+            <button className="flex items-center justify-center gap-4 h-16 bg-[#1D2939] dark:bg-gray-800 border border-[#1D2939] dark:border-gray-700 rounded-2xl hover:opacity-90 dark:hover:bg-gray-700 hover:shadow-lg dark:hover:shadow-none transition-all duration-300 group">
+              <img src="https://www.svgrepo.com/show/303108/apple-black-logo.svg" alt="Apple" className="w-5 h-5 invert dark:invert-0 group-hover:scale-110 transition-transform" />
               <span className="text-[10px] font-black uppercase tracking-widest text-white">Apple ID</span>
             </button>
           </div>
 
           <div className="text-center mt-12">
-            <p className="text-[11px] font-black uppercase tracking-widest text-gray-400">
+            <p className="text-[11px] font-black uppercase tracking-widest text-gray-400 dark:text-gray-500">
               First time here? <Link to="/auth/signup" className="text-[#D0771E] ml-2 border-b border-[#D0771E]/20 pb-0.5 hover:border-[#D0771E] transition-all">Create an Identity</Link>
             </p>
           </div>
         </div>
 
         {/* Footer Links */}
-        <div className="flex gap-10 mt-12 py-6 border-t border-gray-50 lg:absolute lg:bottom-12 lg:left-20 lg:right-20 lg:border-none">
-          <button className="text-[9px] font-black uppercase tracking-[0.2em] text-gray-300 hover:text-[#D0771E] transition-colors">Privacy</button>
-          <button className="text-[9px] font-black uppercase tracking-[0.2em] text-gray-300 hover:text-[#D0771E] transition-colors">Terms</button>
-          <button className="text-[9px] font-black uppercase tracking-[0.2em] text-gray-300 hover:text-[#D0771E] transition-colors ml-auto hidden sm:block">Ariya © 2024</button>
+        <div className="flex gap-10 mt-12 py-6 border-t border-gray-50 dark:border-gray-800 lg:absolute lg:bottom-12 lg:left-20 lg:right-20 lg:border-none">
+          <button className="text-[9px] font-black uppercase tracking-[0.2em] text-gray-300 dark:text-gray-600 hover:text-[#D0771E] transition-colors">Privacy</button>
+          <button className="text-[9px] font-black uppercase tracking-[0.2em] text-gray-300 dark:text-gray-600 hover:text-[#D0771E] transition-colors">Terms</button>
+          <button className="text-[9px] font-black uppercase tracking-[0.2em] text-gray-300 dark:text-gray-600 hover:text-[#D0771E] transition-colors ml-auto hidden sm:block">Ariya © 2024</button>
         </div>
       </div>
 

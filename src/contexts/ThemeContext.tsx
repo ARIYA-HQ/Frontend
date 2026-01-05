@@ -33,14 +33,23 @@ export const ThemeProvider = ({ children }: { children: ReactNode }) => {
 
   useEffect(() => {
     // Apply theme to document element when theme changes
+    // This is a backup to ensure the class is always applied
     if (typeof document !== 'undefined') {
+      const root = document.documentElement;
+      
+      // Remove both classes first to avoid conflicts
+      root.classList.remove('dark', 'light');
+      
       if (theme === 'dark') {
-        document.documentElement.classList.add('dark');
-        document.documentElement.setAttribute('data-theme', 'dark');
+        root.classList.add('dark');
+        root.setAttribute('data-theme', 'dark');
       } else {
-        document.documentElement.classList.remove('dark');
-        document.documentElement.setAttribute('data-theme', 'light');
+        root.classList.remove('dark');
+        root.setAttribute('data-theme', 'light');
       }
+      
+      // Force a reflow to ensure the change is applied
+      void root.offsetHeight;
     }
   }, [theme]);
 
@@ -50,7 +59,22 @@ export const ThemeProvider = ({ children }: { children: ReactNode }) => {
   }, [theme]);
 
   const toggleTheme = () => {
-    setThemeState(prev => prev === 'light' ? 'dark' : 'light');
+    setThemeState(prev => {
+      const newTheme = prev === 'light' ? 'dark' : 'light';
+      
+      // Apply theme immediately to DOM (synchronously)
+      if (typeof document !== 'undefined') {
+        if (newTheme === 'dark') {
+          document.documentElement.classList.add('dark');
+          document.documentElement.setAttribute('data-theme', 'dark');
+        } else {
+          document.documentElement.classList.remove('dark');
+          document.documentElement.setAttribute('data-theme', 'light');
+        }
+      }
+      
+      return newTheme;
+    });
   };
 
   const setTheme = (newTheme: Theme) => {

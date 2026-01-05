@@ -133,7 +133,7 @@ const PlannerSettings = () => {
                                             We recommend a 400x400px image.
                                         </p>
                                         <div className="flex gap-3 pt-2">
-                                            <Button variant="outline" size="sm" className="bg-white">Remove</Button>
+                                            <Button variant="outline" size="sm" className="bg-white dark:bg-gray-800">Remove</Button>
                                             <Button variant="secondary" size="sm">Change</Button>
                                         </div>
                                     </div>
@@ -187,7 +187,7 @@ const PlannerSettings = () => {
                                                 placeholder="www.example.com"
                                                 className="pl-12"
                                             >
-                                                <div className="absolute left-4 top-1/2 -translate-y-1/2 text-gray-400">
+                                                <div className="absolute left-4 top-1/2 -translate-y-1/2 text-gray-400 dark:text-gray-500">
                                                     <GlobeAltIcon className="w-5 h-5" />
                                                 </div>
                                             </FormField>
@@ -199,7 +199,7 @@ const PlannerSettings = () => {
                                                 placeholder="@username"
                                                 className="pl-12"
                                             >
-                                                <div className="absolute left-4 top-1/2 -translate-y-1/2 text-gray-400">
+                                                <div className="absolute left-4 top-1/2 -translate-y-1/2 text-gray-400 dark:text-gray-500">
                                                     <LinkIcon className="w-5 h-5" />
                                                 </div>
                                             </FormField>
@@ -211,7 +211,7 @@ const PlannerSettings = () => {
                                                 placeholder="linkedin.com/in/username"
                                                 className="pl-12"
                                             >
-                                                <div className="absolute left-4 top-1/2 -translate-y-1/2 text-gray-400">
+                                                <div className="absolute left-4 top-1/2 -translate-y-1/2 text-gray-400 dark:text-gray-500">
                                                     <LinkIcon className="w-5 h-5" />
                                                 </div>
                                             </FormField>
@@ -222,7 +222,7 @@ const PlannerSettings = () => {
                                         <Button
                                             type="submit"
                                             isLoading={isSaving}
-                                            className="px-12 py-5 shadow-2xl shadow-orange-200"
+                                            className="px-12 py-5 shadow-2xl dark:shadow-none shadow-orange-200"
                                         >
                                             Save Changes
                                         </Button>
@@ -283,9 +283,9 @@ const PlannerSettings = () => {
                                             </div>
                                             <button
                                                 onClick={() => setSecurityData(prev => ({ ...prev, twoFactorEnabled: !prev.twoFactorEnabled }))}
-                                                className={`relative inline-flex h-7 w-12 flex-shrink-0 cursor-pointer rounded-full border-[3px] border-transparent transition-colors duration-200 ease-in-out ${securityData.twoFactorEnabled ? 'bg-orange-500' : 'bg-gray-200'}`}
+                                                className={`relative inline-flex h-7 w-12 flex-shrink-0 cursor-pointer rounded-full border-[3px] border-transparent transition-colors duration-200 ease-in-out ${securityData.twoFactorEnabled ? 'bg-orange-500' : 'bg-gray-200 dark:bg-gray-700'}`}
                                             >
-                                                <span className={`${securityData.twoFactorEnabled ? 'translate-x-5' : 'translate-x-0'} inline-block h-5 w-5 transform rounded-full bg-white shadow-md ring-0 transition duration-200 ease-in-out`} />
+                                                <span className={`${securityData.twoFactorEnabled ? 'translate-x-5' : 'translate-x-0'} inline-block h-5 w-5 transform rounded-full bg-white dark:bg-gray-200 shadow-md dark:shadow-none ring-0 transition duration-200 ease-in-out`} />
                                             </button>
                                         </div>
                                     </div>
@@ -323,7 +323,7 @@ const PlannerSettings = () => {
                                         </div>
                                     </div>
                                     <div className="pt-6 flex justify-end">
-                                        <Button type="submit" className="px-12 py-5 shadow-2xl shadow-orange-200">
+                                        <Button type="submit" className="px-12 py-5 shadow-2xl dark:shadow-none shadow-orange-200">
                                             Update Password
                                         </Button>
                                     </div>
@@ -359,7 +359,7 @@ const PlannerSettings = () => {
                                             </div>
                                             <button
                                                 onClick={() => setNotifications(prev => ({ ...prev, [item.id]: !prev[item.id as keyof typeof notifications] }))}
-                                                className={`relative inline-flex h-7 w-12 flex-shrink-0 cursor-pointer rounded-full border-[3px] border-transparent transition-colors duration-200 ease-in-out ${notifications[item.id as keyof typeof notifications] ? 'bg-orange-500 shadow-lg shadow-orange-100' : 'bg-gray-200'}`}
+                                                className={`relative inline-flex h-7 w-12 flex-shrink-0 cursor-pointer rounded-full border-[3px] border-transparent transition-colors duration-200 ease-in-out ${notifications[item.id as keyof typeof notifications] ? 'bg-orange-500 shadow-lg dark:shadow-none shadow-orange-100' : 'bg-gray-200 dark:bg-gray-700'}`}
                                             >
                                                 <span className={`${notifications[item.id as keyof typeof notifications] ? 'translate-x-5' : 'translate-x-0'} inline-block h-5 w-5 transform rounded-full bg-white shadow-md ring-0 transition duration-200 ease-in-out`} />
                                             </button>
@@ -406,7 +406,7 @@ const PlannerSettings = () => {
                                                 </li>
                                             ))}
                                         </ul>
-                                        <Button variant="outline" className="w-full py-5 h-auto bg-white dark:bg-gray-700 opacity-50 cursor-not-allowed">Current Plan</Button>
+                                        <Button variant="outline" className="w-full py-5 h-auto bg-white dark:bg-gray-800 opacity-50 cursor-not-allowed">Current Plan</Button>
                                     </div>
 
                                     <div className="p-10 bg-[#1D2939] dark:bg-gray-800 rounded-[40px] border-4 border-[#D0771E] flex flex-col items-center text-center relative overflow-hidden group shadow-2xl dark:shadow-none shadow-orange-100">

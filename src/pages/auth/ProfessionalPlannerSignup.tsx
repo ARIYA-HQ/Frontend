@@ -124,7 +124,7 @@ const ProfessionalPlannerSignup = () => {
                     <div className="flex items-center gap-6">
                         <div className="flex -space-x-4">
                             {[1, 2, 3, 4].map(i => (
-                                <div key={i} className="w-10 h-10 rounded-full border-2 border-[#1D2939] overflow-hidden bg-gray-200">
+                                <div key={i} className="w-10 h-10 rounded-full border-2 border-[#1D2939] overflow-hidden bg-gray-200 dark:bg-gray-700">
                                     <img src={`https://i.pravatar.cc/100?img=${i + 10}`} alt="User" />
                                 </div>
                             ))}
@@ -135,10 +135,10 @@ const ProfessionalPlannerSignup = () => {
             </div>
 
             {/* Glassmorphic Badge */}
-            <div className="absolute top-20 right-20 p-8 rounded-[40px] bg-white/5 backdrop-blur-2xl border border-white/10 shadow-2xl">
+            <div className="absolute top-20 right-20 p-8 rounded-[40px] bg-white dark:bg-gray-800/5 backdrop-blur-2xl border border-white/10 shadow-2xl dark:shadow-none">
                 <p className="text-white text-[10px] font-black uppercase tracking-[0.5em] mb-1">Ariya Intelligence</p>
                 <div className="flex items-center gap-4">
-                    <div className="h-1.5 w-32 bg-white/10 rounded-full overflow-hidden">
+                    <div className="h-1.5 w-32 bg-white dark:bg-gray-800/10 rounded-full overflow-hidden">
                         <div className="h-full bg-[#D0771E] w-3/4 animate-pulse"></div>
                     </div>
                     <span className="text-white text-[10px] font-black">75%</span>
@@ -148,11 +148,11 @@ const ProfessionalPlannerSignup = () => {
     );
 
     return (
-        <div className="min-h-screen flex flex-col lg:flex-row bg-white selection:bg-[#D0771E]/30">
+        <div className="min-h-screen flex flex-col lg:flex-row bg-white dark:bg-gray-800 dark:bg-gray-900 selection:bg-[#D0771E]/30 transition-colors">
             {/* --- LEFT SIDE: SIGNUP FORM --- */}
             <div className="w-full lg:w-1/2 flex flex-col p-8 sm:p-12 lg:p-20 relative">
                 {/* Background Accent */}
-                <div className="absolute top-0 left-0 w-64 h-64 bg-[#F3F0EB]/50 rounded-full blur-[100px] -translate-x-1/2 -translate-y-1/2 -z-10"></div>
+                <div className="absolute top-0 left-0 w-64 h-64 bg-[#F3F0EB]/50 dark:bg-gray-800/50 rounded-full blur-[100px] -translate-x-1/2 -translate-y-1/2 -z-10"></div>
 
                 {/* Top Bar with Logo and Login Link */}
                 <div className="flex justify-between items-center mb-16 lg:mb-24">
@@ -161,8 +161,8 @@ const ProfessionalPlannerSignup = () => {
                         onClick={() => navigate('/auth/login')}
                         className="flex items-center gap-3 group"
                     >
-                        <span className="text-[10px] font-black uppercase tracking-widest text-gray-400 group-hover:text-[#D0771E] transition-colors duration-300">Already have an account?</span>
-                        <div className="h-10 px-6 rounded-xl bg-gray-50 flex items-center justify-center text-[10px] font-black uppercase tracking-widest text-[#D0771E] border border-gray-100 group-hover:bg-[#D0771E] group-hover:text-white group-hover:border-[#D0771E] transition-all duration-300">
+                        <span className="text-[10px] font-black uppercase tracking-widest text-gray-400 dark:text-gray-500 dark:text-gray-500 group-hover:text-[#D0771E] transition-colors duration-300">Already have an account?</span>
+                        <div className="h-10 px-6 rounded-xl bg-gray-50 dark:bg-gray-800 dark:bg-gray-800 flex items-center justify-center text-[10px] font-black uppercase tracking-widest text-[#D0771E] border border-gray-100 dark:border-gray-700 dark:border-gray-700 group-hover:bg-[#D0771E] group-hover:text-white group-hover:border-[#D0771E] transition-all duration-300">
                             Log In
                         </div>
                     </button>
@@ -178,7 +178,7 @@ const ProfessionalPlannerSignup = () => {
                                         className={`w-8 h-8 rounded-full flex items-center justify-center ${
                                             i + 1 <= step
                                                 ? 'bg-[#D0771E] text-white'
-                                                : 'bg-gray-200 text-gray-500'
+                                                : 'bg-gray-200 dark:bg-gray-700 dark:bg-gray-700 text-gray-500 dark:text-gray-400 dark:text-gray-500'
                                         }`}
                                     >
                                         {i + 1}
@@ -186,14 +186,14 @@ const ProfessionalPlannerSignup = () => {
                                     {i < 8 && (
                                         <div
                                             className={`flex-1 h-1 ${
-                                                i + 1 < step ? 'bg-[#D0771E]' : 'bg-gray-200'
+                                                i + 1 < step ? 'bg-[#D0771E]' : 'bg-gray-200 dark:bg-gray-700 dark:bg-gray-700'
                                             }`}
                                         ></div>
                                     )}
                                 </div>
                             ))}
                         </div>
-                        <p className="text-center text-[10px] font-black uppercase tracking-widest text-gray-400">
+                        <p className="text-center text-[10px] font-black uppercase tracking-widest text-gray-400 dark:text-gray-500 dark:text-gray-500">
                             Professional Planner Onboarding • Step {step} of 9
                         </p>
                     </div>
@@ -202,8 +202,8 @@ const ProfessionalPlannerSignup = () => {
                     {step === 1 && (
                         <div className="space-y-8 animate-in fade-in duration-500">
                             <div>
-                                <h2 className="text-2xl font-black text-[#1D2939] mb-2 uppercase tracking-tighter">Personal Details</h2>
-                                <p className="text-[11px] font-black text-gray-400 uppercase tracking-widest leading-relaxed">
+                                <h2 className="text-2xl font-black text-[#1D2939] dark:text-white dark:text-white mb-2 uppercase tracking-tighter">Personal Details</h2>
+                                <p className="text-[11px] font-black text-gray-400 dark:text-gray-500 dark:text-gray-500 uppercase tracking-widest leading-relaxed">
                                     Let's start with your basic information.
                                 </p>
                             </div>
@@ -211,23 +211,23 @@ const ProfessionalPlannerSignup = () => {
                             <div className="space-y-6">
                                 <div className="grid grid-cols-2 gap-6">
                                     <div>
-                                        <label className="block text-[10px] font-black uppercase tracking-widest text-[#1D2939] ml-1">First Name</label>
+                                        <label className="block text-[10px] font-black uppercase tracking-widest text-[#1D2939] dark:text-white dark:text-white ml-1">First Name</label>
                                         <input
                                             type="text"
                                             value={formData.firstName}
                                             onChange={(e) => setFormData({...formData, firstName: e.target.value})}
-                                            className="w-full h-16 px-8 rounded-2xl bg-gray-50 border-none focus:ring-2 focus:ring-[#D0771E] transition-all text-sm font-bold placeholder:text-gray-300"
+                                            className="w-full h-16 px-8 rounded-2xl bg-gray-50 dark:bg-gray-800 dark:bg-gray-800 border-none focus:ring-2 focus:ring-[#D0771E] transition-all text-sm font-bold text-gray-900 dark:text-white placeholder:text-gray-300 dark:placeholder:text-gray-500 dark:text-gray-600 dark:placeholder:text-gray-500"
                                             placeholder="John"
                                             required
                                         />
                                     </div>
                                     <div>
-                                        <label className="block text-[10px] font-black uppercase tracking-widest text-[#1D2939] ml-1">Last Name</label>
+                                        <label className="block text-[10px] font-black uppercase tracking-widest text-[#1D2939] dark:text-white dark:text-white ml-1">Last Name</label>
                                         <input
                                             type="text"
                                             value={formData.lastName}
                                             onChange={(e) => setFormData({...formData, lastName: e.target.value})}
-                                            className="w-full h-16 px-8 rounded-2xl bg-gray-50 border-none focus:ring-2 focus:ring-[#D0771E] transition-all text-sm font-bold placeholder:text-gray-300"
+                                            className="w-full h-16 px-8 rounded-2xl bg-gray-50 dark:bg-gray-800 dark:bg-gray-800 border-none focus:ring-2 focus:ring-[#D0771E] transition-all text-sm font-bold text-gray-900 dark:text-white placeholder:text-gray-300 dark:placeholder:text-gray-500 dark:text-gray-600 dark:placeholder:text-gray-500"
                                             placeholder="Doe"
                                             required
                                         />
@@ -235,12 +235,12 @@ const ProfessionalPlannerSignup = () => {
                                 </div>
 
                                 <div>
-                                    <label className="block text-[10px] font-black uppercase tracking-widest text-[#1D2939] ml-1">Email Address</label>
+                                    <label className="block text-[10px] font-black uppercase tracking-widest text-[#1D2939] dark:text-white dark:text-white ml-1">Email Address</label>
                                     <input
                                         type="email"
                                         value={formData.email}
                                         onChange={(e) => setFormData({...formData, email: e.target.value})}
-                                        className="w-full h-16 px-8 rounded-2xl bg-gray-50 border-none focus:ring-2 focus:ring-[#D0771E] transition-all text-sm font-bold placeholder:text-gray-300"
+                                        className="w-full h-16 px-8 rounded-2xl bg-gray-50 dark:bg-gray-800 dark:bg-gray-800 border-none focus:ring-2 focus:ring-[#D0771E] transition-all text-sm font-bold text-gray-900 dark:text-white placeholder:text-gray-300 dark:placeholder:text-gray-500 dark:text-gray-600 dark:placeholder:text-gray-500"
                                         placeholder="name@example.com"
                                         required
                                     />
@@ -248,32 +248,32 @@ const ProfessionalPlannerSignup = () => {
 
                                 <div className="grid grid-cols-2 gap-6">
                                     <div>
-                                        <label className="block text-[10px] font-black uppercase tracking-widest text-[#1D2939] ml-1">Password</label>
+                                        <label className="block text-[10px] font-black uppercase tracking-widest text-[#1D2939] dark:text-white dark:text-white ml-1">Password</label>
                                         <div className="relative group">
                                             <input
                                                 type={showPassword ? "text" : "password"}
                                                 value={formData.password}
                                                 onChange={(e) => setFormData({...formData, password: e.target.value})}
-                                                className="w-full h-16 px-8 rounded-2xl bg-gray-50 border-none focus:ring-2 focus:ring-[#D0771E] transition-all text-sm font-bold placeholder:text-gray-300"
+                                                className="w-full h-16 px-8 rounded-2xl bg-gray-50 dark:bg-gray-800 dark:bg-gray-800 border-none focus:ring-2 focus:ring-[#D0771E] transition-all text-sm font-bold text-gray-900 dark:text-white placeholder:text-gray-300 dark:placeholder:text-gray-500 dark:text-gray-600 dark:placeholder:text-gray-500"
                                                 placeholder="Create a password"
                                                 required
                                             />
                                             <button
                                                 type="button"
                                                 onClick={() => setShowPassword(!showPassword)}
-                                                className="absolute right-6 top-1/2 -translate-y-1/2 text-gray-300 hover:text-[#D0771E] transition-colors"
+                                                className="absolute right-6 top-1/2 -translate-y-1/2 text-gray-300 dark:text-gray-600 dark:text-gray-500 hover:text-[#D0771E] transition-colors"
                                             >
                                                 {showPassword ? <EyeIcon className="w-6 h-6" /> : <EyeSlashIcon className="w-6 h-6" />}
                                             </button>
                                         </div>
                                     </div>
                                     <div>
-                                        <label className="block text-[10px] font-black uppercase tracking-widest text-[#1D2939] ml-1">Confirm Password</label>
+                                        <label className="block text-[10px] font-black uppercase tracking-widest text-[#1D2939] dark:text-white dark:text-white ml-1">Confirm Password</label>
                                         <input
                                             type="password"
                                             value={formData.confirmPassword}
                                             onChange={(e) => setFormData({...formData, confirmPassword: e.target.value})}
-                                            className="w-full h-16 px-8 rounded-2xl bg-gray-50 border-none focus:ring-2 focus:ring-[#D0771E] transition-all text-sm font-bold placeholder:text-gray-300"
+                                            className="w-full h-16 px-8 rounded-2xl bg-gray-50 dark:bg-gray-800 dark:bg-gray-800 border-none focus:ring-2 focus:ring-[#D0771E] transition-all text-sm font-bold text-gray-900 dark:text-white placeholder:text-gray-300 dark:placeholder:text-gray-500 dark:text-gray-600 dark:placeholder:text-gray-500"
                                             placeholder="Confirm password"
                                             required
                                         />
@@ -286,7 +286,7 @@ const ProfessionalPlannerSignup = () => {
                                 <Button
                                     onClick={nextStep}
                                     disabled={!formData.firstName || !formData.lastName || !formData.email || !formData.password || formData.password !== formData.confirmPassword}
-                                    className="h-16 bg-[#D0771E] text-white rounded-2xl text-[11px] font-black uppercase tracking-[0.25em] shadow-2xl hover:translate-x-2 transition-all disabled:opacity-50 disabled:cursor-not-allowed"
+                                    className="h-16 bg-[#D0771E] text-white rounded-2xl text-[11px] font-black uppercase tracking-[0.25em] shadow-2xl dark:shadow-none dark:shadow-none hover:translate-x-2 transition-all disabled:opacity-50 disabled:cursor-not-allowed"
                                 >
                                     Continue Onboarding
                                     <ArrowRightIcon className="w-5 h-5 ml-2" />
@@ -299,32 +299,32 @@ const ProfessionalPlannerSignup = () => {
                     {step === 2 && (
                         <div className="space-y-8 animate-in fade-in duration-500">
                             <div>
-                                <h2 className="text-2xl font-black text-[#1D2939] mb-2 uppercase tracking-tighter">Business Details</h2>
-                                <p className="text-[11px] font-black text-gray-400 uppercase tracking-widest leading-relaxed">
+                                <h2 className="text-2xl font-black text-[#1D2939] dark:text-white mb-2 uppercase tracking-tighter">Business Details</h2>
+                                <p className="text-[11px] font-black text-gray-400 dark:text-gray-500 uppercase tracking-widest leading-relaxed">
                                     Tell us about your event planning business.
                                 </p>
                             </div>
 
                             <div className="space-y-6">
                                 <div>
-                                    <label className="block text-[10px] font-black uppercase tracking-widest text-[#1D2939] ml-1">Business Name</label>
+                                    <label className="block text-[10px] font-black uppercase tracking-widest text-[#1D2939] dark:text-white ml-1">Business Name</label>
                                     <input
                                         type="text"
                                         value={formData.businessName}
                                         onChange={(e) => setFormData({...formData, businessName: e.target.value})}
-                                        className="w-full h-16 px-8 rounded-2xl bg-gray-50 border-none focus:ring-2 focus:ring-[#D0771E] transition-all text-sm font-bold placeholder:text-gray-300"
+                                        className="w-full h-16 px-8 rounded-2xl bg-gray-50 dark:bg-gray-800 border-none focus:ring-2 focus:ring-[#D0771E] transition-all text-sm font-bold text-gray-900 dark:text-white placeholder:text-gray-300 dark:placeholder:text-gray-500"
                                         placeholder="Your business name"
                                         required
                                     />
                                 </div>
 
                                 <div>
-                                    <label className="block text-[10px] font-black uppercase tracking-widest text-[#1D2939] ml-1">Business Type</label>
+                                    <label className="block text-[10px] font-black uppercase tracking-widest text-[#1D2939] dark:text-white ml-1">Business Type</label>
                                     <div className="relative">
                                         <select
                                             value={formData.businessType}
                                             onChange={(e) => setFormData({...formData, businessType: e.target.value})}
-                                            className="w-full h-16 px-8 rounded-2xl bg-gray-50 border-none focus:ring-2 focus:ring-[#D0771E] transition-all text-sm font-bold appearance-none"
+                                            className="w-full h-16 px-8 rounded-2xl bg-gray-50 dark:bg-gray-800 border-none focus:ring-2 focus:ring-[#D0771E] transition-all text-sm font-bold text-gray-900 dark:text-white appearance-none"
                                             required
                                         >
                                             <option value="">Select business type</option>
@@ -333,18 +333,18 @@ const ProfessionalPlannerSignup = () => {
                                             ))}
                                         </select>
                                         <div className="absolute right-6 top-1/2 -translate-y-1/2 pointer-events-none">
-                                            <ChevronDownIcon className="w-6 h-6 text-gray-400" />
+                                            <ChevronDownIcon className="w-6 h-6 text-gray-400 dark:text-gray-500" />
                                         </div>
                                     </div>
                                 </div>
 
                                 <div>
-                                    <label className="block text-[10px] font-black uppercase tracking-widest text-[#1D2939] ml-1">Years of Experience</label>
+                                    <label className="block text-[10px] font-black uppercase tracking-widest text-[#1D2939] dark:text-white ml-1">Years of Experience</label>
                                     <input
                                         type="number"
                                         value={formData.yearsExperience}
                                         onChange={(e) => setFormData({...formData, yearsExperience: e.target.value})}
-                                        className="w-full h-16 px-8 rounded-2xl bg-gray-50 border-none focus:ring-2 focus:ring-[#D0771E] transition-all text-sm font-bold placeholder:text-gray-300"
+                                        className="w-full h-16 px-8 rounded-2xl bg-gray-50 dark:bg-gray-800 border-none focus:ring-2 focus:ring-[#D0771E] transition-all text-sm font-bold text-gray-900 dark:text-white placeholder:text-gray-300 dark:placeholder:text-gray-500"
                                         placeholder="Years of experience"
                                         min="0"
                                         required
@@ -355,7 +355,7 @@ const ProfessionalPlannerSignup = () => {
                             <div className="flex justify-between pt-8">
                                 <Button
                                     onClick={prevStep}
-                                    className="h-16 bg-gray-100 text-[#1D2939] rounded-2xl text-[11px] font-black uppercase tracking-[0.25em] shadow-sm hover:translate-x-[-2px] transition-all"
+                                    className="h-16 bg-gray-100 dark:bg-gray-800 text-[#1D2939] dark:text-white rounded-2xl text-[11px] font-black uppercase tracking-[0.25em] shadow-sm hover:translate-x-[-2px] transition-all"
                                 >
                                     <ArrowLeftIcon className="w-5 h-5 mr-2" />
                                     Back
@@ -363,7 +363,7 @@ const ProfessionalPlannerSignup = () => {
                                 <Button
                                     onClick={nextStep}
                                     disabled={!formData.businessName || !formData.businessType || !formData.yearsExperience}
-                                    className="h-16 bg-[#D0771E] text-white rounded-2xl text-[11px] font-black uppercase tracking-[0.25em] shadow-2xl hover:translate-x-2 transition-all disabled:opacity-50 disabled:cursor-not-allowed"
+                                    className="h-16 bg-[#D0771E] text-white rounded-2xl text-[11px] font-black uppercase tracking-[0.25em] shadow-2xl dark:shadow-none hover:translate-x-2 transition-all disabled:opacity-50 disabled:cursor-not-allowed"
                                 >
                                     Continue Onboarding
                                     <ArrowRightIcon className="w-5 h-5 ml-2" />
@@ -376,20 +376,20 @@ const ProfessionalPlannerSignup = () => {
                     {step === 3 && (
                         <div className="space-y-8 animate-in fade-in duration-500">
                             <div>
-                                <h2 className="text-2xl font-black text-[#1D2939] mb-2 uppercase tracking-tighter">Location</h2>
-                                <p className="text-[11px] font-black text-gray-400 uppercase tracking-widest leading-relaxed">
+                                <h2 className="text-2xl font-black text-[#1D2939] dark:text-white mb-2 uppercase tracking-tighter">Location</h2>
+                                <p className="text-[11px] font-black text-gray-400 dark:text-gray-500 uppercase tracking-widest leading-relaxed">
                                     Where is your business located?
                                 </p>
                             </div>
 
                             <div className="space-y-6">
                                 <div>
-                                    <label className="block text-[10px] font-black uppercase tracking-widest text-[#1D2939] ml-1">Country</label>
+                                    <label className="block text-[10px] font-black uppercase tracking-widest text-[#1D2939] dark:text-white ml-1">Country</label>
                                     <input
                                         type="text"
                                         value={formData.country}
                                         onChange={(e) => setFormData({...formData, country: e.target.value})}
-                                        className="w-full h-16 px-8 rounded-2xl bg-gray-50 border-none focus:ring-2 focus:ring-[#D0771E] transition-all text-sm font-bold placeholder:text-gray-300"
+                                        className="w-full h-16 px-8 rounded-2xl bg-gray-50 dark:bg-gray-800 border-none focus:ring-2 focus:ring-[#D0771E] transition-all text-sm font-bold text-gray-900 dark:text-white placeholder:text-gray-300 dark:placeholder:text-gray-500"
                                         placeholder="Country"
                                         required
                                     />
@@ -397,23 +397,23 @@ const ProfessionalPlannerSignup = () => {
 
                                 <div className="grid grid-cols-2 gap-6">
                                     <div>
-                                        <label className="block text-[10px] font-black uppercase tracking-widest text-[#1D2939] ml-1">State/Province</label>
+                                        <label className="block text-[10px] font-black uppercase tracking-widest text-[#1D2939] dark:text-white ml-1">State/Province</label>
                                         <input
                                             type="text"
                                             value={formData.state}
                                             onChange={(e) => setFormData({...formData, state: e.target.value})}
-                                            className="w-full h-16 px-8 rounded-2xl bg-gray-50 border-none focus:ring-2 focus:ring-[#D0771E] transition-all text-sm font-bold placeholder:text-gray-300"
+                                            className="w-full h-16 px-8 rounded-2xl bg-gray-50 dark:bg-gray-800 border-none focus:ring-2 focus:ring-[#D0771E] transition-all text-sm font-bold text-gray-900 dark:text-white placeholder:text-gray-300 dark:placeholder:text-gray-500"
                                             placeholder="State"
                                             required
                                         />
                                     </div>
                                     <div>
-                                        <label className="block text-[10px] font-black uppercase tracking-widest text-[#1D2939] ml-1">City</label>
+                                        <label className="block text-[10px] font-black uppercase tracking-widest text-[#1D2939] dark:text-white ml-1">City</label>
                                         <input
                                             type="text"
                                             value={formData.city}
                                             onChange={(e) => setFormData({...formData, city: e.target.value})}
-                                            className="w-full h-16 px-8 rounded-2xl bg-gray-50 border-none focus:ring-2 focus:ring-[#D0771E] transition-all text-sm font-bold placeholder:text-gray-300"
+                                            className="w-full h-16 px-8 rounded-2xl bg-gray-50 dark:bg-gray-800 border-none focus:ring-2 focus:ring-[#D0771E] transition-all text-sm font-bold text-gray-900 dark:text-white placeholder:text-gray-300 dark:placeholder:text-gray-500"
                                             placeholder="City"
                                             required
                                         />
@@ -424,7 +424,7 @@ const ProfessionalPlannerSignup = () => {
                             <div className="flex justify-between pt-8">
                                 <Button
                                     onClick={prevStep}
-                                    className="h-16 bg-gray-100 text-[#1D2939] rounded-2xl text-[11px] font-black uppercase tracking-[0.25em] shadow-sm hover:translate-x-[-2px] transition-all"
+                                    className="h-16 bg-gray-100 dark:bg-gray-800 text-[#1D2939] dark:text-white rounded-2xl text-[11px] font-black uppercase tracking-[0.25em] shadow-sm hover:translate-x-[-2px] transition-all"
                                 >
                                     <ArrowLeftIcon className="w-5 h-5 mr-2" />
                                     Back
@@ -432,7 +432,7 @@ const ProfessionalPlannerSignup = () => {
                                 <Button
                                     onClick={nextStep}
                                     disabled={!formData.country || !formData.state || !formData.city}
-                                    className="h-16 bg-[#D0771E] text-white rounded-2xl text-[11px] font-black uppercase tracking-[0.25em] shadow-2xl hover:translate-x-2 transition-all disabled:opacity-50 disabled:cursor-not-allowed"
+                                    className="h-16 bg-[#D0771E] text-white rounded-2xl text-[11px] font-black uppercase tracking-[0.25em] shadow-2xl dark:shadow-none hover:translate-x-2 transition-all disabled:opacity-50 disabled:cursor-not-allowed"
                                 >
                                     Continue Onboarding
                                     <ArrowRightIcon className="w-5 h-5 ml-2" />
@@ -445,8 +445,8 @@ const ProfessionalPlannerSignup = () => {
                     {step === 4 && (
                         <div className="space-y-8 animate-in fade-in duration-500">
                             <div>
-                                <h2 className="text-2xl font-black text-[#1D2939] mb-2 uppercase tracking-tighter">Services</h2>
-                                <p className="text-[11px] font-black text-gray-400 uppercase tracking-widest leading-relaxed">
+                                <h2 className="text-2xl font-black text-[#1D2939] dark:text-white mb-2 uppercase tracking-tighter">Services</h2>
+                                <p className="text-[11px] font-black text-gray-400 dark:text-gray-500 uppercase tracking-widest leading-relaxed">
                                     What event planning services do you offer?
                                 </p>
                             </div>
@@ -459,7 +459,7 @@ const ProfessionalPlannerSignup = () => {
                                         className={`p-4 rounded-2xl border-2 cursor-pointer transition-all duration-300 flex items-center gap-4 ${
                                             formData.services.includes(service)
                                                 ? 'bg-[#1D2939] border-[#1D2939] text-white'
-                                                : 'bg-white border-gray-100 hover:border-[#D0771E]/30'
+                                                : 'bg-white dark:bg-gray-800 border-gray-100 dark:border-gray-700 hover:border-[#D0771E]/30'
                                         }`}
                                     >
                                         <div className={`w-6 h-6 rounded-full border-2 flex items-center justify-center ${
@@ -479,7 +479,7 @@ const ProfessionalPlannerSignup = () => {
                             <div className="flex justify-between pt-8">
                                 <Button
                                     onClick={prevStep}
-                                    className="h-16 bg-gray-100 text-[#1D2939] rounded-2xl text-[11px] font-black uppercase tracking-[0.25em] shadow-sm hover:translate-x-[-2px] transition-all"
+                                    className="h-16 bg-gray-100 dark:bg-gray-800 text-[#1D2939] dark:text-white rounded-2xl text-[11px] font-black uppercase tracking-[0.25em] shadow-sm hover:translate-x-[-2px] transition-all"
                                 >
                                     <ArrowLeftIcon className="w-5 h-5 mr-2" />
                                     Back
@@ -487,7 +487,7 @@ const ProfessionalPlannerSignup = () => {
                                 <Button
                                     onClick={nextStep}
                                     disabled={formData.services.length === 0}
-                                    className="h-16 bg-[#D0771E] text-white rounded-2xl text-[11px] font-black uppercase tracking-[0.25em] shadow-2xl hover:translate-x-2 transition-all disabled:opacity-50 disabled:cursor-not-allowed"
+                                    className="h-16 bg-[#D0771E] text-white rounded-2xl text-[11px] font-black uppercase tracking-[0.25em] shadow-2xl dark:shadow-none hover:translate-x-2 transition-all disabled:opacity-50 disabled:cursor-not-allowed"
                                 >
                                     Continue Onboarding
                                     <ArrowRightIcon className="w-5 h-5 ml-2" />
@@ -500,13 +500,13 @@ const ProfessionalPlannerSignup = () => {
                     {step > 4 && step < 9 && (
                         <div className="space-y-8 animate-in fade-in duration-500">
                             <div>
-                                <h2 className="text-2xl font-black text-[#1D2939] mb-2 uppercase tracking-tighter">
+                                <h2 className="text-2xl font-black text-[#1D2939] dark:text-white mb-2 uppercase tracking-tighter">
                                     {step === 5 && 'Portfolio Setup'}
                                     {step === 6 && 'Pricing Structure'}
                                     {step === 7 && 'Availability'}
                                     {step === 8 && 'Profile Completion'}
                                 </h2>
-                                <p className="text-[11px] font-black text-gray-400 uppercase tracking-widest leading-relaxed">
+                                <p className="text-[11px] font-black text-gray-400 dark:text-gray-500 uppercase tracking-widest leading-relaxed">
                                     {step === 5 && 'Add images of your previous work.'}
                                     {step === 6 && 'Set your pricing for different services.'}
                                     {step === 7 && 'Define your availability for new clients.'}
@@ -516,7 +516,7 @@ const ProfessionalPlannerSignup = () => {
 
                             <div className="space-y-6">
                                 <p className="text-gray-600">This step would contain specific information for professional event planners.</p>
-                                <div className="bg-gray-100 border-2 border-dashed rounded-xl w-full h-64 flex items-center justify-center text-gray-500">
+                                <div className="bg-gray-100 dark:bg-gray-800 border-2 border-dashed rounded-xl w-full h-64 flex items-center justify-center text-gray-500">
                                     Content for step {step}
                                 </div>
                             </div>
@@ -524,14 +524,14 @@ const ProfessionalPlannerSignup = () => {
                             <div className="flex justify-between pt-8">
                                 <Button
                                     onClick={prevStep}
-                                    className="h-16 bg-gray-100 text-[#1D2939] rounded-2xl text-[11px] font-black uppercase tracking-[0.25em] shadow-sm hover:translate-x-[-2px] transition-all"
+                                    className="h-16 bg-gray-100 dark:bg-gray-800 text-[#1D2939] dark:text-white rounded-2xl text-[11px] font-black uppercase tracking-[0.25em] shadow-sm hover:translate-x-[-2px] transition-all"
                                 >
                                     <ArrowLeftIcon className="w-5 h-5 mr-2" />
                                     Back
                                 </Button>
                                 <Button
                                     onClick={nextStep}
-                                    className="h-16 bg-[#D0771E] text-white rounded-2xl text-[11px] font-black uppercase tracking-[0.25em] shadow-2xl hover:translate-x-2 transition-all"
+                                    className="h-16 bg-[#D0771E] text-white rounded-2xl text-[11px] font-black uppercase tracking-[0.25em] shadow-2xl dark:shadow-none hover:translate-x-2 transition-all"
                                 >
                                     Continue Onboarding
                                     <ArrowRightIcon className="w-5 h-5 ml-2" />
@@ -546,35 +546,35 @@ const ProfessionalPlannerSignup = () => {
                             {/* Background Accents */}
                             <div className="fixed inset-0 bg-[#F3F0EB]/30 -z-10 animate-pulse"></div>
 
-                            <div className="w-40 h-40 bg-white rounded-[60px] shadow-2xl flex items-center justify-center mb-12 relative group">
+                            <div className="w-40 h-40 bg-white dark:bg-gray-800 rounded-[60px] shadow-2xl dark:shadow-none flex items-center justify-center mb-12 relative group">
                                 <CheckCircleIcon className="w-20 h-20 text-[#D0771E] relative z-10 transition-transform duration-1000 group-hover:scale-110" />
                                 <div className="absolute inset-2 border-4 border-dashed border-[#D0771E]/20 rounded-[50px] animate-spin-slow"></div>
                                 <SparklesIcon className="absolute -top-4 -right-4 w-12 h-12 text-[#D0771E] animate-bounce" />
                             </div>
 
-                            <h1 className="text-5xl font-black text-[#1D2939] mb-6 uppercase tracking-tight">Onboarding <span className="text-[#D0771E]">Complete.</span></h1>
-                            <p className="text-sm font-medium text-gray-400 max-w-sm mb-12 leading-relaxed">
-                                Welcome to Ariya, <strong className="text-[#1D2939] font-black font-serif italic text-lg">{formData.firstName || 'Professional Planner'}</strong>. <br /> Your journey to managing client events begins now.
+                            <h1 className="text-5xl font-black text-[#1D2939] dark:text-white mb-6 uppercase tracking-tight">Onboarding <span className="text-[#D0771E]">Complete.</span></h1>
+                            <p className="text-sm font-medium text-gray-400 dark:text-gray-500 max-w-sm mb-12 leading-relaxed">
+                                Welcome to Ariya, <strong className="text-[#1D2939] dark:text-white font-black font-serif italic text-lg">{formData.firstName || 'Professional Planner'}</strong>. <br /> Your journey to managing client events begins now.
                             </p>
 
                             <Button
                                 onClick={handleRegister}
-                                className="w-full max-w-xs h-18 bg-[#1D2939] text-white rounded-2xl text-[11px] font-black uppercase tracking-[0.3em] shadow-2xl hover:scale-110 transition-all mb-8 group flex items-center justify-center gap-4"
+                                className="w-full max-w-xs h-18 bg-[#1D2939] text-white rounded-2xl text-[11px] font-black uppercase tracking-[0.3em] shadow-2xl dark:shadow-none hover:scale-110 transition-all mb-8 group flex items-center justify-center gap-4"
                             >
                                 Start Professional Journey
                                 <ArrowRightIcon className="w-5 h-5 group-hover:translate-x-3 transition-transform" />
                             </Button>
 
-                            <p className="text-[10px] text-gray-300 font-black uppercase tracking-[0.5em] animate-pulse">Ariya - Plan with perfection</p>
+                            <p className="text-[10px] text-gray-300 dark:text-gray-600 font-black uppercase tracking-[0.5em] animate-pulse">Ariya - Plan with perfection</p>
                         </div>
                     )}
                 </div>
 
                 {/* Bottom Footer Links */}
                 {step !== 9 && (
-                    <div className="flex gap-10 pt-16 mt-auto">
-                        <button className="text-[9px] font-black uppercase tracking-[0.2em] text-gray-300 hover:text-[#D0771E] transition-colors">Privacy Infrastructure</button>
-                        <button className="text-[9px] font-black uppercase tracking-[0.2em] text-gray-300 hover:text-[#D0771E] transition-colors">Legal Terms</button>
+                    <div className="flex gap-10 pt-16 mt-auto border-t border-gray-50 dark:border-gray-800">
+                        <button className="text-[9px] font-black uppercase tracking-[0.2em] text-gray-300 dark:text-gray-600 hover:text-[#D0771E] transition-colors">Privacy Infrastructure</button>
+                        <button className="text-[9px] font-black uppercase tracking-[0.2em] text-gray-300 dark:text-gray-600 hover:text-[#D0771E] transition-colors">Legal Terms</button>
                     </div>
                 )}
             </div>

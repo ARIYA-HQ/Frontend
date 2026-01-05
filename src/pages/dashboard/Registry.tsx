@@ -1,6 +1,6 @@
 import { useState, Fragment } from 'react';
 import { Dialog, Transition } from '@headlessui/react';
-import { Card, CardContent } from '../../components/ui/Card';
+import PremiumCard from '../../components/ui/PremiumCard';
 import {
   GiftIcon,
   PlusIcon,
@@ -121,7 +121,7 @@ const Registry = () => {
           </button>
           <button
             onClick={() => handleOpenItemModal()}
-            className="inline-flex items-center px-6 py-3 border border-transparent shadow-sm text-sm font-black uppercase tracking-widest rounded-xl text-white bg-[#D0771E] hover:bg-[#B6651A] transition-all transform active:scale-95 shadow-orange-900/20"
+            className="inline-flex items-center px-6 py-3 border border-transparent shadow-sm dark:shadow-none text-sm font-black uppercase tracking-widest rounded-xl text-white bg-[#D0771E] hover:bg-[#B6651A] transition-all transform active:scale-95 shadow-orange-900/20"
           >
             <PlusIcon className="-ml-1 mr-2 h-5 w-5" />
             Add Item
@@ -134,7 +134,10 @@ const Registry = () => {
         <div className="lg:col-span-2 space-y-6">
           <div className="grid grid-cols-1 gap-6 sm:grid-cols-2">
             {registryItems.map((item) => (
-              <div key={item.id} className="group bg-white dark:bg-gray-800 rounded-3xl p-6 shadow-xl shadow-gray-100 dark:shadow-none border border-gray-50 dark:border-gray-700 hover:shadow-2xl dark:hover:shadow-none transition-all">
+              <PremiumCard
+                key={item.id}
+                className="group rounded-3xl p-6 shadow-xl shadow-gray-100 dark:shadow-none hover:shadow-2xl dark:hover:shadow-none transition-all"
+              >
                 <div className="flex justify-between items-start mb-4">
                   <div className="p-3 bg-orange-50 dark:bg-orange-900/30 rounded-2xl">
                     <GiftIcon className="h-6 w-6 text-[#D0771E]" />
@@ -158,7 +161,7 @@ const Registry = () => {
                 <div className="mt-6">
                   <div className="flex justify-between items-end mb-2">
                     <span className="text-[10px] font-black text-gray-500 dark:text-gray-400 uppercase tracking-widest">{item.purchased} of {item.goal} Received</span>
-                    <span className="text-xs font-bold text-[#D0771E]">{Math.round((item.purchased / item.goal) * 100)}%</span>
+                    <span className="text-xs font-bold text-[#D0771E] dark:text-orange-400">{Math.round((item.purchased / item.goal) * 100)}%</span>
                   </div>
                   <div className="w-full bg-gray-100 dark:bg-gray-700 rounded-full h-2 overflow-hidden">
                     <div
@@ -167,7 +170,7 @@ const Registry = () => {
                     ></div>
                   </div>
                 </div>
-              </div>
+              </PremiumCard>
             ))}
           </div>
         </div>
@@ -176,7 +179,10 @@ const Registry = () => {
         <div className="space-y-6">
           <h3 className="text-xs font-black text-gray-400 dark:text-gray-500 uppercase tracking-[0.2em]">Active Cash Funds</h3>
           {cashFunds.map((fund) => (
-            <div key={fund.id} className="relative overflow-hidden bg-white dark:bg-gray-800 rounded-3xl p-6 shadow-xl shadow-gray-100 dark:shadow-none border border-gray-50 dark:border-gray-700 group">
+            <PremiumCard
+              key={fund.id}
+              className="relative overflow-hidden rounded-3xl p-6 shadow-xl shadow-gray-100 dark:shadow-none group"
+            >
               <div className={`absolute top-0 right-0 w-32 h-32 bg-gradient-to-br ${fund.color} opacity-10 dark:opacity-5 rounded-bl-[100px] -mr-16 -mt-16 group-hover:scale-150 transition-transform duration-500`} />
 
               <div className="relative">
@@ -217,7 +223,7 @@ const Registry = () => {
                   </div>
                 </div>
               </div>
-            </div>
+            </PremiumCard>
           ))}
 
           <button
@@ -233,8 +239,8 @@ const Registry = () => {
       {/* Recent Activity */}
       <div className="mt-12">
         <div className="text-[10px] font-black text-gray-400 dark:text-gray-500 uppercase tracking-[0.2em] mb-6">Live Contribution Feed</div>
-        <Card className="rounded-3xl border-none shadow-xl dark:shadow-none overflow-hidden dark:bg-gray-800">
-          <CardContent className="p-0">
+        <PremiumCard className="rounded-3xl border-none shadow-xl dark:shadow-none overflow-hidden bg-white dark:bg-gray-800">
+          <div className="p-0">
             <div className="overflow-x-auto">
               <table className="min-w-full divide-y divide-gray-50 dark:divide-gray-700">
                 <thead className="bg-gray-50/50 dark:bg-gray-800/50">
@@ -278,8 +284,8 @@ const Registry = () => {
                 </tbody>
               </table>
             </div>
-          </CardContent>
-        </Card>
+          </div>
+        </PremiumCard>
       </div>
 
       {/* Item Modal */}
@@ -304,12 +310,12 @@ const Registry = () => {
                   <form onSubmit={handleSaveItem} className="space-y-6">
                     <div>
                       <label className="block text-[10px] font-black text-gray-500 dark:text-gray-400 uppercase tracking-widest mb-2">Item Name</label>
-                      <input required type="text" className="w-full bg-gray-50 dark:bg-gray-700 border-none rounded-xl p-4 text-sm font-bold dark:text-white" value={itemFormData.name} onChange={(e) => setItemFormData({ ...itemFormData, name: e.target.value })} placeholder="e.g. Dyson V15 Detect" />
+                      <input required type="text" className="w-full bg-gray-50 dark:bg-gray-700 border-none rounded-xl p-4 text-sm font-bold dark:text-white placeholder:text-gray-400 dark:placeholder:text-gray-500 focus:ring-2 focus:ring-[#D0771E]/20 dark:focus:ring-orange-500/30" value={itemFormData.name} onChange={(e) => setItemFormData({ ...itemFormData, name: e.target.value })} placeholder="e.g. Dyson V15 Detect" />
                     </div>
                     <div className="grid grid-cols-2 gap-4">
                       <div>
                         <label className="block text-[10px] font-black text-gray-500 dark:text-gray-400 uppercase tracking-widest mb-2">Category</label>
-                        <select className="w-full bg-gray-50 dark:bg-gray-700 border-none rounded-xl p-4 text-sm font-bold dark:text-white appearance-none" value={itemFormData.category} onChange={(e) => setItemFormData({ ...itemFormData, category: e.target.value })}>
+                        <select className="w-full bg-gray-50 dark:bg-gray-700 border-none rounded-xl p-4 text-sm font-bold dark:text-white appearance-none focus:ring-2 focus:ring-[#D0771E]/20 dark:focus:ring-orange-500/30" value={itemFormData.category} onChange={(e) => setItemFormData({ ...itemFormData, category: e.target.value })}>
                           <option>Kitchen</option>
                           <option>Cookware</option>
                           <option>Bed & Bath</option>
@@ -319,12 +325,12 @@ const Registry = () => {
                       </div>
                       <div>
                         <label className="block text-[10px] font-black text-gray-500 dark:text-gray-400 uppercase tracking-widest mb-2">Price ($)</label>
-                        <input required type="number" className="w-full bg-gray-50 dark:bg-gray-700 border-none rounded-xl p-4 text-sm font-bold dark:text-white" value={itemFormData.price} onChange={(e) => setItemFormData({ ...itemFormData, price: Number(e.target.value) })} />
+                        <input required type="number" className="w-full bg-gray-50 dark:bg-gray-700 border-none rounded-xl p-4 text-sm font-bold dark:text-white placeholder:text-gray-400 dark:placeholder:text-gray-500 focus:ring-2 focus:ring-[#D0771E]/20 dark:focus:ring-orange-500/30" value={itemFormData.price} onChange={(e) => setItemFormData({ ...itemFormData, price: Number(e.target.value) })} />
                       </div>
                     </div>
                     <div>
                       <label className="block text-[10px] font-black text-gray-500 dark:text-gray-400 uppercase tracking-widest mb-2">Goal Quantity</label>
-                      <input type="number" min="1" className="w-full bg-gray-50 dark:bg-gray-700 border-none rounded-xl p-4 text-sm font-bold dark:text-white" value={itemFormData.goal} onChange={(e) => setItemFormData({ ...itemFormData, goal: Number(e.target.value) })} />
+                      <input type="number" min="1" className="w-full bg-gray-50 dark:bg-gray-700 border-none rounded-xl p-4 text-sm font-bold dark:text-white placeholder:text-gray-400 dark:placeholder:text-gray-500 focus:ring-2 focus:ring-[#D0771E]/20 dark:focus:ring-orange-500/30" value={itemFormData.goal} onChange={(e) => setItemFormData({ ...itemFormData, goal: Number(e.target.value) })} />
                     </div>
                     <button type="submit" className="w-full py-4 bg-[#D0771E] text-white rounded-xl text-xs font-black uppercase tracking-widest shadow-xl dark:shadow-none shadow-orange-900/20 active:scale-95 transition-all">
                       {editingItem ? 'Update Item' : 'Add to Registry'}
@@ -359,20 +365,20 @@ const Registry = () => {
                   <form onSubmit={handleSaveFund} className="space-y-6">
                     <div>
                       <label className="block text-[10px] font-black text-gray-500 dark:text-gray-400 uppercase tracking-widest mb-2">Fund Name</label>
-                      <input required type="text" className="w-full bg-gray-50 dark:bg-gray-700 border-none rounded-xl p-4 text-sm font-bold dark:text-white" value={fundFormData.name} onChange={(e) => setFundFormData({ ...fundFormData, name: e.target.value })} placeholder="e.g. Honeymoon in Bali" />
+                      <input required type="text" className="w-full bg-gray-50 dark:bg-gray-700 border-none rounded-xl p-4 text-sm font-bold dark:text-white placeholder:text-gray-400 dark:placeholder:text-gray-500 focus:ring-2 focus:ring-[#D0771E]/20 dark:focus:ring-orange-500/30" value={fundFormData.name} onChange={(e) => setFundFormData({ ...fundFormData, name: e.target.value })} placeholder="e.g. Honeymoon in Bali" />
                     </div>
                     <div>
                       <label className="block text-[10px] font-black text-gray-500 dark:text-gray-400 uppercase tracking-widest mb-2">Description</label>
-                      <textarea className="w-full bg-gray-50 dark:bg-gray-700 border-none rounded-xl p-4 text-sm font-bold dark:text-white resize-none" rows={3} value={fundFormData.description} onChange={(e) => setFundFormData({ ...fundFormData, description: e.target.value })} placeholder="Tell your guests what this fund is for..." />
+                      <textarea className="w-full bg-gray-50 dark:bg-gray-700 border-none rounded-xl p-4 text-sm font-bold dark:text-white resize-none placeholder:text-gray-400 dark:placeholder:text-gray-500 focus:ring-2 focus:ring-[#D0771E]/20 dark:focus:ring-orange-500/30" rows={3} value={fundFormData.description} onChange={(e) => setFundFormData({ ...fundFormData, description: e.target.value })} placeholder="Tell your guests what this fund is for..." />
                     </div>
                     <div className="grid grid-cols-2 gap-4">
                       <div>
                         <label className="block text-[10px] font-black text-gray-500 dark:text-gray-400 uppercase tracking-widest mb-2">Goal Amount ($)</label>
-                        <input required type="number" className="w-full bg-gray-50 dark:bg-gray-700 border-none rounded-xl p-4 text-sm font-bold dark:text-white" value={fundFormData.goal} onChange={(e) => setFundFormData({ ...fundFormData, goal: Number(e.target.value) })} />
+                        <input required type="number" className="w-full bg-gray-50 dark:bg-gray-700 border-none rounded-xl p-4 text-sm font-bold dark:text-white placeholder:text-gray-400 dark:placeholder:text-gray-500 focus:ring-2 focus:ring-[#D0771E]/20 dark:focus:ring-orange-500/30" value={fundFormData.goal} onChange={(e) => setFundFormData({ ...fundFormData, goal: Number(e.target.value) })} />
                       </div>
                       <div>
                         <label className="block text-[10px] font-black text-gray-500 dark:text-gray-400 uppercase tracking-widest mb-2">Branding Color</label>
-                        <select className="w-full bg-gray-50 dark:bg-gray-700 border-none rounded-xl p-4 text-sm font-bold dark:text-white appearance-none" value={fundFormData.color} onChange={(e) => setFundFormData({ ...fundFormData, color: e.target.value })}>
+                        <select className="w-full bg-gray-50 dark:bg-gray-700 border-none rounded-xl p-4 text-sm font-bold dark:text-white appearance-none focus:ring-2 focus:ring-[#D0771E]/20 dark:focus:ring-orange-500/30" value={fundFormData.color} onChange={(e) => setFundFormData({ ...fundFormData, color: e.target.value })}>
                           <option value="from-orange-400 to-orange-600">Ariya Orange</option>
                           <option value="from-indigo-400 to-indigo-600">Royal Indigo</option>
                           <option value="from-purple-400 to-purple-600">Plum Purple</option>

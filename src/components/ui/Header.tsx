@@ -50,7 +50,7 @@ const Header = ({ onMenuClick }: HeaderProps) => {
         <Bars3Icon className="h-6 w-6" aria-hidden="true" />
       </button>
 
-      {/* Separator */}
+      {/* Separator (keeps left padding consistent when menu button is hidden) */}
       <div className="h-6 w-px bg-gray-100 dark:bg-gray-700 lg:hidden" aria-hidden="true" />
 
       <div className="flex flex-1 gap-x-4 self-stretch lg:gap-x-12">

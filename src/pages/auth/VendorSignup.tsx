@@ -101,11 +101,14 @@ const VendorSignup = () => {
     };
 
     return (
-        <div className="min-h-screen flex flex-col lg:flex-row bg-white selection:bg-[#D0771E]/30">
+        <div className="min-h-screen flex flex-col lg:flex-row bg-white dark:bg-gray-900 selection:bg-[#D0771E]/30 transition-colors">
             {/* --- LEFT SIDE: FORM PANE --- */}
             <div className={`w-full lg:w-1/2 flex flex-col p-8 sm:p-12 lg:p-20 relative transition-all duration-700`}>
+                {/* Background Accent */}
+                <div className="absolute top-0 left-0 w-64 h-64 bg-[#F3F0EB]/50 dark:bg-gray-800/50 rounded-full blur-[100px] -translate-x-1/2 -translate-y-1/2 -z-10"></div>
+                
                 {/* Progress Tracking */}
-                <div className="fixed top-0 left-0 w-1/2 h-1 bg-gray-50 z-[60]">
+                <div className="fixed top-0 left-0 w-1/2 h-1 bg-gray-50 dark:bg-gray-800 z-[60]">
                     <div
                         className="h-full bg-[#D0771E] transition-all duration-1000 ease-out shadow-[0_0_15px_#D0771E]"
                         style={{ width: `${(step / 4) * 100}%` }}
@@ -117,13 +120,13 @@ const VendorSignup = () => {
                     <div className="text-[#D0771E] font-black text-4xl tracking-tighter uppercase italic">Àriyá</div>
                     <div className="flex items-center gap-6">
                         <div className="hidden sm:flex flex-col items-end">
-                            <span className="text-[9px] font-black text-gray-300 uppercase tracking-widest">Enterprise Onboarding</span>
-                            <span className="text-[10px] font-black text-[#1D2939] uppercase tracking-widest">Step {step} of 4</span>
+                            <span className="text-[9px] font-black text-gray-300 dark:text-gray-600 uppercase tracking-widest">Enterprise Onboarding</span>
+                            <span className="text-[10px] font-black text-[#1D2939] dark:text-white uppercase tracking-widest">Step {step} of 4</span>
                         </div>
                         {step > 1 && (
                             <button
                                 onClick={prevStep}
-                                className="w-10 h-10 rounded-xl bg-gray-50 flex items-center justify-center text-[#1D2939] hover:bg-[#1D2939] hover:text-white transition-all shadow-sm"
+                                className="w-10 h-10 rounded-xl bg-gray-50 dark:bg-gray-800 flex items-center justify-center text-[#1D2939] dark:text-white hover:bg-[#1D2939] dark:hover:bg-gray-700 hover:text-white transition-all shadow-sm dark:shadow-none"
                             >
                                 <ArrowLeftIcon className="w-4 h-4" />
                             </button>
@@ -136,76 +139,76 @@ const VendorSignup = () => {
                     {step === 1 && (
                         <div className="animate-in fade-in slide-in-from-bottom-4 duration-500">
                             <div className="mb-12">
-                                <h1 className="text-4xl font-black text-[#1D2939] mb-4 uppercase tracking-tighter leading-tight">Professional <br /> <span className="text-[#D0771E]">Identity.</span></h1>
-                                <p className="text-[11px] font-black text-gray-400 uppercase tracking-widest leading-relaxed">Establish your vendor presence within our elite ecosystem.</p>
+                                <h1 className="text-4xl font-black text-[#1D2939] dark:text-white mb-4 uppercase tracking-tighter leading-tight">Professional <br /> <span className="text-[#D0771E]">Identity.</span></h1>
+                                <p className="text-[11px] font-black text-gray-400 dark:text-gray-500 uppercase tracking-widest leading-relaxed">Establish your vendor presence within our elite ecosystem.</p>
                             </div>
 
                             <div className="space-y-6">
                                 <div className="grid grid-cols-2 gap-4">
                                     <div className="space-y-2">
-                                        <label className="text-[10px] font-black uppercase tracking-widest text-[#1D2939] ml-1 block">First Name</label>
+                                        <label className="text-[10px] font-black uppercase tracking-widest text-[#1D2939] dark:text-white ml-1 block">First Name</label>
                                         <input
                                             type="text"
                                             placeholder="John"
-                                            className="w-full h-14 px-6 rounded-2xl bg-gray-50 border-none focus:ring-2 focus:ring-[#D0771E] transition-all text-sm font-bold placeholder:text-gray-300"
+                                            className="w-full h-14 px-6 rounded-2xl bg-gray-50 dark:bg-gray-800 border-none focus:ring-2 focus:ring-[#D0771E] transition-all text-sm font-bold text-gray-900 dark:text-white placeholder:text-gray-300 dark:placeholder:text-gray-500"
                                         />
                                     </div>
                                     <div className="space-y-2">
-                                        <label className="text-[10px] font-black uppercase tracking-widest text-[#1D2939] ml-1 block">Last Name</label>
+                                        <label className="text-[10px] font-black uppercase tracking-widest text-[#1D2939] dark:text-white ml-1 block">Last Name</label>
                                         <input
                                             type="text"
                                             placeholder="Doe"
-                                            className="w-full h-14 px-6 rounded-2xl bg-gray-50 border-none focus:ring-2 focus:ring-[#D0771E] transition-all text-sm font-bold placeholder:text-gray-300"
+                                            className="w-full h-14 px-6 rounded-2xl bg-gray-50 dark:bg-gray-800 border-none focus:ring-2 focus:ring-[#D0771E] transition-all text-sm font-bold text-gray-900 dark:text-white placeholder:text-gray-300 dark:placeholder:text-gray-500"
                                         />
                                     </div>
                                 </div>
                                 <div className="space-y-2">
-                                    <label className="text-[10px] font-black uppercase tracking-widest text-[#1D2939] ml-1 block">Business Email</label>
+                                    <label className="text-[10px] font-black uppercase tracking-widest text-[#1D2939] dark:text-white ml-1 block">Business Email</label>
                                     <input
                                         type="email"
                                         placeholder="business@example.com"
-                                        className="w-full h-14 px-6 rounded-2xl bg-gray-50 border-none focus:ring-2 focus:ring-[#D0771E] transition-all text-sm font-bold placeholder:text-gray-300"
+                                        className="w-full h-14 px-6 rounded-2xl bg-gray-50 dark:bg-gray-800 border-none focus:ring-2 focus:ring-[#D0771E] transition-all text-sm font-bold text-gray-900 dark:text-white placeholder:text-gray-300 dark:placeholder:text-gray-500"
                                     />
                                 </div>
                                 <div className="grid grid-cols-2 gap-4">
                                     <div className="space-y-2">
-                                        <label className="text-[10px] font-black uppercase tracking-widest text-[#1D2939] ml-1 block">Password</label>
+                                        <label className="text-[10px] font-black uppercase tracking-widest text-[#1D2939] dark:text-white ml-1 block">Password</label>
                                         <div className="relative">
                                             <input
                                                 type={showPassword ? "text" : "password"}
                                                 placeholder="••••••••"
-                                                className="w-full h-14 px-6 rounded-2xl bg-gray-50 border-none focus:ring-2 focus:ring-[#D0771E] transition-all text-sm font-bold placeholder:text-gray-300"
+                                                className="w-full h-14 px-6 rounded-2xl bg-gray-50 dark:bg-gray-800 border-none focus:ring-2 focus:ring-[#D0771E] transition-all text-sm font-bold text-gray-900 dark:text-white placeholder:text-gray-300 dark:placeholder:text-gray-500"
                                             />
-                                            <button onClick={() => setShowPassword(!showPassword)} className="absolute right-6 top-1/2 -translate-y-1/2 text-gray-300 hover:text-[#D0771E] transition-colors"><EyeIcon className="w-5 h-5" /></button>
+                                            <button onClick={() => setShowPassword(!showPassword)} className="absolute right-6 top-1/2 -translate-y-1/2 text-gray-300 dark:text-gray-500 hover:text-[#D0771E] transition-colors"><EyeIcon className="w-5 h-5" /></button>
                                         </div>
                                     </div>
                                     <div className="space-y-2">
-                                        <label className="text-[10px] font-black uppercase tracking-widest text-[#1D2939] ml-1 block">Confirm</label>
+                                        <label className="text-[10px] font-black uppercase tracking-widest text-[#1D2939] dark:text-white ml-1 block">Confirm</label>
                                         <div className="relative">
                                             <input
                                                 type={showConfirmPassword ? "text" : "password"}
                                                 placeholder="••••••••"
-                                                className="w-full h-14 px-6 rounded-2xl bg-gray-50 border-none focus:ring-2 focus:ring-[#D0771E] transition-all text-sm font-bold placeholder:text-gray-300"
+                                                className="w-full h-14 px-6 rounded-2xl bg-gray-50 dark:bg-gray-800 border-none focus:ring-2 focus:ring-[#D0771E] transition-all text-sm font-bold text-gray-900 dark:text-white placeholder:text-gray-300 dark:placeholder:text-gray-500"
                                             />
-                                            <button onClick={() => setShowConfirmPassword(!showConfirmPassword)} className="absolute right-6 top-1/2 -translate-y-1/2 text-gray-300 hover:text-[#D0771E] transition-colors"><EyeIcon className="w-5 h-5" /></button>
+                                            <button onClick={() => setShowConfirmPassword(!showConfirmPassword)} className="absolute right-6 top-1/2 -translate-y-1/2 text-gray-300 dark:text-gray-500 hover:text-[#D0771E] transition-colors"><EyeIcon className="w-5 h-5" /></button>
                                         </div>
                                     </div>
                                 </div>
 
                                 <Button
                                     onClick={nextStep}
-                                    className="w-full h-16 bg-[#D0771E] text-white rounded-2xl text-[11px] font-black uppercase tracking-[0.25em] shadow-2xl shadow-orange-100 hover:translate-y-[-2px] transition-all mt-6"
+                                    className="w-full h-16 bg-[#D0771E] text-white rounded-2xl text-[11px] font-black uppercase tracking-[0.25em] shadow-2xl shadow-orange-100 dark:shadow-none hover:translate-y-[-2px] transition-all mt-6"
                                 >
                                     Continue Onboarding
                                 </Button>
                             </div>
 
                             <div className="relative my-12">
-                                <div className="absolute inset-0 flex items-center"><div className="w-full border-t border-gray-50"></div></div>
-                                <div className="relative flex justify-center"><span className="px-6 bg-white text-[10px] font-black uppercase tracking-[0.3em] text-gray-300 italic">Trusted Partner Protocol</span></div>
+                                <div className="absolute inset-0 flex items-center"><div className="w-full border-t border-gray-50 dark:border-gray-800"></div></div>
+                                <div className="relative flex justify-center"><span className="px-6 bg-white dark:bg-gray-900 text-[10px] font-black uppercase tracking-[0.3em] text-gray-300 dark:text-gray-600 italic">Trusted Partner Protocol</span></div>
                             </div>
 
-                            <div className="text-center font-black uppercase tracking-widest text-gray-400 text-[10px]">
+                            <div className="text-center font-black uppercase tracking-widest text-gray-400 dark:text-gray-500 text-[10px]">
                                 Already managing a portfolio? <Link to="/auth/login" className="text-[#D0771E] ml-2 border-b border-[#D0771E]/20 hover:border-[#D0771E] transition-all pb-0.5">Authorize Entry</Link>
                             </div>
                         </div>
@@ -216,8 +219,8 @@ const VendorSignup = () => {
                         <div className="animate-in fade-in slide-in-from-right-4 duration-500">
                             <div className="mb-10">
                                 <h2 className="text-[10px] font-black text-[#D0771E] uppercase tracking-[0.4em] mb-4">Service Matrix</h2>
-                                <h1 className="text-3xl font-black text-[#1D2939] mb-4 uppercase tracking-tighter leading-tight">Define Your <br /> <span className="text-[#D0771E]">Domain.</span></h1>
-                                <p className="text-[11px] font-black text-gray-400 uppercase tracking-widest">Select up to 3 specialties to define your catalog.</p>
+                                <h1 className="text-3xl font-black text-[#1D2939] dark:text-white mb-4 uppercase tracking-tighter leading-tight">Define Your <br /> <span className="text-[#D0771E]">Domain.</span></h1>
+                                <p className="text-[11px] font-black text-gray-400 dark:text-gray-500 uppercase tracking-widest">Select up to 3 specialties to define your catalog.</p>
                             </div>
 
                             <div className="flex flex-wrap gap-2.5 mb-12 max-h-[400px] overflow-y-auto pr-2 scrollbar-hide">
@@ -226,8 +229,8 @@ const VendorSignup = () => {
                                         key={cat}
                                         onClick={() => toggleCategory(cat)}
                                         className={`px-5 py-4 rounded-2xl border text-[10px] font-black uppercase tracking-widest transition-all duration-300 flex items-center gap-3 ${formData.categories.includes(cat)
-                                            ? 'bg-[#1D2939] border-[#1D2939] text-white shadow-xl'
-                                            : 'bg-white border-gray-50 text-gray-400 hover:border-[#D0771E]/30 hover:bg-gray-50 hover:text-[#1D2939]'
+                                            ? 'bg-[#1D2939] dark:bg-gray-800 border-[#1D2939] dark:border-gray-700 text-white shadow-xl dark:shadow-none'
+                                            : 'bg-white dark:bg-gray-800 border-gray-50 dark:border-gray-700 text-gray-400 dark:text-gray-500 hover:border-[#D0771E]/30 dark:hover:border-[#D0771E]/50 hover:bg-gray-50 dark:hover:bg-gray-700 hover:text-[#1D2939] dark:hover:text-white'
                                             }`}
                                     >
                                         {cat}
@@ -239,11 +242,11 @@ const VendorSignup = () => {
                             <div className="space-y-4">
                                 <Button
                                     onClick={nextStep}
-                                    className="w-full h-16 bg-[#D0771E] text-white rounded-2xl text-[11px] font-black uppercase tracking-[0.2em] shadow-2xl shadow-orange-100"
+                                    className="w-full h-16 bg-[#D0771E] text-white rounded-2xl text-[11px] font-black uppercase tracking-[0.2em] shadow-2xl shadow-orange-100 dark:shadow-none"
                                 >
                                     Proceed to Logistics
                                 </Button>
-                                <button onClick={nextStep} className="w-full text-[10px] font-black uppercase tracking-[0.4em] text-gray-300 hover:text-[#D0771E] transition-colors py-4">Skip selection</button>
+                                <button onClick={nextStep} className="w-full text-[10px] font-black uppercase tracking-[0.4em] text-gray-300 dark:text-gray-600 hover:text-[#D0771E] transition-colors py-4">Skip selection</button>
                             </div>
                         </div>
                     )}
@@ -253,41 +256,41 @@ const VendorSignup = () => {
                         <div className="animate-in fade-in slide-in-from-right-4 duration-500">
                             <div className="mb-12">
                                 <h2 className="text-[10px] font-black text-[#D0771E] uppercase tracking-[0.4em] mb-4">Operations Hub</h2>
-                                <h1 className="text-4xl font-black text-[#1D2939] mb-4 uppercase tracking-tighter">Operational <br /> <span className="text-[#D0771E]">Radius.</span></h1>
-                                <p className="text-[11px] font-black text-gray-400 uppercase tracking-widest">Specify your primary base of operations.</p>
+                                <h1 className="text-4xl font-black text-[#1D2939] dark:text-white mb-4 uppercase tracking-tighter">Operational <br /> <span className="text-[#D0771E]">Radius.</span></h1>
+                                <p className="text-[11px] font-black text-gray-400 dark:text-gray-500 uppercase tracking-widest">Specify your primary base of operations.</p>
                             </div>
 
                             <div className="space-y-6 mb-12">
                                 <div className="space-y-2">
-                                    <label className="text-[10px] font-black uppercase tracking-widest text-[#1D2939] ml-1 block">Country / Nation</label>
+                                    <label className="text-[10px] font-black uppercase tracking-widest text-[#1D2939] dark:text-white ml-1 block">Country / Nation</label>
                                     <div className="relative">
-                                        <select className="w-full h-14 px-6 rounded-2xl bg-gray-50 border-none focus:ring-2 focus:ring-[#D0771E] transition-all text-sm font-bold appearance-none">
+                                        <select className="w-full h-14 px-6 rounded-2xl bg-gray-50 dark:bg-gray-800 border-none focus:ring-2 focus:ring-[#D0771E] transition-all text-sm font-bold text-gray-900 dark:text-white appearance-none">
                                             <option>Nigeria</option>
                                             <option>United Kingdom</option>
                                             <option>United States</option>
                                             <option>Canada</option>
                                         </select>
-                                        <ChevronDownIcon className="absolute right-6 top-1/2 -translate-y-1/2 w-4 h-4 text-gray-400 pointer-events-none" />
+                                        <ChevronDownIcon className="absolute right-6 top-1/2 -translate-y-1/2 w-4 h-4 text-gray-400 dark:text-gray-500 pointer-events-none" />
                                     </div>
                                 </div>
                                 <div className="space-y-2">
-                                    <label className="text-[10px] font-black uppercase tracking-widest text-[#1D2939] ml-1 block">State / Region</label>
+                                    <label className="text-[10px] font-black uppercase tracking-widest text-[#1D2939] dark:text-white ml-1 block">State / Region</label>
                                     <div className="relative">
-                                        <select className="w-full h-14 px-6 rounded-2xl bg-gray-50 border-none focus:ring-2 focus:ring-[#D0771E] transition-all text-sm font-bold appearance-none">
+                                        <select className="w-full h-14 px-6 rounded-2xl bg-gray-50 dark:bg-gray-800 border-none focus:ring-2 focus:ring-[#D0771E] transition-all text-sm font-bold text-gray-900 dark:text-white appearance-none">
                                             <option>Lagos State</option>
                                             <option>Abuja FCT</option>
                                             <option>London</option>
                                             <option>New York</option>
                                         </select>
-                                        <ChevronDownIcon className="absolute right-6 top-1/2 -translate-y-1/2 w-4 h-4 text-gray-400 pointer-events-none" />
+                                        <ChevronDownIcon className="absolute right-6 top-1/2 -translate-y-1/2 w-4 h-4 text-gray-400 dark:text-gray-500 pointer-events-none" />
                                     </div>
                                 </div>
                                 <div className="space-y-2">
-                                    <label className="text-[10px] font-black uppercase tracking-widest text-[#1D2939] ml-1 block">City Center</label>
+                                    <label className="text-[10px] font-black uppercase tracking-widest text-[#1D2939] dark:text-white ml-1 block">City Center</label>
                                     <input
                                         type="text"
                                         placeholder="Ex: Ikoyi"
-                                        className="w-full h-14 px-6 rounded-2xl bg-gray-50 border-none focus:ring-2 focus:ring-[#D0771E] transition-all text-sm font-bold placeholder:text-gray-300"
+                                        className="w-full h-14 px-6 rounded-2xl bg-gray-50 dark:bg-gray-800 border-none focus:ring-2 focus:ring-[#D0771E] transition-all text-sm font-bold text-gray-900 dark:text-white placeholder:text-gray-300 dark:placeholder:text-gray-500"
                                     />
                                 </div>
                             </div>
@@ -295,11 +298,11 @@ const VendorSignup = () => {
                             <div className="space-y-4">
                                 <Button
                                     onClick={nextStep}
-                                    className="w-full h-16 bg-[#D0771E] text-white rounded-2xl text-[11px] font-black uppercase tracking-[0.2em] shadow-2xl shadow-orange-100"
+                                    className="w-full h-16 bg-[#D0771E] text-white rounded-2xl text-[11px] font-black uppercase tracking-[0.2em] shadow-2xl shadow-orange-100 dark:shadow-none"
                                 >
                                     Proceed to Media Assets
                                 </Button>
-                                <button onClick={nextStep} className="w-full text-[10px] font-black uppercase tracking-[0.4em] text-gray-300 hover:text-[#D0771E] transition-colors py-4">Skip for now</button>
+                                <button onClick={nextStep} className="w-full text-[10px] font-black uppercase tracking-[0.4em] text-gray-300 dark:text-gray-600 hover:text-[#D0771E] transition-colors py-4">Skip for now</button>
                             </div>
                         </div>
                     )}
@@ -308,32 +311,32 @@ const VendorSignup = () => {
                     {step === 4 && (
                         <div className="animate-in fade-in slide-in-from-right-4 duration-500">
                             <div className="mb-12">
-                                <h1 className="text-4xl font-black text-[#1D2939] mb-4 uppercase tracking-tighter leading-tight">Visual <br /> <span className="text-[#D0771E]">Signature.</span></h1>
-                                <p className="text-[11px] font-black text-gray-400 uppercase tracking-widest">Upload your corporate identification and brand assets.</p>
+                                <h1 className="text-4xl font-black text-[#1D2939] dark:text-white mb-4 uppercase tracking-tighter leading-tight">Visual <br /> <span className="text-[#D0771E]">Signature.</span></h1>
+                                <p className="text-[11px] font-black text-gray-400 dark:text-gray-500 uppercase tracking-widest">Upload your corporate identification and brand assets.</p>
                             </div>
 
                             <div className="space-y-6 mb-12">
                                 <div className="space-y-2 text-center group">
-                                    <label className="text-[10px] font-black uppercase tracking-widest text-[#1D2939] text-left block ml-1 mb-2">Professional Portrait</label>
-                                    <div className="border-[3px] border-dashed border-gray-50 rounded-[40px] p-12 flex flex-col items-center justify-center gap-4 bg-gray-50/10 hover:bg-gray-50/50 hover:border-[#D0771E]/30 transition-all cursor-pointer relative overflow-hidden group">
-                                        <div className="w-16 h-16 bg-white rounded-3xl flex items-center justify-center shadow-xl group-hover:scale-110 group-hover:bg-[#1D2939] transition-all duration-500">
+                                    <label className="text-[10px] font-black uppercase tracking-widest text-[#1D2939] dark:text-white text-left block ml-1 mb-2">Professional Portrait</label>
+                                    <div className="border-[3px] border-dashed border-gray-50 dark:border-gray-800 rounded-[40px] p-12 flex flex-col items-center justify-center gap-4 bg-gray-50/10 dark:bg-gray-800/20 hover:bg-gray-50/50 dark:hover:bg-gray-800/40 hover:border-[#D0771E]/30 dark:hover:border-[#D0771E]/50 transition-all cursor-pointer relative overflow-hidden group">
+                                        <div className="w-16 h-16 bg-white dark:bg-gray-800 rounded-3xl flex items-center justify-center shadow-xl dark:shadow-none group-hover:scale-110 group-hover:bg-[#1D2939] dark:group-hover:bg-gray-700 transition-all duration-500">
                                             <CloudArrowUpIcon className="w-8 h-8 text-[#D0771E] group-hover:text-white" />
                                         </div>
                                         <div className="text-center">
-                                            <p className="text-[10px] font-black uppercase tracking-[0.3em] text-[#1D2939]">Ingest JPG/PNG</p>
-                                            <p className="text-[9px] text-gray-300 font-bold uppercase tracking-widest mt-1">High fidelity required</p>
+                                            <p className="text-[10px] font-black uppercase tracking-[0.3em] text-[#1D2939] dark:text-white">Ingest JPG/PNG</p>
+                                            <p className="text-[9px] text-gray-300 dark:text-gray-500 font-bold uppercase tracking-widest mt-1">High fidelity required</p>
                                         </div>
                                     </div>
                                 </div>
                                 <div className="space-y-2 text-center">
-                                    <label className="text-[10px] font-black uppercase tracking-widest text-[#1D2939] text-left block ml-1 mb-2">Corporate Logotype</label>
-                                    <div className="border-[3px] border-dashed border-gray-50 rounded-[40px] p-12 flex flex-col items-center justify-center gap-4 bg-gray-50/10 hover:bg-gray-50/50 hover:border-[#D0771E]/30 transition-all cursor-pointer group">
-                                        <div className="w-16 h-16 bg-white rounded-3xl flex items-center justify-center shadow-xl group-hover:scale-110 group-hover:bg-[#1D2939] transition-all duration-500">
+                                    <label className="text-[10px] font-black uppercase tracking-widest text-[#1D2939] dark:text-white text-left block ml-1 mb-2">Corporate Logotype</label>
+                                    <div className="border-[3px] border-dashed border-gray-50 dark:border-gray-800 rounded-[40px] p-12 flex flex-col items-center justify-center gap-4 bg-gray-50/10 dark:bg-gray-800/20 hover:bg-gray-50/50 dark:hover:bg-gray-800/40 hover:border-[#D0771E]/30 dark:hover:border-[#D0771E]/50 transition-all cursor-pointer group">
+                                        <div className="w-16 h-16 bg-white dark:bg-gray-800 rounded-3xl flex items-center justify-center shadow-xl dark:shadow-none group-hover:scale-110 group-hover:bg-[#1D2939] dark:group-hover:bg-gray-700 transition-all duration-500">
                                             <CloudArrowUpIcon className="w-8 h-8 text-[#D0771E] group-hover:text-white" />
                                         </div>
                                         <div className="text-center">
-                                            <p className="text-[10px] font-black uppercase tracking-[0.3em] text-[#1D2939]">Brandmark SVG/PNG</p>
-                                            <p className="text-[9px] text-gray-300 font-bold uppercase tracking-widest mt-1">Logo assets (Primary)</p>
+                                            <p className="text-[10px] font-black uppercase tracking-[0.3em] text-[#1D2939] dark:text-white">Brandmark SVG/PNG</p>
+                                            <p className="text-[9px] text-gray-300 dark:text-gray-500 font-bold uppercase tracking-widest mt-1">Logo assets (Primary)</p>
                                         </div>
                                     </div>
                                 </div>
@@ -342,24 +345,24 @@ const VendorSignup = () => {
                             <div className="space-y-4">
                                 <Button
                                     onClick={() => navigate('/onboarding')}
-                                    className="w-full h-18 bg-[#1D2939] text-white rounded-2xl text-[11px] font-black uppercase tracking-[0.3em] shadow-2xl hover:scale-[1.05] transition-all flex items-center justify-center gap-4 group"
+                                    className="w-full h-18 bg-[#1D2939] dark:bg-gray-800 text-white rounded-2xl text-[11px] font-black uppercase tracking-[0.3em] shadow-2xl dark:shadow-none hover:scale-[1.05] transition-all flex items-center justify-center gap-4 group"
                                 >
                                     Start Onboarding
                                     <ArrowRightIcon className="w-5 h-5 group-hover:translate-x-3 transition-transform" />
                                 </Button>
-                                <button onClick={() => navigate('/onboarding')} className="w-full text-[10px] font-black uppercase tracking-[0.4em] text-gray-300 hover:text-[#D0771E] transition-colors py-4">Skip for later</button>
+                                <button onClick={() => navigate('/onboarding')} className="w-full text-[10px] font-black uppercase tracking-[0.4em] text-gray-300 dark:text-gray-600 hover:text-[#D0771E] transition-colors py-4">Skip for later</button>
                             </div>
                         </div>
                     )}
                 </div>
 
                 {/* Bottom Footer Links */}
-                <div className="flex gap-10 pt-16 border-t border-gray-50 mt-auto items-center">
-                    <button className="text-[9px] font-black uppercase tracking-[0.2em] text-gray-300 hover:text-[#D0771E] transition-colors">Vendor Policy</button>
-                    <button className="text-[9px] font-black uppercase tracking-[0.2em] text-gray-300 hover:text-[#D0771E] transition-colors">Compliance</button>
+                <div className="flex gap-10 pt-16 border-t border-gray-50 dark:border-gray-800 mt-auto items-center">
+                    <button className="text-[9px] font-black uppercase tracking-[0.2em] text-gray-300 dark:text-gray-600 hover:text-[#D0771E] transition-colors">Vendor Policy</button>
+                    <button className="text-[9px] font-black uppercase tracking-[0.2em] text-gray-300 dark:text-gray-600 hover:text-[#D0771E] transition-colors">Compliance</button>
                     <div className="ml-auto flex items-center gap-3">
                         <div className="w-1.5 h-1.5 rounded-full bg-emerald-400"></div>
-                        <span className="text-[9px] font-black uppercase tracking-[0.2em] text-[#1D2939]">Ariya Cloud Secure</span>
+                        <span className="text-[9px] font-black uppercase tracking-[0.2em] text-[#1D2939] dark:text-white">Ariya Cloud Secure</span>
                     </div>
                 </div>
             </div>

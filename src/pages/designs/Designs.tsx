@@ -594,7 +594,7 @@ const Designs = () => {
     };
 
     return (
-        <div className="min-h-screen bg-[#F4F6F8] flex flex-col relative leading-relaxed">
+        <div className="min-h-screen bg-[#F4F6F8] dark:bg-gray-900 flex flex-col relative leading-relaxed">
 
             <div className={`flex-1 flex flex-col ${activeTab === 'Design Studio' ? '' : 'max-w-[1600px] mx-auto w-full pb-16'}`}>
 
@@ -642,9 +642,9 @@ const Designs = () => {
                         {/* Upload Card */}
                         <PremiumCard
                             onClick={() => addNotification({ message: 'Asset uploader coming soon!', type: 'info' })}
-                            className="bg-gray-50 border-dashed border-2 border-gray-200 hover:border-[#D0771E] flex flex-col items-center justify-center cursor-pointer min-h-[300px] shadow-none group"
+                            className="bg-gray-50 dark:bg-gray-800 border-dashed border-2 border-gray-200 dark:border-gray-700 hover:border-[#D0771E] dark:hover:border-[#D0771E] flex flex-col items-center justify-center cursor-pointer min-h-[300px] shadow-none dark:shadow-none group"
                         >
-                            <div className="w-16 h-16 rounded-full bg-white shadow-sm flex items-center justify-center mb-6 group-hover:scale-110 transition-transform">
+                            <div className="w-16 h-16 rounded-full bg-white dark:bg-gray-900 shadow-sm dark:shadow-none flex items-center justify-center mb-6 group-hover:scale-110 transition-transform">
                                 <PlusIcon className="w-6 h-6 text-[#D0771E]" />
                             </div>
                             <h3 className="font-black text-xs text-[#1D2939] uppercase tracking-widest mb-1">Create Blank</h3>
@@ -656,9 +656,9 @@ const Designs = () => {
                             <div
                                 key={idx}
                                 onClick={() => handleCategorySelect(category)}
-                                className="group relative rounded-[32px] overflow-hidden cursor-pointer bg-white shadow-lg shadow-gray-100 hover:shadow-2xl hover:shadow-[#D0771E]/10 transition-all duration-500 hover:-translate-y-1 block"
+                                className="group relative rounded-[32px] overflow-hidden cursor-pointer bg-white dark:bg-gray-800 border border-transparent dark:border-gray-700 shadow-lg shadow-gray-100 dark:shadow-none hover:shadow-2xl hover:shadow-[#D0771E]/10 dark:hover:shadow-none transition-all duration-500 hover:-translate-y-1 block"
                             >
-                                <div className="aspect-[3/4] relative overflow-hidden bg-[#F9FAFB]">
+                                <div className="aspect-[3/4] relative overflow-hidden bg-[#F9FAFB] dark:bg-gray-900">
                                     <div className="absolute inset-0 bg-gray-200 animate-pulse" />
                                     <img
                                         src={category.image}
@@ -688,13 +688,13 @@ const Designs = () => {
 
                 {/* --- DESIGN STUDIO TAB --- */}
                 {activeTab === 'Design Studio' && (
-                    <div className="fixed inset-0 z-50 flex flex-col bg-white">
+                    <div className="fixed inset-0 z-50 flex flex-col bg-white dark:bg-gray-900">
                         {/* Studio Header */}
-                        <div className="h-16 bg-white border-b border-gray-100 flex justify-between items-center px-6 shadow-sm z-30 shrink-0">
+                        <div className="h-16 bg-white dark:bg-gray-900 border-b border-gray-100 dark:border-gray-800 flex justify-between items-center px-6 shadow-sm dark:shadow-none z-30 shrink-0">
                             <div className="flex items-center gap-6">
                                 <button
                                     onClick={() => setActiveTab('Designs Types')}
-                                    className="p-2 -ml-2 text-gray-400 hover:text-gray-900 transition-colors rounded-xl hover:bg-gray-50 group flex items-center gap-2"
+                                    className="p-2 -ml-2 text-gray-400 dark:text-gray-500 hover:text-gray-900 dark:hover:text-white transition-colors rounded-xl hover:bg-gray-50 dark:hover:bg-gray-800 group flex items-center gap-2"
                                 >
                                     <ArrowLeftIcon className="w-5 h-5 group-hover:-translate-x-1 transition-transform" />
                                     <span className="text-[10px] font-black uppercase tracking-widest hidden lg:inline">Back</span>
@@ -702,18 +702,18 @@ const Designs = () => {
                                 <div className="h-6 w-px bg-gray-100"></div>
                                 <div>
                                     <div className="flex items-center gap-3">
-                                        <h2 className="text-sm font-black text-[#1D2939] uppercase tracking-wide">{selectedCategory?.title || 'Untitled Design'}</h2>
+                                        <h2 className="text-sm font-black text-[#1D2939] dark:text-white uppercase tracking-wide">{selectedCategory?.title || 'Untitled Design'}</h2>
                                         <span className="px-2 py-0.5 rounded-lg text-[9px] font-black bg-orange-50 text-[#D0771E] uppercase tracking-widest">{canvasState.tone}</span>
                                     </div>
-                                    <p className="text-[9px] font-bold text-gray-300 uppercase tracking-wider mt-0.5">Last saved just now</p>
+                                    <p className="text-[9px] font-bold text-gray-300 dark:text-gray-500 uppercase tracking-wider mt-0.5">Last saved just now</p>
                                 </div>
                             </div>
 
-                            <div className="flex items-center gap-4">
-                                <div className="flex bg-gray-50 rounded-xl p-1 gap-1 border border-gray-100">
-                                    <button className="p-2 hover:bg-white rounded-lg text-gray-400 hover:text-gray-900 transition-all shadow-sm"><DevicePhoneMobileIcon className="w-4 h-4" /></button>
-                                    <button className="p-2 bg-white rounded-lg text-[#1D2939] shadow-sm"><ArrowsPointingOutIcon className="w-4 h-4" /></button>
-                                </div>
+                                <div className="flex items-center gap-4">
+                                    <div className="flex bg-gray-50 dark:bg-gray-800 rounded-xl p-1 gap-1 border border-gray-100 dark:border-gray-700">
+                                        <button className="p-2 hover:bg-white dark:hover:bg-gray-700 rounded-lg text-gray-400 dark:text-gray-300 hover:text-gray-900 dark:hover:text-white transition-all shadow-sm dark:shadow-none"><DevicePhoneMobileIcon className="w-4 h-4" /></button>
+                                        <button className="p-2 bg-white dark:bg-gray-900 rounded-lg text-[#1D2939] dark:text-white shadow-sm dark:shadow-none"><ArrowsPointingOutIcon className="w-4 h-4" /></button>
+                                    </div>
                                 <div className="h-6 w-px bg-gray-100"></div>
                                 <Button onClick={handleSaveDesign} isDisabled={isSaving} variant="primary" size="sm" className="rounded-xl text-[10px] font-black uppercase tracking-widest px-6 bg-[#1D2939] hover:bg-black text-white shadow-xl shadow-gray-200/50 h-10">
                                     {isSaving ? 'Saving...' : 'Export Asset'}
@@ -723,9 +723,9 @@ const Designs = () => {
 
                         <div className="flex-1 flex overflow-hidden">
                             {/* 1. LEFT SIDEBAR - Navigation Rail + Content Drawer */}
-                            <div className="flex w-[420px] bg-white border-r border-gray-100 z-20 flex-shrink-0 shadow-[4px_0_24px_rgba(0,0,0,0.02)]">
+                            <div className="flex w-[420px] bg-white dark:bg-gray-900 border-r border-gray-100 dark:border-gray-800 z-20 flex-shrink-0 shadow-[4px_0_24px_rgba(0,0,0,0.02)] dark:shadow-none">
                                 {/* Icon Rail */}
-                                <div className="w-[88px] flex flex-col items-center py-8 gap-4 border-r border-gray-50 bg-white">
+                                <div className="w-[88px] flex flex-col items-center py-8 gap-4 border-r border-gray-50 dark:border-gray-800 bg-white dark:bg-gray-900">
                                     {[
                                         { id: 'templates', icon: ViewColumnsIcon, label: 'Layout' },
                                         { id: 'elements', icon: Square2StackIcon, label: 'Assets' },
@@ -737,7 +737,7 @@ const Designs = () => {
                                             key={tab.id}
                                             onClick={() => setStudioTab(tab.id as any)}
                                             className={`flex flex-col items-center gap-2 p-3 w-16 rounded-2xl transition-all relative group
-                                                ${studioTab === tab.id ? 'bg-[#1D2939] text-white shadow-lg shadow-gray-300' : 'text-gray-400 hover:text-gray-900 hover:bg-gray-50'}
+                                                ${studioTab === tab.id ? 'bg-[#1D2939] text-white shadow-lg shadow-gray-300 dark:shadow-none' : 'text-gray-400 dark:text-gray-500 hover:text-gray-900 dark:hover:text-white hover:bg-gray-50 dark:hover:bg-gray-800'}
                                             `}
                                         >
                                             <tab.icon className="w-6 h-6" />
@@ -747,15 +747,15 @@ const Designs = () => {
                                 </div>
 
                                 {/* Content Panel */}
-                                <div className="flex-1 flex flex-col bg-white">
+                                <div className="flex-1 flex flex-col bg-white dark:bg-gray-900">
                                     {/* Search Header */}
-                                    <div className="p-6 border-b border-gray-50">
+                                    <div className="p-6 border-b border-gray-50 dark:border-gray-800">
                                         <div className="relative group">
-                                            <MagnifyingGlassIcon className="w-5 h-5 absolute left-4 top-3.5 text-gray-400 group-focus-within:text-[#D0771E] transition-colors" />
+                                            <MagnifyingGlassIcon className="w-5 h-5 absolute left-4 top-3.5 text-gray-400 dark:text-gray-500 group-focus-within:text-[#D0771E] transition-colors" />
                                             <input
                                                 type="text"
                                                 placeholder={`Search ${studioTab}...`}
-                                                className="w-full bg-gray-50/50 border-none rounded-2xl py-3.5 pl-12 pr-4 text-xs font-bold focus:ring-2 focus:ring-[#D0771E]/10 focus:bg-white text-gray-900 placeholder:text-gray-400 transition-all"
+                                                className="w-full bg-gray-50/50 dark:bg-gray-800/80 border-none rounded-2xl py-3.5 pl-12 pr-4 text-xs font-bold focus:ring-2 focus:ring-[#D0771E]/10 focus:bg-white dark:focus:bg-gray-900 text-gray-900 dark:text-white placeholder:text-gray-400 dark:placeholder:text-gray-500 transition-all"
                                             />
                                         </div>
                                     </div>
@@ -766,7 +766,7 @@ const Designs = () => {
                                             <div className="space-y-6">
                                                 {['Matching Suites', 'Invitation', 'Menus'].map(cat => (
                                                     <div key={cat}>
-                                                        <h3 className="text-xs font-bold text-gray-900 mb-3 uppercase tracking-wider">{cat}</h3>
+                                                        <h3 className="text-xs font-bold text-gray-900 dark:text-white mb-3 uppercase tracking-wider">{cat}</h3>
                                                         <div className="grid grid-cols-2 gap-3">
                                                             {TEMPLATES.filter(t => t.category === cat).map(template => (
                                                                 <div
@@ -780,12 +780,12 @@ const Designs = () => {
                                                                         }));
                                                                         addNotification({ message: `Loaded ${template.name}`, type: 'success' });
                                                                     }}
-                                                                    className="aspect-[3/4] bg-gray-50 rounded-lg border border-gray-200 overflow-hidden hover:ring-2 hover:ring-[#D0771E] cursor-pointer transition-all group relative"
+                                                                    className="aspect-[3/4] bg-gray-50 dark:bg-gray-800 rounded-lg border border-gray-200 dark:border-gray-700 overflow-hidden hover:ring-2 hover:ring-[#D0771E] cursor-pointer transition-all group relative"
                                                                 >
-                                                                    <div className="absolute inset-0 flex items-center justify-center bg-white/50">
-                                                                        <span className="text-[10px] font-bold text-gray-400 capitalize">{template.name}</span>
+                                                                    <div className="absolute inset-0 flex items-center justify-center bg-white/50 dark:bg-gray-900/60">
+                                                                        <span className="text-[10px] font-bold text-gray-400 dark:text-gray-500 capitalize">{template.name}</span>
                                                                     </div>
-                                                                    <div className="absolute bottom-2 left-2 right-2 bg-white/90 backdrop-blur px-2 py-1 rounded text-[10px] font-bold opacity-0 group-hover:opacity-100 transition-opacity whitespace-nowrap overflow-hidden text-ellipsis">{template.name}</div>
+                                                                    <div className="absolute bottom-2 left-2 right-2 bg-white/90 dark:bg-gray-900/90 backdrop-blur px-2 py-1 rounded text-[10px] font-bold opacity-0 group-hover:opacity-100 transition-opacity whitespace-nowrap overflow-hidden text-ellipsis">{template.name}</div>
                                                                 </div>
                                                             ))}
                                                         </div>
@@ -797,13 +797,13 @@ const Designs = () => {
                                         {studioTab === 'elements' && (
                                             <div className="space-y-6">
                                                 <div>
-                                                    <h3 className="text-xs font-bold text-gray-900 mb-3 uppercase tracking-wider">Shapes</h3>
+                                                    <h3 className="text-xs font-bold text-gray-900 dark:text-white mb-3 uppercase tracking-wider">Shapes</h3>
                                                     <div className="grid grid-cols-4 gap-3">
                                                         {['rounded-none', 'rounded-lg', 'rounded-full', 'rotate-45'].map((cls, i) => (
                                                             <div
                                                                 key={i}
                                                                 onClick={() => addElement('shape', undefined, { backgroundColor: '#D0771E', borderRadius: cls.includes('full') ? '9999px' : cls.includes('lg') ? '8px' : '0px', rotation: cls.includes('45') ? 45 : 0 })}
-                                                                className={`aspect-square bg-gray-100 border-2 border-transparent hover:border-[#D0771E] cursor-pointer flex items-center justify-center text-gray-400 hover:text-[#D0771E] transition-all ${cls === 'rounded-full' ? 'rounded-full' : 'rounded-md'}`}
+                                                                className={`aspect-square bg-gray-100 dark:bg-gray-800 border-2 border-transparent hover:border-[#D0771E] cursor-pointer flex items-center justify-center text-gray-400 dark:text-gray-500 hover:text-[#D0771E] transition-all ${cls === 'rounded-full' ? 'rounded-full' : 'rounded-md'}`}
                                                             >
                                                                 <div className={`w-6 h-6 bg-current opacity-20 ${cls}`}></div>
                                                             </div>
@@ -813,10 +813,10 @@ const Designs = () => {
                                                 <Button
                                                     variant="ghost"
                                                     size="md"
-                                                    className={`w-full text-left transition-all rounded-2xl border border-gray-100 hover:border-gray-300`}
+                                                    className={`w-full text-left transition-all rounded-2xl border border-gray-100 dark:border-gray-700 hover:border-gray-300 dark:hover:border-gray-500`}
                                                     onClick={() => addElement('text', 'Heading', { fontSize: '64px', fontFamily: 'font-serif', fontWeight: '900', color: '#1D2939' })}
                                                 >
-                                                    <div className="text-3xl font-black font-serif tracking-tighter leading-none mb-1 text-[#1D2939]">Heading</div>
+                                                    <div className="text-3xl font-black font-serif tracking-tighter leading-none mb-1 text-[#1D2939] dark:text-white">Heading</div>
                                                     <Typography variant="caption" color="muted" className="uppercase tracking-widest" as="span">
                                                         Display Serif
                                                     </Typography>
@@ -824,31 +824,31 @@ const Designs = () => {
                                                 <Button
                                                     variant="ghost"
                                                     size="md"
-                                                    className={`w-full text-left transition-all rounded-2xl border border-gray-100 hover:border-gray-300`}
+                                                    className={`w-full text-left transition-all rounded-2xl border border-gray-100 dark:border-gray-700 hover:border-gray-300 dark:hover:border-gray-500`}
                                                     onClick={() => addElement('text', 'Subheading', { fontSize: '32px', fontFamily: 'font-sans', fontWeight: '700', color: '#1D2939' })}
                                                 >
-                                                    <div className="text-2xl font-black font-sans tracking-tight leading-none mb-1 text-[#1D2939]">Subheading</div>
+                                                    <div className="text-2xl font-black font-sans tracking-tight leading-none mb-1 text-[#1D2939] dark:text-white">Subheading</div>
                                                     <Typography variant="caption" color="muted" className="uppercase tracking-widest" as="span">
                                                         Bold Modern Sans
                                                     </Typography>
                                                 </Button>
                                                 <div>
-                                                    <h3 className="text-xs font-bold text-gray-900 mb-3 uppercase tracking-wider mt-6">Stickers</h3>
-                                                    <div className="p-8 text-center bg-gray-50 rounded-2xl border-2 border-dashed border-gray-200 hover:border-[#D0771E] transition-colors group cursor-pointer" onClick={() => addElement('shape', undefined, { backgroundColor: '#FFD700', borderRadius: '50%', width: 50, height: 50 })}>
-                                                        <div className="w-16 h-16 bg-white rounded-full flex items-center justify-center mx-auto mb-4 shadow-sm group-hover:scale-110 transition-transform">
+                                                    <h3 className="text-xs font-bold text-gray-900 dark:text-white mb-3 uppercase tracking-wider mt-6">Stickers</h3>
+                                                    <div className="p-8 text-center bg-gray-50 dark:bg-gray-800 rounded-2xl border-2 border-dashed border-gray-200 dark:border-gray-600 hover:border-[#D0771E] transition-colors group cursor-pointer" onClick={() => addElement('shape', undefined, { backgroundColor: '#FFD700', borderRadius: '50%', width: 50, height: 50 })}>
+                                                        <div className="w-16 h-16 bg-white dark:bg-gray-900 rounded-full flex items-center justify-center mx-auto mb-4 shadow-sm dark:shadow-none group-hover:scale-110 transition-transform">
                                                             <PlusIcon className="w-8 h-8 text-[#D0771E]" />
                                                         </div>
-                                                        <h3 className="font-bold text-gray-900 mb-1">Create Custom</h3>
-                                                        <p className="text-sm text-gray-500 mb-6">Add placeholder</p>
+                                                        <h3 className="font-bold text-gray-900 dark:text-white mb-1">Create Custom</h3>
+                                                        <p className="text-sm text-gray-500 dark:text-gray-400 mb-6">Add placeholder</p>
                                                     </div>
 
-                                                    <div className="p-8 text-center bg-indigo-50 rounded-2xl border border-indigo-100 mt-4">
-                                                        <div className="w-16 h-16 bg-white rounded-full flex items-center justify-center mx-auto mb-4 shadow-sm">
-                                                            <SparklesIcon className="w-8 h-8 text-indigo-600" />
+                                                    <div className="p-8 text-center bg-indigo-50 dark:bg-indigo-900/30 rounded-2xl border border-indigo-100 dark:border-indigo-900 mt-4">
+                                                        <div className="w-16 h-16 bg-white dark:bg-gray-900 rounded-full flex items-center justify-center mx-auto mb-4 shadow-sm dark:shadow-none">
+                                                            <SparklesIcon className="w-8 h-8 text-indigo-600 dark:text-indigo-300" />
                                                         </div>
-                                                        <h3 className="font-bold text-gray-900 mb-1">AI Design Assistant</h3>
-                                                        <p className="text-sm text-gray-500 mb-6">Let AI generate designs for you</p>
-                                                        <Button variant="primary" size="lg" className="bg-indigo-600 hover:bg-indigo-700 rounded-2xl" onClick={() => addNotification({ message: 'AI Assistant coming soon', type: 'info' })}>
+                                                        <h3 className="font-bold text-gray-900 dark:text-white mb-1">AI Design Assistant</h3>
+                                                        <p className="text-sm text-gray-500 dark:text-gray-400 mb-6">Let AI generate designs for you</p>
+                                                        <Button variant="primary" size="lg" className="bg-indigo-600 hover:bg-indigo-700 rounded-2xl shadow-lg shadow-indigo-200/40 dark:shadow-none" onClick={() => addNotification({ message: 'AI Assistant coming soon', type: 'info' })}>
                                                             Generate with AI
                                                         </Button>
                                                     </div>
@@ -1295,9 +1295,9 @@ const Designs = () => {
                                     handleCategorySelect(designCategories.find(c => c.title === design.category) || designCategories[0]);
                                     setActiveTab('Design Studio');
                                 }}
-                                className="group relative rounded-[32px] overflow-hidden cursor-pointer bg-white shadow-lg shadow-gray-100 hover:shadow-2xl hover:shadow-[#D0771E]/10 transition-all duration-500 hover:-translate-y-1 block"
+                                className="group relative rounded-[32px] overflow-hidden cursor-pointer bg-white dark:bg-gray-800 border border-transparent dark:border-gray-700 shadow-lg shadow-gray-100 dark:shadow-none hover:shadow-2xl hover:shadow-[#D0771E]/10 dark:hover:shadow-none transition-all duration-500 hover:-translate-y-1 block"
                             >
-                                <div className="aspect-[3/4] relative overflow-hidden bg-[#F9FAFB]">
+                                <div className="aspect-[3/4] relative overflow-hidden bg-[#F9FAFB] dark:bg-gray-900">
                                     <div className="absolute inset-0 bg-gray-200 animate-pulse" />
                                     <img
                                         src={design.image}
@@ -1312,7 +1312,7 @@ const Designs = () => {
                                             e.stopPropagation();
                                             toggleFavourite(design.id);
                                         }}
-                                        className="absolute top-4 right-4 p-2.5 rounded-full bg-white/20 backdrop-blur-md border border-white/30 text-white hover:bg-white hover:text-red-500 transition-all z-10"
+                                        className="absolute top-4 right-4 p-2.5 rounded-full bg-white/20 dark:bg-gray-900/40 backdrop-blur-md border border-white/30 dark:border-gray-700 text-white hover:bg-white hover:text-red-500 dark:hover:bg-gray-900 dark:hover:text-red-400 transition-all z-10"
                                     >
                                         <HeartIcon className={`w-5 h-5 ${design.isFavourite ? 'fill-current text-red-500' : ''}`} />
                                     </button>
@@ -1345,11 +1345,11 @@ const Designs = () => {
 
                 {/* --- SEND INVITATIONS TAB --- (Kept original logic with improved padding) */}
                 {activeTab === 'Send Invitations' && (
-                    <div className="bg-white rounded-[40px] shadow-2xl shadow-gray-200 border border-gray-100 p-20 max-w-4xl mx-auto w-full relative overflow-hidden mt-10">
-                        <div className="absolute -top-40 -left-40 w-96 h-96 bg-orange-50/50 rounded-full blur-[100px]"></div>
+                    <div className="bg-white dark:bg-gray-900 rounded-[40px] shadow-2xl shadow-gray-200 dark:shadow-none border border-gray-100 dark:border-gray-700 p-20 max-w-4xl mx-auto w-full relative overflow-hidden mt-10">
+                        <div className="absolute -top-40 -left-40 w-96 h-96 bg-orange-50/50 dark:bg-orange-900/20 rounded-full blur-[100px]"></div>
 
                         <div className="text-center mb-16 relative z-10">
-                            <div className="w-28 h-28 bg-[#1D2939] text-white rounded-[40px] flex items-center justify-center mx-auto mb-8 shadow-3xl rotate-6 transition-transform hover:rotate-0">
+                            <div className="w-28 h-28 bg-[#1D2939] text-white rounded-[40px] flex items-center justify-center mx-auto mb-8 shadow-3xl dark:shadow-none rotate-6 transition-transform hover:rotate-0">
                                 <RocketLaunchIcon className="w-12 h-12" />
                             </div>
                             <Typography variant="h2" className="tracking-tighter uppercase mb-4" as="h2">
@@ -1363,8 +1363,8 @@ const Designs = () => {
                         <div className="space-y-12 relative z-10">
                             <div className="grid grid-cols-1 md:grid-cols-2 gap-10">
                                 <div className="space-y-4">
-                                    <label className="block text-[10px] font-black text-gray-400 uppercase tracking-[0.4em] ml-2">Choose Selection</label>
-                                    <select className="w-full rounded-3xl bg-gray-50 border-transparent py-6 px-10 text-xs font-black text-[#1D2939] focus:bg-white focus:border-[#D0771E] focus:ring-0 appearance-none shadow-inner">
+                                    <label className="block text-[10px] font-black text-gray-400 dark:text-gray-500 uppercase tracking-[0.4em] ml-2">Choose Selection</label>
+                                    <select className="w-full rounded-3xl bg-gray-50 dark:bg-gray-800 border-transparent py-6 px-10 text-xs font-black text-[#1D2939] dark:text-white focus:bg-white dark:focus:bg-gray-900 focus:border-[#D0771E] focus:ring-0 appearance-none shadow-inner dark:shadow-none">
                                         {myDesigns.map(d => <option key={d.id}>{d.title}</option>)}
                                     </select>
                                 </div>

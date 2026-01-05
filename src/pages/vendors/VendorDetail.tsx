@@ -283,8 +283,10 @@ const VendorDetail = () => {
                 {activeTab === 'Reviews' && (
                   <div>
                     <div className="flex justify-between items-center mb-8">
-                      <h3 className="text-[10px] font-black text-gray-400 uppercase tracking-widest">Customer Reviews</h3>
-                      <button className="text-[#D0771E] text-xs font-black uppercase tracking-widest hover:underline">Write a review</button>
+                      <h3 className="text-[10px] font-black text-gray-400 dark:text-gray-500 uppercase tracking-widest">Customer Reviews</h3>
+                      <button className="text-[#D0771E] dark:text-orange-300 text-xs font-black uppercase tracking-widest hover:underline focus:outline-none focus-visible:ring-2 focus-visible:ring-offset-2 focus-visible:ring-[#D0771E] focus-visible:ring-offset-gray-900 rounded">
+                        Write a review
+                      </button>
                     </div>
                     <div className="space-y-8">
                       {[
@@ -292,28 +294,33 @@ const VendorDetail = () => {
                         { name: "Credbevy Tech", type: "Corporate", time: "1 month ago", text: "Exceptional service for our annual company gala. The team was professional, creative, and delivered beyond expectations.", rating: 5 },
                         { name: "Lisa Chen", type: "Birthday", time: "2 months ago", text: "Great coordination despite the short notice. The team handled everything flawlessly.", rating: 4 },
                       ].map((review, idx) => (
-                        <div key={idx} className="border-b border-gray-50 pb-8 last:border-0 last:pb-0">
+                        <div key={idx} className="border-b border-gray-50 dark:border-gray-800 pb-8 last:border-0 last:pb-0">
                           <div className="flex items-center justify-between mb-4">
                             <div className="flex items-center gap-3">
-                              <div className="w-10 h-10 rounded-full bg-gray-100 flex items-center justify-center text-xs font-black text-gray-500">
+                              <div className="w-10 h-10 rounded-full bg-gray-100 dark:bg-gray-800 flex items-center justify-center text-xs font-black text-gray-500 dark:text-gray-300">
                                 {review.name.charAt(0)}
                               </div>
                               <div>
-                                <h4 className="font-black text-sm text-gray-900">{review.name}</h4>
-                                <div className="flex items-center gap-2 text-[10px] text-gray-400 uppercase tracking-wide font-bold">
+                                <h4 className="font-black text-sm text-gray-900 dark:text-white">{review.name}</h4>
+                                <div className="flex items-center gap-2 text-[10px] text-gray-400 dark:text-gray-500 uppercase tracking-wide font-bold">
                                   <span>{review.type}</span>
                                   <span>•</span>
                                   <span>{review.time}</span>
                                 </div>
                               </div>
                             </div>
-                            <div className="flex gap-0.5">
+                            <div className="flex gap-0.5" aria-label={`${review.rating} out of 5 stars`}>
                               {[...Array(5)].map((_, i) => (
-                                <StarIcon key={i} className={`w-4 h-4 ${i < review.rating ? 'text-[#E8B716]' : 'text-gray-200'}`} />
+                                <StarIcon
+                                  key={i}
+                                  className={`w-4 h-4 ${i < review.rating ? 'text-[#E8B716]' : 'text-gray-200 dark:text-gray-700'}`}
+                                />
                               ))}
                             </div>
                           </div>
-                          <p className="text-sm text-gray-600 leading-relaxed font-medium pl-13">{review.text}</p>
+                          <p className="text-sm text-gray-600 dark:text-gray-300 leading-relaxed font-medium pl-13">
+                            {review.text}
+                          </p>
                         </div>
                       ))}
                     </div>
@@ -335,9 +342,11 @@ const VendorDetail = () => {
                     </div>
                     <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
                       {['January 2025', 'February 2025'].map((month, idx) => (
-                        <div key={month} className="border border-gray-100 rounded-3xl p-6 hover:shadow-lg transition-all duration-300">
-                          <h4 className="font-black text-gray-900 mb-6 uppercase tracking-wide text-sm">{month}</h4>
-                          <div className="grid grid-cols-7 gap-2 text-center text-[10px] font-black uppercase tracking-widest text-gray-400 mb-4">
+                        <div key={month} className="border border-gray-100 dark:border-gray-700 rounded-3xl p-6 hover:shadow-lg dark:hover:shadow-none transition-all duration-300">
+                          <h4 className="font-black text-gray-900 dark:text-white mb-6 uppercase tracking-wide text-sm">
+                            {month}
+                          </h4>
+                          <div className="grid grid-cols-7 gap-2 text-center text-[10px] font-black uppercase tracking-widest text-gray-400 dark:text-gray-500 mb-4">
                             {['Sun', 'Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat'].map(d => (
                               <div key={d}>{d}</div>
                             ))}
@@ -346,11 +355,12 @@ const VendorDetail = () => {
                             {/* Simple placeholder calendar logic */}
                             {[...Array(idx === 0 ? 3 : 0)].map((_, i) => <div key={`empty-${i}`}></div>)}
                             {[...Array(31)].map((_, i) => (
-                              <div key={i}
+                              <div
+                                key={i}
                                 className={`w-8 h-8 flex items-center justify-center rounded-full mx-auto transition-all duration-300
                                 ${i === 15 || i === 20
-                                    ? 'bg-gray-50 text-gray-300 decoration-gray-300 cursor-not-allowed'
-                                    : 'hover:bg-[#D0771E] hover:text-white cursor-pointer text-gray-700'
+                                    ? 'bg-gray-50 text-gray-300 dark:bg-gray-800 dark:text-gray-500 decoration-gray-300 cursor-not-allowed'
+                                    : 'hover:bg-[#D0771E] hover:text-white cursor-pointer text-gray-700 dark:text-gray-200'
                                   }`}
                               >
                                 {i + 1}
@@ -428,7 +438,9 @@ const VendorDetail = () => {
 
             {/* Trust & Safety */}
             <PremiumCard className="p-6">
-              <h3 className="text-[10px] font-black text-gray-400 uppercase tracking-widest mb-6 border-b border-gray-50 pb-4">Trust & Safety</h3>
+              <h3 className="text-[10px] font-black text-gray-400 dark:text-gray-500 uppercase tracking-widest mb-6 border-b border-gray-50 dark:border-gray-800 pb-4">
+                Trust & Safety
+              </h3>
               <div className="space-y-4">
                 {[
                   { icon: CheckBadgeIcon, text: "Identity Verified" },
@@ -436,10 +448,12 @@ const VendorDetail = () => {
                   { icon: CheckBadgeIcon, text: "Industry Certified" }
                 ].map((item, i) => (
                   <div key={i} className="flex items-center gap-3 group">
-                    <div className="w-8 h-8 rounded-full bg-green-50 flex items-center justify-center text-green-600 group-hover:bg-green-100 transition-colors">
+                    <div className="w-8 h-8 rounded-full bg-green-50 dark:bg-green-900/30 flex items-center justify-center text-green-600 dark:text-green-300 group-hover:bg-green-100 dark:group-hover:bg-green-900/50 transition-colors">
                       <item.icon className="w-4 h-4" />
                     </div>
-                    <span className="text-xs font-bold text-gray-700">{item.text}</span>
+                    <span className="text-xs font-bold text-gray-700 dark:text-gray-200">
+                      {item.text}
+                    </span>
                   </div>
                 ))}
               </div>
