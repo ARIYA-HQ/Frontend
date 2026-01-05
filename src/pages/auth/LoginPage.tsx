@@ -27,12 +27,11 @@ const LoginPage = () => {
         // Redirect based on role
         if (response.data.user.role === 'vendor') {
           navigate('/dashboard/vendor');
-        } else if (response.data.user.role === 'professional_event_planner') {
-          navigate('/dashboard/professional-planner');
         } else if (response.data.user.role === 'admin') {
           navigate('/dashboard/admin');
         } else {
-          navigate('/dashboard/planner');
+          // Unified dashboard for both personal_planner and professional_event_planner
+          navigate('/dashboard');
         }
       } else {
         setError(response.error?.message || 'Login failed. Please check your credentials.');

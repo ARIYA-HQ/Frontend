@@ -16,6 +16,10 @@ import {
   BriefcaseIcon,
   ArrowPathIcon,
   ChartBarIcon,
+  DocumentTextIcon,
+  DocumentCheckIcon,
+  UsersIcon,
+  ArrowTrendingUpIcon,
 } from '@heroicons/react/24/solid';
 import { classNames as cn } from '../../utils/classNames';
 
@@ -41,16 +45,19 @@ const plannerNavigation = [
 
 const professionalPlannerNavigation = [
   { name: 'Dashboard', href: '/dashboard', icon: HomeIcon },
-  { name: 'Client Events', href: '/events', icon: CalendarDaysIcon },
+  { name: 'Events', href: '/events', icon: CalendarDaysIcon },
   { name: 'Vendors', href: '/vendors', icon: BuildingStorefrontIcon },
   { name: 'My Vendors', href: '/dashboard/my-vendors', icon: BriefcaseIcon },
-  { name: 'Client Budgets', href: '/budget', icon: BanknotesIcon },
-  { name: 'Client Websites', href: '/website', icon: GlobeAltIcon },
+  { name: 'Budget', href: '/budget', icon: BanknotesIcon },
+  { name: 'Website', href: '/website', icon: GlobeAltIcon },
+  { name: 'Clients', href: '/clients', icon: UserGroupIcon },
+  { name: 'Report', href: '/report', icon: DocumentTextIcon },
+  { name: 'Proposals', href: '/proposals', icon: DocumentCheckIcon },
+  { name: 'Team', href: '/team', icon: UsersIcon },
   { name: 'Designs', href: '/designs', icon: PhotoIcon },
-  { name: 'Client Registry', href: '/registry', icon: GiftIcon },
-  { name: 'Client Guests', href: '/guests', icon: UserGroupIcon },
+  { name: 'Registry', href: '/registry', icon: GiftIcon },
+  { name: 'Guests', href: '/guests', icon: UserGroupIcon },
   { name: 'Messages', href: '/messages', icon: ChatBubbleLeftRightIcon },
-  { name: 'Client Management', href: '/clients', icon: UserGroupIcon },
   { name: 'Settings', href: '/settings', icon: Cog6ToothIcon },
 ];
 
@@ -58,9 +65,11 @@ const vendorNavigation = [
   { name: 'Dashboard', href: '/dashboard/vendor', icon: HomeIcon },
   { name: 'Pipeline', href: '/dashboard/vendor/pipeline', icon: ArrowPathIcon },
   { name: 'Operations', href: '/dashboard/vendor/operations', icon: BriefcaseIcon },
+  { name: 'Analytics', href: '/dashboard/vendor/analytics', icon: ChartBarIcon },
+  { name: 'Service Listings', href: '/dashboard/vendor/services', icon: BuildingStorefrontIcon },
   { name: 'Calendar', href: '/dashboard/vendor/calendar', icon: CalendarDaysIcon },
   { name: 'Finances', href: '/dashboard/vendor/finances', icon: BanknotesIcon },
-  { name: 'Growth', href: '/dashboard/vendor/growth', icon: ChartBarIcon },
+  { name: 'Growth', href: '/dashboard/vendor/growth', icon: ArrowTrendingUpIcon },
   { name: 'Settings', href: '/dashboard/vendor/settings', icon: Cog6ToothIcon },
 ];
 
@@ -74,6 +83,8 @@ const Sidebar = ({ isOpen, onClose, userRole = 'planner' }: SidebarProps) => {
         return 'Vendor';
       case 'professional_event_planner':
         return 'Pro Planner';
+      case 'personal_planner':
+        return 'Planner';
       case 'admin':
         return 'Admin';
       default:
@@ -87,6 +98,7 @@ const Sidebar = ({ isOpen, onClose, userRole = 'planner' }: SidebarProps) => {
   } else if (userRole === 'professional_event_planner') {
     navigation = professionalPlannerNavigation;
   } else {
+    // Default to personal planner navigation for 'personal_planner' or 'planner'
     navigation = plannerNavigation;
   }
 

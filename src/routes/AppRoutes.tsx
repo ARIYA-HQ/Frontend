@@ -4,8 +4,7 @@ import AuthLayout from '../components/layout/AuthLayout';
 import PublicLayout from '../components/layout/PublicLayout';
 
 // Dashboard pages
-import EventPlannerDashboard from '../pages/dashboard/EventPlannerDashboard';
-import ProfessionalPlannerDashboard from '../pages/dashboard/ProfessionalPlannerDashboard';
+import PlannerDashboard from '../pages/dashboard/PlannerDashboard';
 import AdminDashboard from '../pages/dashboard/AdminDashboard';
 import BudgetTracker from '../pages/dashboard/BudgetTracker';
 import GuestList from '../pages/dashboard/GuestList';
@@ -28,6 +27,12 @@ import Reviews from '../pages/dashboard/vendor/Reviews';
 import VendorCalendar from '../pages/dashboard/vendor/VendorCalendar';
 import VendorFinances from '../pages/dashboard/vendor/VendorFinances';
 import VendorGrowth from '../pages/dashboard/vendor/VendorGrowth';
+import VendorAnalytics from '../pages/dashboard/vendor/VendorAnalytics';
+
+// Professional Planner pages
+import Report from '../pages/dashboard/Report';
+import Proposals from '../pages/dashboard/Proposals';
+import Team from '../pages/dashboard/Team';
 
 // Auth pages
 import { lazy } from 'react';
@@ -94,13 +99,11 @@ const AppRoutes = () => {
         <Route path="professional-planner-signup" element={<ProfessionalPlannerSignup />} />
       </Route>
 
-      {/* Dashboard Routes */}
+      {/* Dashboard Routes - Unified Planner Dashboard (Personal & Professional) */}
       <Route path="/dashboard" element={<DashboardLayout />}>
-        <Route index element={<EventPlannerDashboard />} />
-        <Route path="planner" element={<EventPlannerDashboard />} />
+        <Route index element={<PlannerDashboard />} />
         <Route path="vendor" element={<VendorDashboardPage />} />
         <Route path="admin" element={<AdminDashboard />} />
-        <Route path="professional-planner" element={<ProfessionalPlannerDashboard />} />
         <Route path="ai-planner" element={<AIPlanner />} />
         <Route path="guests" element={<GuestList />} />
         <Route path="seating" element={<Seating />} />
@@ -116,11 +119,12 @@ const AppRoutes = () => {
         <Route index element={<VendorDashboardPage />} />
         <Route path="pipeline" element={<VendorInquiries />} />
         <Route path="operations" element={<VendorBookings />} />
+        <Route path="analytics" element={<VendorAnalytics />} />
+        <Route path="services" element={<ServicesAndPricing />} />
         <Route path="calendar" element={<VendorCalendar />} />
         <Route path="finances" element={<VendorFinances />} />
         <Route path="growth" element={<VendorGrowth />} />
         <Route path="settings" element={<VendorProfile />} />
-        <Route path="services" element={<ServicesAndPricing />} />
         <Route path="availability" element={<Availability />} />
         <Route path="reviews" element={<Reviews />} />
       </Route>
@@ -174,6 +178,19 @@ const AppRoutes = () => {
       {/* Clients Route */}
       <Route path="/clients" element={<DashboardLayout />}>
         <Route index element={<ClientsPage />} />
+      </Route>
+
+      {/* Professional Planner Routes */}
+      <Route path="/report" element={<DashboardLayout />}>
+        <Route index element={<Report />} />
+      </Route>
+
+      <Route path="/proposals" element={<DashboardLayout />}>
+        <Route index element={<Proposals />} />
+      </Route>
+
+      <Route path="/team" element={<DashboardLayout />}>
+        <Route index element={<Team />} />
       </Route>
 
       {/* Portfolio Route */}
