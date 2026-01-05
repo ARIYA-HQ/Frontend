@@ -14,6 +14,9 @@ interface VendorCardProps {
     reviews: number;
     isShortlisted?: boolean;
     onToggleShortlist?: () => void;
+    selectable?: boolean;
+    isSelected?: boolean;
+    onToggleSelection?: (e: React.MouseEvent) => void;
 }
 
 const VendorCard: React.FC<VendorCardProps> = ({
@@ -26,10 +29,18 @@ const VendorCard: React.FC<VendorCardProps> = ({
     rating,
     reviews,
     isShortlisted,
-    onToggleShortlist
+    onToggleShortlist,
+    selectable = false,
+    isSelected = false,
+    onToggleSelection
 }) => {
     return (
-        <div className="w-full h-full bg-white dark:bg-gray-800 rounded-3xl overflow-hidden group transition-all duration-300 flex flex-col border border-gray-100 dark:border-gray-700 hover:shadow-xl dark:hover:shadow-none">
+        <div
+            className={`w-full h-full bg-white dark:bg-gray-800 rounded-3xl overflow-hidden group transition-all duration-300 flex flex-col border 
+            ${isSelected ? 'border-[#D0771E] ring-2 ring-[#D0771E] ring-offset-2 dark:ring-offset-gray-900' : 'border-gray-100 dark:border-gray-700'} 
+            hover:shadow-xl dark:hover:shadow-none cursor-pointer`}
+            onClick={selectable ? onToggleSelection : undefined}
+        >
             {/* Image Section */}
             <div className="relative h-[240px] w-full overflow-hidden">
                 <img
@@ -38,8 +49,17 @@ const VendorCard: React.FC<VendorCardProps> = ({
                     className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-110"
                 />
 
-                {/* Available Badge */}
-                {available && (
+                {/* Selection Overlay */}
+                {selectable && (
+                    <div className={`absolute inset-0 transition-colors ${isSelected ? 'bg-[#D0771E]/20' : 'group-hover:bg-black/10'}`}>
+                        <div className={`absolute top-4 left-4 w-6 h-6 rounded-full border-2 flex items-center justify-center transition-all ${isSelected ? 'bg-[#D0771E] border-[#D0771E]' : 'bg-white/80 border-gray-400'}`}>
+                            {isSelected && <svg className="w-3.5 h-3.5 text-white" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={3} d="M5 13l4 4L19 7" /></svg>}
+                        </div>
+                    </div>
+                )}
+
+                {/* Available Badge - Hide when in selection mode for cleaner UI if desired, or keep it. Keeping it for now but adjusting z-index if needed */}
+                {!selectable && available && (
                     <div className="absolute top-4 left-4 bg-green-50/90 dark:bg-green-900/30 backdrop-blur-sm text-green-600 dark:text-green-400 border border-green-100 dark:border-green-800 text-[10px] font-black uppercase tracking-widest px-3 py-1.5 rounded-full shadow-sm dark:shadow-none">
                         Available
                     </div>

@@ -1,6 +1,8 @@
 import { useState } from 'react';
 import { Link } from 'react-router-dom';
 import VendorCard from '../../components/vendors/VendorCard';
+import ComparisonBar from '../../components/vendors/ComparisonBar';
+import ComparisonModal from '../../components/vendors/ComparisonModal';
 import { MOCK_VENDORS } from '../../data/mockVendors';
 import PageHeader from '../../components/ui/PageHeader';
 import PremiumTabs from '../../components/ui/PremiumTabs';
@@ -13,10 +15,28 @@ const Vendors = () => {
     const [searchQuery, setSearchQuery] = useState('');
     const [vendors, setVendors] = useState(() => MOCK_VENDORS);
 
+    // Comparison State
+    const [selectedVendorIds, setSelectedVendorIds] = useState<number[]>([]);
+    const [isComparisonModalOpen, setIsComparisonModalOpen] = useState(false);
+
     const toggleShortlist = (id: number) => {
         setVendors(prevVendors => prevVendors.map(vendor =>
             vendor.id === id ? { ...vendor, isShortlisted: !vendor.isShortlisted } : vendor
         ));
+    };
+
+    const toggleSelection = (e: React.MouseEvent, id: number) => {
+        e.preventDefault(); // Prevent Link navigation
+        if (selectedVendorIds.includes(id)) {
+            setSelectedVendorIds(prev => prev.filter(vId => vId !== id));
+        } else {
+            if (selectedVendorIds.length >= 3) {
+                // Optional: visual feedback that max selection is reached
+                alert("You can compare up to 3 vendors at a time.");
+                return;
+            }
+            setSelectedVendorIds(prev => [...prev, id]);
+        }
     };
 
     const filteredVendors = vendors.filter(vendor => {
@@ -40,14 +60,17 @@ const Vendors = () => {
         return true;
     });
 
-    // Calculate dynamic category counts
+    // Calculate specific counts
     const categoryCounts = vendors.reduce((acc, vendor) => {
         acc[vendor.category] = (acc[vendor.category] || 0) + 1;
         return acc;
     }, {} as Record<string, number>);
 
+    // Get actual vendor objects for comparison
+    const selectedVendors = vendors.filter(v => selectedVendorIds.includes(v.id));
+
     return (
-        <div className="max-w-[1600px] mx-auto pb-20">
+        <div className="max-w-[1600px] mx-auto pb-20 relative">
             <div className="w-full px-8">
 
                 {/* Page Header */}
@@ -122,6 +145,9 @@ const Vendors = () => {
                                         <VendorCard
                                             {...vendor}
                                             onToggleShortlist={() => toggleShortlist(vendor.id)}
+                                            selectable={true}
+                                            isSelected={selectedVendorIds.includes(vendor.id)}
+                                            onToggleSelection={(e?: React.MouseEvent) => e && toggleSelection(e, vendor.id)}
                                         />
                                     </Link>
                                 ))}
@@ -138,6 +164,20 @@ const Vendors = () => {
                     </div>
                 </div>
             </div>
+
+            {/* Comparison Floating Bar */}
+            <ComparisonBar
+                selectedVendors={selectedVendors}
+                onClear={() => setSelectedVendorIds([])}
+                onCompare={() => setIsComparisonModalOpen(true)}
+            />
+
+            {/* Comparison Modal */}
+            <ComparisonModal
+                isOpen={isComparisonModalOpen}
+                onClose={() => setIsComparisonModalOpen(false)}
+                vendors={selectedVendors}
+            />
         </div>
     );
 };
