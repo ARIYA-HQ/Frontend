@@ -31,8 +31,12 @@ export function getMainDomain(): string {
  * Redirect to a specific subdomain
  */
 export function redirectToSubdomain(subdomain: string, path: string = '/'): void {
-  // If on localhost, just navigate to the path
-  if (window.location.hostname === 'localhost' || window.location.hostname === '127.0.0.1') {
+  // If on localhost or GitHub Pages, just navigate to the path
+  if (
+    window.location.hostname === 'localhost' ||
+    window.location.hostname === '127.0.0.1' ||
+    window.location.hostname.includes('github.io')
+  ) {
     window.location.href = path;
     return;
   }
@@ -64,8 +68,12 @@ export function getDashboardPathByRole(role: string): string {
 export function redirectToRoleSubdomain(role: string): void {
   const dashboardPath = getDashboardPathByRole(role);
 
-  // If on localhost, skip subdomains and go direct to path
-  if (window.location.hostname === 'localhost' || window.location.hostname === '127.0.0.1') {
+  // If on localhost or GitHub Pages, skip subdomains and go direct to path
+  if (
+    window.location.hostname === 'localhost' ||
+    window.location.hostname === '127.0.0.1' ||
+    window.location.hostname.includes('github.io')
+  ) {
     window.location.href = dashboardPath;
     return;
   }
