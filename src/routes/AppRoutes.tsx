@@ -1,5 +1,5 @@
 import { lazy, Suspense } from 'react';
-import { Routes, Route } from 'react-router-dom';
+import { Routes, Route, Navigate } from 'react-router-dom';
 import { LoadingSpinner } from '../components/ui/LoadingSpinner';
 
 // Layouts
@@ -94,7 +94,7 @@ const AppRoutes = () => {
       <Routes>
         {/* Public Routes */}
         <Route path="/" element={<PublicLayout />}>
-          <Route index element={<EventWebsitePublic />} />
+          <Route index element={<Navigate to="/auth/signup" replace />} />
           <Route path="event/:eventId" element={<EventWebsitePublic />} />
           <Route path="event/:eventId/rsvp" element={<RSVPPage />} />
           <Route path="event/:eventId/registry" element={<RegistryPage />} />
