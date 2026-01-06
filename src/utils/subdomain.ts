@@ -37,7 +37,16 @@ export function redirectToSubdomain(subdomain: string, path: string = '/'): void
     window.location.hostname === '127.0.0.1' ||
     window.location.hostname.includes('github.io')
   ) {
-    window.location.href = path;
+    // Determine the base path for GitHub Pages
+    const isGithubPages = window.location.hostname.includes('github.io');
+    const basePath = isGithubPages ? '/Frontend' : '';
+
+    // Ensure path doesn't already allow for the base path
+    const finalPath = isGithubPages && !path.startsWith(basePath)
+      ? `${basePath}${path}`
+      : path;
+
+    window.location.href = finalPath;
     return;
   }
 
@@ -74,7 +83,16 @@ export function redirectToRoleSubdomain(role: string): void {
     window.location.hostname === '127.0.0.1' ||
     window.location.hostname.includes('github.io')
   ) {
-    window.location.href = dashboardPath;
+    // Determine the base path for GitHub Pages
+    const isGithubPages = window.location.hostname.includes('github.io');
+    const basePath = isGithubPages ? '/Frontend' : '';
+
+    // Ensure path doesn't already allow for the base path
+    const finalPath = isGithubPages && !dashboardPath.startsWith(basePath)
+      ? `${basePath}${dashboardPath}`
+      : dashboardPath;
+
+    window.location.href = finalPath;
     return;
   }
 

@@ -1,4 +1,4 @@
-import ApiService, { ApiResponse } from './apiService';
+import ApiService, { type ApiResponse } from './apiService';
 import type { User } from '../types';
 import apiClient from '@/lib/apiClient';
 import { storage, STORAGE_KEYS } from '@/utils/storage';
@@ -12,7 +12,7 @@ class UserService extends ApiService {
   async getCurrentUser(): Promise<ApiResponse<User>> {
     try {
       // In development without backend, return mock data
-      if (typeof window !== 'undefined' && window.location.hostname === 'localhost') {
+      if (typeof window !== 'undefined' && (window.location.hostname === 'localhost' || window.location.hostname.includes('github.io'))) {
         // Get user data from storage if available
         const storedUser = storage.get<User>(STORAGE_KEYS.USER);
         if (storedUser) {
@@ -52,7 +52,7 @@ class UserService extends ApiService {
   async login(credentials: { email: string; password: string }): Promise<ApiResponse<{ user: User; token: string }>> {
     try {
       // In development without backend, return mock data
-      if (typeof window !== 'undefined' && window.location.hostname === 'localhost') {
+      if (typeof window !== 'undefined' && (window.location.hostname === 'localhost' || window.location.hostname.includes('github.io'))) {
         const mockUser: User = {
           id: `user-${Date.now()}`,
           name: 'Mock User',
@@ -90,7 +90,7 @@ class UserService extends ApiService {
   async register(userData: Partial<User>): Promise<ApiResponse<User>> {
     try {
       // In development without backend, return mock data
-      if (typeof window !== 'undefined' && window.location.hostname === 'localhost') {
+      if (typeof window !== 'undefined' && (window.location.hostname === 'localhost' || window.location.hostname.includes('github.io'))) {
         const mockUser: User = {
           id: `user-${Date.now()}`,
           name: userData.name || 'New User',
@@ -125,7 +125,7 @@ class UserService extends ApiService {
   async logout(): Promise<ApiResponse<void>> {
     try {
       // In development without backend, just clear storage
-      if (typeof window !== 'undefined' && window.location.hostname === 'localhost') {
+      if (typeof window !== 'undefined' && (window.location.hostname === 'localhost' || window.location.hostname.includes('github.io'))) {
         authService.logout();
         return {
           status: 'success',
