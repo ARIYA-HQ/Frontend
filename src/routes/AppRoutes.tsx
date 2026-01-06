@@ -80,6 +80,8 @@ const VendorApproval = lazy(() => import('../pages/admin/VendorApproval'));
 const Messages = lazy(() => import('../pages/messages/Messages'));
 // Onboarding page
 const OnboardingPage = lazy(() => import('../pages/onboarding/OnboardingPage'));
+// 404 Not Found page
+const NotFound = lazy(() => import('../pages/public/NotFound'));
 
 // Loading fallback component
 const LoadingFallback = () => (
@@ -222,6 +224,9 @@ const AppRoutes = () => {
         <Route path="/admin" element={<DashboardLayout />}>
           <Route path="vendor-approval" element={<VendorApproval />} />
         </Route>
+
+        {/* 404 Catch-all Route */}
+        <Route path="*" element={<NotFound />} />
       </Routes>
     </Suspense>
   );
