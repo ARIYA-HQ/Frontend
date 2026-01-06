@@ -117,7 +117,7 @@ const VendorFinances = () => {
                         <>
                             <div className="flex flex-col md:flex-row justify-between items-start gap-4">
                                 <div className="space-y-1">
-                                    <h3 className="text-lg font-black text-[#1D2939] dark:text-white group-hover:text-[#D0771E] transition-colors tracking-tight cursor-pointer" onClick={() => { setSelectedInvoice(item); setIsDetailOpen(true); }}>
+                                    <h3 className="text-xl font-black text-[#1D2939] dark:text-white group-hover:text-[#D0771E] transition-colors tracking-tight cursor-pointer" onClick={() => { setSelectedInvoice(item); setIsDetailOpen(true); }}>
                                         {item.clientName}
                                     </h3>
                                     <div className="flex items-center gap-3">
@@ -141,29 +141,29 @@ const VendorFinances = () => {
 
                             <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-x-8 gap-y-4 my-6 py-4 border-y border-gray-50/50 dark:border-gray-800">
                                 <div className="space-y-1">
-                                    <span className="text-[8px] font-black uppercase tracking-widest text-gray-400 dark:text-gray-500">Total Amount</span>
-                                    <p className="text-[11px] font-black text-[#1D2939] dark:text-white">{item.amount}</p>
+                                    <span className="text-[10px] font-black uppercase tracking-widest text-gray-400 dark:text-gray-500">Total Amount</span>
+                                    <p className="text-sm font-black text-[#1D2939] dark:text-white">{item.amount}</p>
                                 </div>
                                 <div className="space-y-1">
-                                    <span className="text-[8px] font-black uppercase tracking-widest text-gray-400 dark:text-gray-500">Due Date</span>
-                                    <p className="text-[11px] font-black text-[#1D2939] dark:text-white uppercase">{item.date}</p>
+                                    <span className="text-[10px] font-black uppercase tracking-widest text-gray-400 dark:text-gray-500">Due Date</span>
+                                    <p className="text-sm font-black text-[#1D2939] dark:text-white uppercase">{item.date}</p>
                                 </div>
                                 <div className="space-y-1">
-                                    <span className="text-[8px] font-black uppercase tracking-widest text-gray-400 dark:text-gray-500">Payment Method</span>
-                                    <p className="text-[11px] font-black text-[#1D2939] dark:text-white capitalize">{item.paymentMethod}</p>
+                                    <span className="text-[10px] font-black uppercase tracking-widest text-gray-400 dark:text-gray-500">Payment Method</span>
+                                    <p className="text-sm font-black text-[#1D2939] dark:text-white capitalize">{item.paymentMethod}</p>
                                 </div>
                                 <div className="space-y-1">
-                                    <span className="text-[8px] font-black uppercase tracking-widest text-gray-400 dark:text-gray-500">VAT / Fees</span>
-                                    <p className="text-[11px] font-black text-[#1D2939] dark:text-white">{item.tax}</p>
+                                    <span className="text-[10px] font-black uppercase tracking-widest text-gray-400 dark:text-gray-500">VAT / Fees</span>
+                                    <p className="text-sm font-black text-[#1D2939] dark:text-white">{item.tax}</p>
                                 </div>
                             </div>
 
                             <div className="space-y-2 mb-6">
                                 <div className="flex items-center justify-between">
-                                    <span className="text-[8px] font-black uppercase tracking-widest text-gray-400 dark:text-gray-500">Description & Notes</span>
-                                    <span className="text-[8px] font-black uppercase tracking-widest text-[#D0771E]">{item.service}</span>
+                                    <span className="text-[10px] font-black uppercase tracking-widest text-gray-400 dark:text-gray-500">Description & Notes</span>
+                                    <span className="text-[10px] font-black uppercase tracking-widest text-[#D0771E]">{item.service}</span>
                                 </div>
-                                <p className="text-[11px] font-medium text-gray-500 dark:text-gray-400 leading-relaxed max-w-4xl line-clamp-2">
+                                <p className="text-sm font-medium text-gray-500 dark:text-gray-400 leading-relaxed max-w-4xl line-clamp-2">
                                     {item.notes}
                                 </p>
                             </div>

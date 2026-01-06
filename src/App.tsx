@@ -69,7 +69,8 @@ function App() {
       <ThemeProvider>
         <UIProvider>
           <CartProvider>
-            <Router>
+            {/* Repository: ARIYA-HQ/Frontend */}
+            <Router basename={process.env.NODE_ENV === 'production' ? '/Frontend' : '/'}>
               <AuthSetup />
               <SubdomainRouter />
               <div className="App">

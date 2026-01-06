@@ -1,7 +1,8 @@
 import { useState } from 'react';
 import { useParams } from 'react-router-dom';
 import { mockEvents, mockRegistry } from '../../data/mockData';
-import { CalendarDaysIcon, MapPinIcon, UserGroupIcon } from '@heroicons/react/24/outline';
+import { CalendarDaysIcon, MapPinIcon, UserGroupIcon, StarIcon, CheckBadgeIcon } from '@heroicons/react/24/outline';
+import PremiumCard from '../../components/ui/PremiumCard';
 
 const EventWebsite = () => {
   const { eventId } = useParams<{ eventId: string }>();
@@ -9,256 +10,179 @@ const EventWebsite = () => {
   const [registry] = useState(mockRegistry);
 
   return (
-    <div className="min-h-screen bg-gradient-to-b from-indigo-50 to-white">
+    <div className="min-h-screen bg-[#F4F6F8] dark:bg-gray-900 font-inter">
       {/* Hero Section */}
-      <div className="relative overflow-hidden bg-white">
-        <div className="max-w-7xl mx-auto">
-          <div className="relative z-10 pb-8 bg-white sm:pb-16 md:pb-20 lg:max-w-2xl lg:w-full lg:pb-28 xl:pb-32">
-            <main className="mt-10 mx-auto max-w-7xl px-4 sm:mt-12 sm:px-6 md:mt-16 lg:mt-20 lg:px-8 xl:mt-28">
-              <div className="sm:text-center lg:text-left">
-                <h1 className="text-4xl tracking-tight font-extrabold text-gray-900 sm:text-5xl md:text-6xl">
-                  <span className="block xl:inline">{event.title}</span>
-                </h1>
-                <p className="mt-3 text-base text-gray-500 sm:mt-5 sm:text-lg sm:max-w-xl sm:mx-auto md:mt-5 md:text-xl lg:mx-0">
-                  {event.description}
-                </p>
-                
-                <div className="mt-5 sm:mt-8 sm:flex sm:justify-center lg:justify-start">
-                  <div className="rounded-md shadow">
-                    <a
-                      href="#rsvp"
-                      className="w-full flex items-center justify-center px-8 py-3 border border-transparent text-base font-medium rounded-md text-white bg-indigo-600 hover:bg-indigo-700 md:py-4 md:text-lg md:px-10"
-                    >
-                      RSVP Now
-                    </a>
-                  </div>
-                  <div className="mt-3 sm:mt-0 sm:ml-3">
-                    <a
-                      href="#details"
-                      className="w-full flex items-center justify-center px-8 py-3 border border-transparent text-base font-medium rounded-md text-indigo-700 bg-indigo-100 hover:bg-indigo-200 md:py-4 md:text-lg md:px-10"
-                    >
-                      View Details
-                    </a>
-                  </div>
-                </div>
-              </div>
-            </main>
-          </div>
-        </div>
-        <div className="lg:absolute lg:inset-y-0 lg:right-0 lg:w-1/2">
-          <div className="h-56 w-full bg-indigo-200 sm:h-72 md:h-96 lg:w-full lg:h-full flex items-center justify-center">
-            <div className="bg-gray-200 border-2 border-dashed rounded-xl w-full h-full" />
+      <div className="relative overflow-hidden bg-[#1D2939] text-white">
+        <div className="absolute top-0 right-0 w-96 h-96 bg-[#D0771E] rounded-full blur-[150px] opacity-20 pointer-events-none"></div>
+        <div className="absolute bottom-0 left-0 w-64 h-64 bg-purple-500 rounded-full blur-[150px] opacity-10 pointer-events-none"></div>
+
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-24 lg:py-32 relative z-10">
+          <div className="text-center max-w-3xl mx-auto">
+            <div className="inline-flex items-center gap-2 px-4 py-2 bg-white/10 backdrop-blur-md rounded-full mb-8 border border-white/20">
+              <StarIcon className="w-4 h-4 text-[#D0771E]" />
+              <span className="text-[10px] font-black uppercase tracking-widest text-white">Official Event Page</span>
+            </div>
+
+            <h1 className="text-5xl md:text-7xl font-black tracking-tighter mb-6 bg-clip-text text-transparent bg-gradient-to-r from-white via-white to-gray-400">
+              {event.title}
+            </h1>
+            <p className="text-lg md:text-xl text-gray-400 max-w-2xl mx-auto leading-relaxed mb-10">
+              {event.description}
+            </p>
+
+            <div className="flex flex-col sm:flex-row items-center justify-center gap-4">
+              <a
+                href="#rsvp"
+                className="w-full sm:w-auto px-8 py-4 bg-[#D0771E] text-white rounded-2xl text-xs font-black uppercase tracking-widest hover:bg-orange-600 transition-all shadow-lg hover:shadow-orange-500/20 transform hover:-translate-y-1"
+              >
+                RSVP Now
+              </a>
+              <a
+                href="#details"
+                className="w-full sm:w-auto px-8 py-4 bg-white/5 backdrop-blur-md border border-white/10 text-white rounded-2xl text-xs font-black uppercase tracking-widest hover:bg-white/10 transition-all"
+              >
+                View Details
+              </a>
+            </div>
           </div>
         </div>
       </div>
 
       {/* Event Details */}
-      <div id="details" className="py-12 bg-white">
+      <div id="details" className="py-20 bg-white dark:bg-gray-800">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="lg:text-center">
-            <h2 className="text-base text-indigo-600 font-semibold tracking-wide uppercase">Event Details</h2>
-            <p className="mt-2 text-3xl leading-8 font-extrabold tracking-tight text-gray-900 sm:text-4xl">
+          <div className="text-center mb-16">
+            <h2 className="text-[#D0771E] text-xs font-black tracking-widest uppercase mb-3">Event Details</h2>
+            <p className="text-3xl md:text-4xl font-black tracking-tighter text-[#1D2939] dark:text-white">
               Everything you need to know
             </p>
           </div>
 
-          <div className="mt-10">
-            <div className="space-y-10 md:space-y-0 md:grid md:grid-cols-2 md:gap-x-8 md:gap-y-10">
-              <div className="relative">
-                <div className="absolute flex items-center justify-center h-12 w-12 rounded-md bg-indigo-500 text-white">
-                  <CalendarDaysIcon className="h-6 w-6" />
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8">
+            {[
+              { icon: CalendarDaysIcon, title: 'Date & Time', value: `${event.date} at 3:00 PM` },
+              { icon: MapPinIcon, title: 'Location', value: event.location },
+              { icon: UserGroupIcon, title: 'Guests', value: `${event.guestCount} Attendees` },
+              { icon: CheckBadgeIcon, title: 'Dress Code', value: 'Semi-formal' }
+            ].map((item, idx) => (
+              <PremiumCard key={idx} className="p-8 group hover:border-[#D0771E]/30 transition-all">
+                <div className="w-12 h-12 rounded-2xl bg-orange-50 dark:bg-orange-900/20 flex items-center justify-center text-[#D0771E] mb-6 group-hover:scale-110 transition-transform">
+                  <item.icon className="w-6 h-6" />
                 </div>
-                <p className="ml-16 text-lg leading-6 font-medium text-gray-900">Date & Time</p>
-                <p className="mt-2 ml-16 text-base text-gray-500">
-                  {event.date} at 3:00 PM
-                </p>
-              </div>
-
-              <div className="relative">
-                <div className="absolute flex items-center justify-center h-12 w-12 rounded-md bg-indigo-500 text-white">
-                  <MapPinIcon className="h-6 w-6" />
-                </div>
-                <p className="ml-16 text-lg leading-6 font-medium text-gray-900">Location</p>
-                <p className="mt-2 ml-16 text-base text-gray-500">
-                  {event.location}
-                </p>
-              </div>
-
-              <div className="relative">
-                <div className="absolute flex items-center justify-center h-12 w-12 rounded-md bg-indigo-500 text-white">
-                  <UserGroupIcon className="h-6 w-6" />
-                </div>
-                <p className="ml-16 text-lg leading-6 font-medium text-gray-900">Guests</p>
-                <p className="mt-2 ml-16 text-base text-gray-500">
-                  {event.guestCount} expected attendees
-                </p>
-              </div>
-
-              <div className="relative">
-                <div className="absolute flex items-center justify-center h-12 w-12 rounded-md bg-indigo-500 text-white">
-                  <svg className="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z" />
-                  </svg>
-                </div>
-                <p className="ml-16 text-lg leading-6 font-medium text-gray-900">Dress Code</p>
-                <p className="mt-2 ml-16 text-base text-gray-500">
-                  Semi-formal
-                </p>
-              </div>
-            </div>
+                <h3 className="text-xs font-black text-gray-400 dark:text-gray-500 uppercase tracking-widest mb-2">{item.title}</h3>
+                <p className="text-lg font-bold text-[#1D2939] dark:text-white">{item.value}</p>
+              </PremiumCard>
+            ))}
           </div>
         </div>
       </div>
 
       {/* Registry Section */}
-      <div className="py-12 bg-gray-50">
+      <div className="py-20 bg-[#F4F6F8] dark:bg-gray-900">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="lg:text-center">
-            <h2 className="text-base text-indigo-600 font-semibold tracking-wide uppercase">Gift Registry</h2>
-            <p className="mt-2 text-3xl leading-8 font-extrabold tracking-tight text-gray-900 sm:text-4xl">
+          <div className="text-center mb-16">
+            <h2 className="text-[#D0771E] text-xs font-black tracking-widest uppercase mb-3">Gift Registry</h2>
+            <p className="text-3xl md:text-4xl font-black tracking-tighter text-[#1D2939] dark:text-white mb-6">
               Your presence is our gift
             </p>
-            <p className="mt-4 max-w-2xl text-xl text-gray-500 lg:mx-auto">
+            <p className="text-gray-500 dark:text-gray-400 max-w-2xl mx-auto">
               {registry.message}
             </p>
           </div>
 
-          <div className="mt-10">
-            <div className="grid grid-cols-1 gap-5 sm:grid-cols-2 lg:grid-cols-3">
-              {registry.items.map((item) => (
-                <div key={item.id} className="bg-white overflow-hidden shadow rounded-lg">
-                  <div className="p-5">
-                    <div className="flex items-center">
-                      <div className="flex-shrink-0">
-                        <div className="bg-gray-200 border-2 border-dashed rounded-xl w-16 h-16" />
-                      </div>
-                      <div className="ml-5 w-0 flex-1">
-                        <dl>
-                          <dt className="text-sm font-medium text-gray-500 truncate">{item.title}</dt>
-                          <dd className="flex items-baseline">
-                            <div className="text-lg font-medium text-gray-900">${item.price}</div>
-                          </dd>
-                        </dl>
-                      </div>
-                    </div>
+          <div className="grid grid-cols-1 gap-8 sm:grid-cols-2 lg:grid-cols-3">
+            {registry.items.map((item) => (
+              <PremiumCard key={item.id} className="group overflow-hidden border-none p-0">
+                <div className="relative aspect-[4/3] bg-gray-100 dark:bg-gray-800">
+                  {/* Placeholder image */}
+                  <div className="absolute inset-0 flex items-center justify-center text-gray-300">
+                    <span className="text-4xl font-black opacity-20">IMAGE</span>
                   </div>
-                  <div className="bg-gray-50 px-5 py-3">
-                    <div className="text-sm">
-                      <a href={item.link || '#'} className="font-medium text-indigo-600 hover:text-indigo-500">
-                        View Gift
-                      </a>
-                    </div>
+                  <div className="absolute top-4 right-4 bg-white/90 backdrop-blur-md px-3 py-1 rounded-lg text-xs font-black text-[#1D2939]">
+                    ${item.price}
                   </div>
                 </div>
-              ))}
-            </div>
+                <div className="p-6">
+                  <h3 className="text-lg font-bold text-[#1D2939] dark:text-white mb-2">{item.title}</h3>
+                  <a
+                    href={item.link || '#'}
+                    className="inline-flex items-center text-xs font-black text-[#D0771E] uppercase tracking-widest hover:underline"
+                  >
+                    View Gift <span className="ml-1">→</span>
+                  </a>
+                </div>
+              </PremiumCard>
+            ))}
           </div>
         </div>
       </div>
 
       {/* RSVP Section */}
-      <div id="rsvp" className="py-12 bg-white">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="lg:text-center">
-            <h2 className="text-base text-indigo-600 font-semibold tracking-wide uppercase">RSVP</h2>
-            <p className="mt-2 text-3xl leading-8 font-extrabold tracking-tight text-gray-900 sm:text-4xl">
-              Let us know if you can join us
-            </p>
-          </div>
+      <div id="rsvp" className="py-20 bg-white dark:bg-gray-800">
+        <div className="max-w-3xl mx-auto px-4 sm:px-6 lg:px-8">
+          <PremiumCard className="p-10 md:p-14 border-[#D0771E]/20 bg-gradient-to-br from-white to-orange-50/30 dark:from-gray-800 dark:to-gray-800">
+            <div className="text-center mb-12">
+              <h2 className="text-[#D0771E] text-xs font-black tracking-widest uppercase mb-3">RSVP</h2>
+              <p className="text-3xl md:text-4xl font-black tracking-tighter text-[#1D2939] dark:text-white">
+                Will you be joining us?
+              </p>
+            </div>
 
-          <div className="mt-10 max-w-2xl mx-auto">
-            <form className="space-y-6">
-              <div>
-                <label htmlFor="name" className="block text-sm font-medium text-gray-700">
-                  Full Name
-                </label>
-                <div className="mt-1">
+            <form className="space-y-8">
+              <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
+                <div className="space-y-2">
+                  <label htmlFor="name" className="text-[10px] font-black text-gray-400 uppercase tracking-widest">Full Name</label>
                   <input
                     type="text"
-                    name="name"
                     id="name"
-                    className="shadow-sm focus:ring-indigo-500 focus:border-indigo-500 block w-full sm:text-sm border-gray-300 rounded-md"
+                    className="w-full px-5 py-4 rounded-xl bg-gray-50 dark:bg-gray-900 border-none focus:ring-2 focus:ring-[#D0771E]/20 font-medium text-[#1D2939] dark:text-white transition-all"
                     placeholder="John Doe"
                   />
                 </div>
-              </div>
-
-              <div>
-                <label htmlFor="email" className="block text-sm font-medium text-gray-700">
-                  Email
-                </label>
-                <div className="mt-1">
+                <div className="space-y-2">
+                  <label htmlFor="email" className="text-[10px] font-black text-gray-400 uppercase tracking-widest">Email Address</label>
                   <input
                     type="email"
-                    name="email"
                     id="email"
-                    className="shadow-sm focus:ring-indigo-500 focus:border-indigo-500 block w-full sm:text-sm border-gray-300 rounded-md"
+                    className="w-full px-5 py-4 rounded-xl bg-gray-50 dark:bg-gray-900 border-none focus:ring-2 focus:ring-[#D0771E]/20 font-medium text-[#1D2939] dark:text-white transition-all"
                     placeholder="john@example.com"
                   />
                 </div>
               </div>
 
-              <div>
-                <label htmlFor="attending" className="block text-sm font-medium text-gray-700">
-                  Will you be attending?
-                </label>
-                <div className="mt-1">
-                  <select
-                    id="attending"
-                    name="attending"
-                    className="shadow-sm focus:ring-indigo-500 focus:border-indigo-500 block w-full sm:text-sm border-gray-300 rounded-md"
-                  >
-                    <option value="">Select an option</option>
-                    <option value="yes">Yes, I'll be there!</option>
-                    <option value="no">Sorry, I can't make it</option>
-                    <option value="maybe">I'm not sure yet</option>
-                  </select>
+              <div className="space-y-2">
+                <label className="text-[10px] font-black text-gray-400 uppercase tracking-widest">Attending?</label>
+                <div className="grid grid-cols-3 gap-4">
+                  {['Joyfully Accept', 'Regretfully Decline', 'Unsure'].map((option) => (
+                    <button
+                      key={option}
+                      type="button"
+                      className="px-4 py-4 rounded-xl border border-gray-200 dark:border-gray-700 text-sm font-bold text-gray-500 hover:border-[#D0771E] hover:text-[#D0771E] hover:bg-orange-50 dark:hover:bg-orange-900/10 transition-all"
+                    >
+                      {option}
+                    </button>
+                  ))}
                 </div>
               </div>
 
-              <div>
-                <label htmlFor="plusOnes" className="block text-sm font-medium text-gray-700">
-                  Plus Ones
-                </label>
-                <div className="mt-1">
-                  <select
-                    id="plusOnes"
-                    name="plusOnes"
-                    className="shadow-sm focus:ring-indigo-500 focus:border-indigo-500 block w-full sm:text-sm border-gray-300 rounded-md"
-                  >
-                    <option value="0">0</option>
-                    <option value="1">1</option>
-                    <option value="2">2</option>
-                    <option value="3">3</option>
-                  </select>
-                </div>
+              <div className="space-y-2">
+                <label htmlFor="message" className="text-[10px] font-black text-gray-400 uppercase tracking-widest">Message to Hosts</label>
+                <textarea
+                  id="message"
+                  rows={4}
+                  className="w-full px-5 py-4 rounded-xl bg-gray-50 dark:bg-gray-900 border-none focus:ring-2 focus:ring-[#D0771E]/20 font-medium text-[#1D2939] dark:text-white transition-all resize-none"
+                  placeholder="Share your excitement..."
+                />
               </div>
 
-              <div>
-                <label htmlFor="message" className="block text-sm font-medium text-gray-700">
-                  Message (Optional)
-                </label>
-                <div className="mt-1">
-                  <textarea
-                    id="message"
-                    name="message"
-                    rows={4}
-                    className="shadow-sm focus:ring-indigo-500 focus:border-indigo-500 block w-full sm:text-sm border-gray-300 rounded-md"
-                    placeholder="Leave a message for the hosts..."
-                  />
-                </div>
-              </div>
-
-              <div>
-                <button
-                  type="submit"
-                  className="w-full flex justify-center py-2 px-4 border border-transparent rounded-md shadow-sm text-sm font-medium text-white bg-indigo-600 hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500"
-                >
-                  Submit RSVP
-                </button>
-              </div>
+              <button
+                type="submit"
+                className="w-full px-8 py-5 bg-[#1D2939] dark:bg-white text-white dark:text-[#1D2939] rounded-2xl text-xs font-black uppercase tracking-widest hover:bg-[#D0771E] dark:hover:bg-[#D0771E] dark:hover:text-white transition-all shadow-xl"
+              >
+                Send RSVP
+              </button>
             </form>
-          </div>
+          </PremiumCard>
         </div>
       </div>
     </div>

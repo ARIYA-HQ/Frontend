@@ -279,7 +279,7 @@ const VendorBookings = () => {
                         <div className="flex flex-col gap-6">
                           {/* Identity Section */}
                           <div className="space-y-1">
-                            <h3 className="text-lg font-black text-[#1D2939] dark:text-white uppercase tracking-tight group-hover:text-[#D0771E] transition-colors">
+                            <h3 className="text-xl font-black text-[#1D2939] dark:text-white uppercase tracking-tight group-hover:text-[#D0771E] transition-colors">
                               {booking.eventName}
                             </h3>
                             <div className="flex items-center gap-2 text-[9px] font-black text-gray-400 dark:text-gray-500 uppercase tracking-widest">
@@ -292,16 +292,16 @@ const VendorBookings = () => {
                           {/* Details Grid */}
                           <div className="grid grid-cols-1 sm:grid-cols-3 gap-6 p-4 bg-gray-50 dark:bg-gray-800 rounded-2xl">
                             <div>
-                              <p className="text-[9px] font-black text-gray-400 dark:text-gray-500 uppercase tracking-widest mb-1">Event Date</p>
-                              <p className="text-[10px] font-black text-[#1D2939] dark:text-white uppercase tracking-tight">{booking.eventDate}</p>
+                              <p className="text-[10px] font-black text-gray-400 dark:text-gray-500 uppercase tracking-widest mb-1">Event Date</p>
+                              <p className="text-sm font-black text-[#1D2939] dark:text-white uppercase tracking-tight">{booking.eventDate}</p>
                             </div>
                             <div>
-                              <p className="text-[9px] font-black text-gray-400 dark:text-gray-500 uppercase tracking-widest mb-1">Budget</p>
-                              <p className="text-[10px] font-black text-[#D0771E]">{booking.amount ? `₦${booking.amount.toLocaleString()}` : 'N/A'}</p>
+                              <p className="text-[10px] font-black text-gray-400 dark:text-gray-500 uppercase tracking-widest mb-1">Budget</p>
+                              <p className="text-sm font-black text-[#D0771E]">{booking.amount ? `₦${booking.amount.toLocaleString()}` : 'N/A'}</p>
                             </div>
                             <div>
-                              <p className="text-[9px] font-black text-gray-400 dark:text-gray-500 uppercase tracking-widest mb-1">Reference</p>
-                              <p className="text-[10px] font-black text-[#1D2939] dark:text-white uppercase tracking-tight">#BK-{booking.id.slice(0, 8).toUpperCase()}</p>
+                              <p className="text-[10px] font-black text-gray-400 dark:text-gray-500 uppercase tracking-widest mb-1">Reference</p>
+                              <p className="text-sm font-black text-[#1D2939] dark:text-white uppercase tracking-tight">#BK-{booking.id.slice(0, 8).toUpperCase()}</p>
                             </div>
                           </div>
 

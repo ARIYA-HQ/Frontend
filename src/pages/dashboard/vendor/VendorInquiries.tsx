@@ -123,7 +123,7 @@ const VendorInquiries = () => {
                 <>
                   <div className="flex flex-col md:flex-row justify-between items-start gap-4">
                     <div className="space-y-1">
-                      <h3 className="text-lg font-black text-[#1D2939] dark:text-white group-hover:text-[#D0771E] transition-colors tracking-tight">
+                      <h3 className="text-xl font-black text-[#1D2939] dark:text-white group-hover:text-[#D0771E] transition-colors tracking-tight">
                         {item.company}
                       </h3>
                       <div className="flex items-center gap-3">
@@ -148,26 +148,26 @@ const VendorInquiries = () => {
 
                   <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-x-8 gap-y-4 my-6 py-4 border-y border-gray-50/50 dark:border-gray-800">
                     <div className="space-y-1">
-                      <span className="text-[8px] font-black uppercase tracking-widest text-gray-400 dark:text-gray-500">Event Date</span>
-                      <p className="text-[11px] font-black text-[#1D2939] dark:text-white uppercase">{item.date}</p>
+                      <span className="text-[10px] font-black uppercase tracking-widest text-gray-400 dark:text-gray-500">Event Date</span>
+                      <p className="text-sm font-black text-[#1D2939] dark:text-white uppercase">{item.date}</p>
                     </div>
                     <div className="space-y-1">
-                      <span className="text-[8px] font-black uppercase tracking-widest text-gray-400 dark:text-gray-500">Proposed Budget</span>
-                      <p className="text-[11px] font-black text-[#1D2939] dark:text-white">{item.budget}</p>
+                      <span className="text-[10px] font-black uppercase tracking-widest text-gray-400 dark:text-gray-500">Proposed Budget</span>
+                      <p className="text-sm font-black text-[#1D2939] dark:text-white">{item.budget}</p>
                     </div>
                     <div className="space-y-1">
-                      <span className="text-[8px] font-black uppercase tracking-widest text-gray-400 dark:text-gray-500">Guest Count</span>
-                      <p className="text-[11px] font-black text-[#1D2939] dark:text-white">{item.guests}</p>
+                      <span className="text-[10px] font-black uppercase tracking-widest text-gray-400 dark:text-gray-500">Guest Count</span>
+                      <p className="text-sm font-black text-[#1D2939] dark:text-white">{item.guests}</p>
                     </div>
                     <div className="space-y-1">
-                      <span className="text-[8px] font-black uppercase tracking-widest text-gray-400 dark:text-gray-500">Event Location</span>
-                      <p className="text-[11px] font-black text-[#1D2939] dark:text-white">{item.location}</p>
+                      <span className="text-[10px] font-black uppercase tracking-widest text-gray-400 dark:text-gray-500">Event Location</span>
+                      <p className="text-sm font-black text-[#1D2939] dark:text-white">{item.location}</p>
                     </div>
                   </div>
 
                   <div className="space-y-2 mb-6">
-                    <span className="text-[8px] font-black uppercase tracking-widest text-gray-400 dark:text-gray-500">Requirement Details</span>
-                    <p className="text-[11px] font-medium text-gray-500 dark:text-gray-400 leading-relaxed max-w-4xl line-clamp-2">
+                    <span className="text-[10px] font-black uppercase tracking-widest text-gray-400 dark:text-gray-500">Requirement Details</span>
+                    <p className="text-sm font-medium text-gray-500 dark:text-gray-400 leading-relaxed max-w-4xl line-clamp-2">
                       {item.description}
                     </p>
                   </div>
