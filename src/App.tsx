@@ -18,6 +18,11 @@ function SubdomainRouter() {
     // Extract subdomain (assuming format like 'subdomain.ariya.com')
     const parts = hostname.split('.');
 
+    // Ignore GitHub Pages domains
+    if (hostname.includes('github.io')) {
+      return;
+    }
+
     // Only process if we have a subdomain (more than 2 parts, like 'vendor.ariya.com')
     if (parts.length >= 3) {
       const subdomain = parts[0];
