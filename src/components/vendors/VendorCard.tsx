@@ -38,8 +38,7 @@ const VendorCard: React.FC<VendorCardProps> = ({
         <div
             className={`w-full h-full bg-white dark:bg-gray-800 rounded-3xl overflow-hidden group transition-all duration-300 flex flex-col border 
             ${isSelected ? 'border-[#D0771E] ring-2 ring-[#D0771E] ring-offset-2 dark:ring-offset-gray-900' : 'border-gray-100 dark:border-gray-700'} 
-            hover:shadow-xl dark:hover:shadow-none cursor-pointer`}
-            onClick={selectable ? onToggleSelection : undefined}
+            hover:shadow-xl dark:hover:shadow-none`}
         >
             {/* Image Section */}
             <div className="relative h-[240px] w-full overflow-hidden">
@@ -51,7 +50,14 @@ const VendorCard: React.FC<VendorCardProps> = ({
 
                 {/* Selection Overlay */}
                 {selectable && (
-                    <div className={`absolute inset-0 transition-colors ${isSelected ? 'bg-[#D0771E]/20' : 'group-hover:bg-black/10'}`}>
+                    <div
+                        className={`absolute inset-0 transition-colors cursor-pointer ${isSelected ? 'bg-[#D0771E]/20' : 'group-hover:bg-black/10'}`}
+                        onClick={(e) => {
+                            e.preventDefault();
+                            e.stopPropagation();
+                            onToggleSelection?.(e);
+                        }}
+                    >
                         <div className={`absolute top-4 left-4 w-6 h-6 rounded-full border-2 flex items-center justify-center transition-all ${isSelected ? 'bg-[#D0771E] border-[#D0771E]' : 'bg-white/80 border-gray-400'}`}>
                             {isSelected && <svg className="w-3.5 h-3.5 text-white" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={3} d="M5 13l4 4L19 7" /></svg>}
                         </div>
@@ -92,7 +98,7 @@ const VendorCard: React.FC<VendorCardProps> = ({
                         <span className="w-1.5 h-1.5 rounded-full bg-[#D0771E]"></span>
                         {location}
                     </p>
-                    <h3 className="text-lg font-black text-gray-900 dark:text-white leading-tight group-hover:text-[#D0771E] transition-colors line-clamp-1">{name}</h3>
+                    <h3 className="text-lg font-black text-gray-900 dark:text-white leading-tight group-hover:text-[#D0771E] transition-colors line-clamp-1 cursor-pointer">{name}</h3>
                 </div>
 
                 <div className="mt-auto pt-4 border-t border-gray-50 dark:border-gray-700 flex justify-between items-center">

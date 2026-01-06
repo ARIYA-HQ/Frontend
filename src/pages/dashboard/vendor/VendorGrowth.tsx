@@ -57,7 +57,7 @@ const VendorGrowth = () => {
                             <div className="flex items-end justify-center w-full gap-2 mb-6 h-[200px]">
                                 {/* Views Bar */}
                                 <div className="relative group/bar flex flex-col justify-end h-full w-3 md:w-5">
-                                    <div className="absolute -top-10 left-1/2 -translate-x-1/2 opacity-0 group-hover/bar:opacity-100 transition-opacity whitespace-nowrap bg-[#1D2939] dark:bg-white text-white dark:text-black text-[9px] font-black px-3 py-1.5 rounded-lg z-20 shadow-xl">
+                                    <div className="absolute -top-10 left-1/2 -translate-x-1/2 opacity-0 group-hover/bar:opacity-100 transition-opacity whitespace-nowrap bg-[#1D2939] dark:bg-white text-white dark:text-black text-[9px] font-black px-3 py-1.5 rounded-lg z-20 shadow-xl dark:shadow-none">
                                         {data.views} views
                                         <div className="absolute -bottom-1 left-1/2 -translate-x-1/2 w-2 h-2 bg-[#1D2939] dark:bg-white rotate-45"></div>
                                     </div>
@@ -68,7 +68,7 @@ const VendorGrowth = () => {
                                 </div>
                                 {/* Inquiries Bar */}
                                 <div className="relative group/bar flex flex-col justify-end h-full w-2 md:w-3">
-                                    <div className="absolute -top-10 left-1/2 -translate-x-1/2 opacity-0 group-hover/bar:opacity-100 transition-opacity whitespace-nowrap bg-gray-900 dark:bg-gray-100 text-white dark:text-black text-[9px] font-black px-3 py-1.5 rounded-lg z-20 shadow-xl">
+                                    <div className="absolute -top-10 left-1/2 -translate-x-1/2 opacity-0 group-hover/bar:opacity-100 transition-opacity whitespace-nowrap bg-gray-900 dark:bg-gray-100 text-white dark:text-black text-[9px] font-black px-3 py-1.5 rounded-lg z-20 shadow-xl dark:shadow-none">
                                         {data.inquiries} inquiries
                                         <div className="absolute -bottom-1 left-1/2 -translate-x-1/2 w-2 h-2 bg-gray-900 dark:bg-gray-100 rotate-45"></div>
                                     </div>
@@ -226,7 +226,7 @@ const VendorGrowth = () => {
                     </div>
                     <h3 className="text-3xl font-black uppercase tracking-tighter text-white">Become a Pro Member</h3>
                     <p className="text-sm text-gray-300 max-w-xs mx-auto leading-relaxed">Get advanced benchmarking tools and access to premium market insights.</p>
-                    <Button className="h-16 px-12 rounded-2xl bg-[#D0771E] text-white border-none shadow-2xl shadow-[#D0771E]/20 mt-4 mx-auto block uppercase text-[11px] font-black tracking-widest hover:scale-105 transition-transform">Upgrade to Pro</Button>
+                    <Button className="h-16 px-12 rounded-2xl bg-[#D0771E] text-white border-none shadow-2xl shadow-[#D0771E]/20 dark:shadow-none mt-4 mx-auto block uppercase text-[11px] font-black tracking-widest hover:scale-105 transition-transform">Upgrade to Pro</Button>
                 </div>
                 <div className="absolute -bottom-20 -right-20 w-80 h-80 rounded-full bg-white/5 blur-3xl"></div>
                 <div className="absolute -top-20 -left-20 w-60 h-60 rounded-full bg-[#D0771E]/10 blur-3xl"></div>

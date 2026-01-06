@@ -1,0 +1,3 @@
+#!/usr/bin/env bash
+# Add your linters here
+npx lint-staged

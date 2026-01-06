@@ -232,7 +232,7 @@ const VendorProfile = () => {
                     <Button
                       type="submit"
                       isLoading={isSaving}
-                      className="px-12 py-5 shadow-2xl dark:shadow-none shadow-orange-200"
+                      className="px-12 py-5 shadow-2xl shadow-orange-200 dark:shadow-none"
                     >
                       Save Changes
                     </Button>
@@ -352,7 +352,7 @@ const VendorProfile = () => {
                     <Button
                       type="submit"
                       isLoading={isSaving}
-                      className="px-12 py-5 shadow-2xl dark:shadow-none shadow-orange-200"
+                      className="px-12 py-5 shadow-2xl shadow-orange-200 dark:shadow-none"
                     >
                       Update Business Info
                     </Button>
@@ -401,7 +401,7 @@ const VendorProfile = () => {
                   </div>
                   <div className="pt-10 border-t border-gray-100 dark:border-gray-800 pb-10">
                     <h3 className="text-sm font-black text-[#1D2939] dark:text-white uppercase tracking-widest mb-8">Account Security</h3>
-                    <div className="flex items-center justify-between p-6 bg-gray-50 dark:bg-gray-800 rounded-[32px] border border-gray-100 dark:border-gray-700 group hover:bg-white dark:hover:bg-gray-700 hover:shadow-xl dark:hover:shadow-none hover:shadow-gray-100 transition-all">
+                    <div className="flex items-center justify-between p-6 bg-gray-50 dark:bg-gray-800 rounded-[32px] border border-gray-100 dark:border-gray-700 group hover:bg-white dark:hover:bg-gray-700 hover:shadow-xl dark:hover:shadow-none hover:shadow-gray-100 dark:hover:shadow-none transition-all">
                       <div className="flex items-center gap-4">
                         <div className="p-3 bg-white dark:bg-gray-700 rounded-2xl shadow-sm dark:shadow-none group-hover:bg-[#1D2939] dark:group-hover:bg-gray-600 group-hover:text-white transition-colors">
                           <ShieldCheckIcon className="w-5 h-5" />
@@ -445,7 +445,7 @@ const VendorProfile = () => {
                   </div>
 
                   <div className="pt-6 flex justify-end">
-                    <Button type="submit" className="px-12 py-5 shadow-2xl dark:shadow-none shadow-orange-200">
+                    <Button type="submit" className="px-12 py-5 shadow-2xl shadow-orange-200 dark:shadow-none">
                       Update Password
                     </Button>
                   </div>
@@ -469,9 +469,9 @@ const VendorProfile = () => {
                     { id: 'paymentAlerts', title: 'Payment Alerts', desc: 'Receive notifications when milestone payments are released.' },
                     { id: 'marketing', title: 'Marketing Emails', desc: 'Receive news about features and platform updates.' },
                   ].map((item) => (
-                    <div key={item.id} className="flex items-center justify-between p-6 bg-gray-50 dark:bg-gray-800 hover:bg-white dark:hover:bg-gray-700 hover:shadow-xl dark:hover:shadow-none hover:shadow-gray-100 rounded-[32px] border border-gray-100 dark:border-gray-700 transition-all group">
+                    <div key={item.id} className="flex items-center justify-between p-6 bg-gray-50 dark:bg-gray-800 hover:bg-white dark:hover:bg-gray-700 hover:shadow-xl shadow-gray-100 dark:shadow-none rounded-[32px] border border-gray-100 dark:border-gray-700 transition-all group">
                       <div className="flex items-center gap-5">
-                        <div className={`p-4 rounded-[20px] transition-colors ${notifications[item.id as keyof typeof notifications] ? 'bg-[#1D2939] dark:bg-gray-700 text-white shadow-lg dark:shadow-none shadow-gray-200' : 'bg-white dark:bg-gray-700 text-gray-400 dark:text-gray-500'}`}>
+                        <div className={`p-4 rounded-[20px] transition-colors ${notifications[item.id as keyof typeof notifications] ? 'bg-[#1D2939] dark:bg-gray-700 text-white shadow-lg shadow-gray-200 dark:shadow-none' : 'bg-white dark:bg-gray-700 text-gray-400 dark:text-gray-500'}`}>
                           <BellIcon className="w-5 h-5" />
                         </div>
                         <div>
@@ -481,15 +481,15 @@ const VendorProfile = () => {
                       </div>
                       <button
                         onClick={() => setNotifications(prev => ({ ...prev, [item.id]: !prev[item.id as keyof typeof notifications] }))}
-                        className={`relative inline-flex h-7 w-12 flex-shrink-0 cursor-pointer rounded-full border-[3px] border-transparent transition-colors duration-200 ease-in-out ${notifications[item.id as keyof typeof notifications] ? 'bg-orange-500 shadow-lg dark:shadow-none shadow-orange-100' : 'bg-gray-200 dark:bg-gray-700'}`}
+                        className={`relative inline-flex h-7 w-12 flex-shrink-0 cursor-pointer rounded-full border-[3px] border-transparent transition-colors duration-200 ease-in-out ${notifications[item.id as keyof typeof notifications] ? 'bg-orange-500 shadow-lg shadow-orange-100 dark:shadow-none' : 'bg-gray-200 dark:bg-gray-700'}`}
                       >
-                        <span className={`${notifications[item.id as keyof typeof notifications] ? 'translate-x-5' : 'translate-x-0'} inline-block h-5 w-5 transform rounded-full bg-white shadow-md ring-0 transition duration-200 ease-in-out`} />
+                        <span className={`${notifications[item.id as keyof typeof notifications] ? 'translate-x-5' : 'translate-x-0'} inline-block h-5 w-5 transform rounded-full bg-white shadow-md dark:shadow-none ring-0 transition duration-200 ease-in-out`} />
                       </button>
                     </div>
                   ))}
                 </div>
                 <div className="mt-12 pt-8 border-t border-gray-100 dark:border-gray-800 flex justify-end">
-                  <Button onClick={handleSave} className="px-12 py-5 shadow-2xl dark:shadow-none shadow-orange-200">Save Preferences</Button>
+                  <Button onClick={handleSave} className="px-12 py-5 shadow-2xl shadow-orange-200 dark:shadow-none">Save Preferences</Button>
                 </div>
               </div>
             </PremiumCard>
@@ -505,7 +505,7 @@ const VendorProfile = () => {
               <div className="p-10 bg-white dark:bg-gray-900">
                 <div className="grid grid-cols-1 xl:grid-cols-2 gap-10">
                   <div className="p-10 bg-gray-50 dark:bg-gray-800 rounded-[40px] border border-gray-100 dark:border-gray-700 flex flex-col items-center text-center relative overflow-hidden group">
-                    <div className="w-20 h-20 bg-white dark:bg-gray-700 shadow-xl dark:shadow-none shadow-gray-200/50 rounded-[28px] flex items-center justify-center mb-8 relative z-10">
+                    <div className="w-20 h-20 bg-white dark:bg-gray-700 shadow-xl shadow-gray-200/50 dark:shadow-none rounded-[28px] flex items-center justify-center mb-8 relative z-10">
                       <CreditCardIcon className="w-8 h-8 text-gray-400 dark:text-gray-500" />
                     </div>
                     <h3 className="text-xl font-black text-[#1D2939] dark:text-white uppercase tracking-tight mb-2">Basic Vendor</h3>
@@ -528,7 +528,7 @@ const VendorProfile = () => {
                     <Button variant="outline" className="w-full py-5 h-auto bg-white dark:bg-gray-900 opacity-50 cursor-not-allowed">Current Plan</Button>
                   </div>
 
-                  <div className="p-10 bg-[#1D2939] dark:bg-gray-800 rounded-[40px] border-4 border-[#D0771E] flex flex-col items-center text-center relative overflow-hidden group shadow-2xl dark:shadow-none shadow-orange-100">
+                  <div className="p-10 bg-[#1D2939] dark:bg-gray-800 rounded-[40px] border-4 border-[#D0771E] flex flex-col items-center text-center relative overflow-hidden group shadow-2xl shadow-orange-100 dark:shadow-none">
                     <div className="absolute top-6 right-6 px-4 py-1.5 bg-[#D0771E] text-white text-[9px] font-black uppercase tracking-[0.2em] rounded-full shadow-lg dark:shadow-none">Recommended</div>
 
                     <div className="w-20 h-20 bg-white/10 dark:bg-gray-700/50 rounded-[28px] flex items-center justify-center mb-8 relative z-10 text-[#D0771E]">
@@ -552,7 +552,7 @@ const VendorProfile = () => {
                         </li>
                       ))}
                     </ul>
-                    <Button className="w-full py-5 h-auto bg-[#D0771E] hover:bg-white hover:text-[#D0771E] transition-all border-none shadow-xl dark:shadow-none shadow-orange-950/20">Upgrade Now</Button>
+                    <Button className="w-full py-5 h-auto bg-[#D0771E] hover:bg-white hover:text-[#D0771E] transition-all border-none shadow-xl shadow-orange-950/20 dark:shadow-none">Upgrade Now</Button>
                   </div>
                 </div>
                 <div className="mt-12 pt-8 border-t border-gray-100 dark:border-gray-800 flex justify-between items-center">

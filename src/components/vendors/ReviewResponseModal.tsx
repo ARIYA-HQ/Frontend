@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { XMarkIcon, StarIcon, ChatBubbleBottomCenterTextIcon } from '@heroicons/react/24/outline';
+import { XMarkIcon, ChatBubbleBottomCenterTextIcon } from '@heroicons/react/24/outline';
 import { StarIcon as StarIconSolid } from '@heroicons/react/24/solid';
 
 interface ReviewResponseModalProps {

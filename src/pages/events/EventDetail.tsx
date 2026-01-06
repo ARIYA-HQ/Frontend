@@ -44,14 +44,6 @@ interface Document {
   date: string;
 }
 
-interface Milestone {
-  id: string;
-  title: string;
-  status: 'Completed' | 'In Progress' | 'Upcoming';
-  description: string;
-  date: string;
-}
-
 const EventDetail = () => {
   const { eventId } = useParams<{ eventId: string }>();
   const navigate = useNavigate();

@@ -1,14 +1,13 @@
 import { useState } from 'react';
-import { Link, useNavigate } from 'react-router-dom';
+import { Link } from 'react-router-dom';
 import {
     EyeIcon,
-    XMarkIcon,
     CloudArrowUpIcon,
     ChevronDownIcon,
     ArrowLeftIcon,
     ArrowRightIcon,
-    EyeSlashIcon,
-    CheckCircleIcon
+    CheckCircleIcon,
+    SparklesIcon
 } from '@heroicons/react/24/outline';
 import { CheckIcon } from '@heroicons/react/24/solid';
 import { Button } from '../../components/ui/Button';
@@ -17,7 +16,6 @@ import { redirectToRoleSubdomain } from '../../utils/subdomain';
 type Step = 1 | 2 | 3 | 4;
 
 const VendorSignup = () => {
-    const navigate = useNavigate();
     const [step, setStep] = useState<Step>(1);
     const [showPassword, setShowPassword] = useState(false);
     const [showConfirmPassword, setShowConfirmPassword] = useState(false);
@@ -46,6 +44,7 @@ const VendorSignup = () => {
         "Rentals", "Others"
     ];
 
+    // State for categories selection
     const toggleCategory = (cat: string) => {
         setFormData(prev => {
             if (prev.categories.includes(cat)) {
@@ -60,6 +59,13 @@ const VendorSignup = () => {
 
     const nextStep = () => setStep(prev => (prev < 4 ? prev + 1 : prev) as Step);
     const prevStep = () => setStep(prev => (prev > 1 ? prev - 1 : prev) as Step);
+
+    const handleRegister = async () => {
+        // Mock registration logic
+        setTimeout(() => {
+            nextStep();
+        }, 1000);
+    };
 
     const renderVisualPane = () => {
         let imageUrl = "https://images.unsplash.com/photo-1511795409834-ef04bbd61622?q=80&w=1400&auto=format&fit=crop";
@@ -104,17 +110,9 @@ const VendorSignup = () => {
     return (
         <div className="min-h-screen flex flex-col lg:flex-row bg-white dark:bg-gray-900 selection:bg-[#D0771E]/30 transition-colors">
             {/* --- LEFT SIDE: FORM PANE --- */}
-            <div className={`w-full lg:w-1/2 flex flex-col p-8 sm:p-12 lg:p-20 relative transition-all duration-700`}>
+            <div className={`w-full ${step === 4 ? 'lg:w-full' : 'lg:w-1/2'} flex flex-col p-8 sm:p-12 lg:p-20 relative transition-all duration-700`}>
                 {/* Background Accent */}
                 <div className="absolute top-0 left-0 w-64 h-64 bg-[#F3F0EB]/50 dark:bg-gray-800/50 rounded-full blur-[100px] -translate-x-1/2 -translate-y-1/2 -z-10"></div>
-                
-                {/* Progress Tracking */}
-                <div className="fixed top-0 left-0 w-1/2 h-1 bg-gray-50 dark:bg-gray-800 z-[60]">
-                    <div
-                        className="h-full bg-[#D0771E] transition-all duration-1000 ease-out shadow-[0_0_15px_#D0771E]"
-                        style={{ width: `${(step / 4) * 100}%` }}
-                    ></div>
-                </div>
 
                 {/* Top Bar with Logo */}
                 <div className="flex justify-between items-center mb-16 lg:mb-24">
@@ -124,7 +122,7 @@ const VendorSignup = () => {
                             <span className="text-[9px] font-black text-gray-300 dark:text-gray-600 uppercase tracking-widest">Enterprise Onboarding</span>
                             <span className="text-[10px] font-black text-[#1D2939] dark:text-white uppercase tracking-widest">Step {step} of 4</span>
                         </div>
-                        {step > 1 && (
+                        {step > 1 && step < 4 && (
                             <button
                                 onClick={prevStep}
                                 className="w-10 h-10 rounded-xl bg-gray-50 dark:bg-gray-800 flex items-center justify-center text-[#1D2939] dark:text-white hover:bg-[#1D2939] dark:hover:bg-gray-700 hover:text-white transition-all shadow-sm dark:shadow-none"
@@ -135,8 +133,8 @@ const VendorSignup = () => {
                     </div>
                 </div>
 
-                <div className="max-w-md w-full mx-auto lg:mx-0 flex-1 flex flex-col justify-center">
-                    {/* STEP 1: ACCOUNT CREATION */}
+                <div className={`${step === 4 ? 'max-w-2xl text-center' : 'max-w-md'} w-full mx-auto lg:mx-0 flex-1 flex flex-col justify-center`}>
+                    {/* STEP 1: PERSONAL IDENTITY */}
                     {step === 1 && (
                         <div className="animate-in fade-in slide-in-from-bottom-4 duration-500">
                             <div className="mb-12">
@@ -150,6 +148,8 @@ const VendorSignup = () => {
                                         <label className="text-[10px] font-black uppercase tracking-widest text-[#1D2939] dark:text-white ml-1 block">First Name</label>
                                         <input
                                             type="text"
+                                            value={formData.firstName}
+                                            onChange={(e) => setFormData({ ...formData, firstName: e.target.value })}
                                             placeholder="John"
                                             className="w-full h-14 px-6 rounded-2xl bg-gray-50 dark:bg-gray-800 border-none focus:ring-2 focus:ring-[#D0771E] transition-all text-sm font-bold text-gray-900 dark:text-white placeholder:text-gray-300 dark:placeholder:text-gray-500"
                                         />
@@ -158,6 +158,8 @@ const VendorSignup = () => {
                                         <label className="text-[10px] font-black uppercase tracking-widest text-[#1D2939] dark:text-white ml-1 block">Last Name</label>
                                         <input
                                             type="text"
+                                            value={formData.lastName}
+                                            onChange={(e) => setFormData({ ...formData, lastName: e.target.value })}
                                             placeholder="Doe"
                                             className="w-full h-14 px-6 rounded-2xl bg-gray-50 dark:bg-gray-800 border-none focus:ring-2 focus:ring-[#D0771E] transition-all text-sm font-bold text-gray-900 dark:text-white placeholder:text-gray-300 dark:placeholder:text-gray-500"
                                         />
@@ -167,6 +169,8 @@ const VendorSignup = () => {
                                     <label className="text-[10px] font-black uppercase tracking-widest text-[#1D2939] dark:text-white ml-1 block">Business Email</label>
                                     <input
                                         type="email"
+                                        value={formData.email}
+                                        onChange={(e) => setFormData({ ...formData, email: e.target.value })}
                                         placeholder="business@example.com"
                                         className="w-full h-14 px-6 rounded-2xl bg-gray-50 dark:bg-gray-800 border-none focus:ring-2 focus:ring-[#D0771E] transition-all text-sm font-bold text-gray-900 dark:text-white placeholder:text-gray-300 dark:placeholder:text-gray-500"
                                     />
@@ -177,6 +181,8 @@ const VendorSignup = () => {
                                         <div className="relative">
                                             <input
                                                 type={showPassword ? "text" : "password"}
+                                                value={formData.password}
+                                                onChange={(e) => setFormData({ ...formData, password: e.target.value })}
                                                 placeholder="••••••••"
                                                 className="w-full h-14 px-6 rounded-2xl bg-gray-50 dark:bg-gray-800 border-none focus:ring-2 focus:ring-[#D0771E] transition-all text-sm font-bold text-gray-900 dark:text-white placeholder:text-gray-300 dark:placeholder:text-gray-500"
                                             />
@@ -188,6 +194,8 @@ const VendorSignup = () => {
                                         <div className="relative">
                                             <input
                                                 type={showConfirmPassword ? "text" : "password"}
+                                                value={formData.confirmPassword}
+                                                onChange={(e) => setFormData({ ...formData, confirmPassword: e.target.value })}
                                                 placeholder="••••••••"
                                                 className="w-full h-14 px-6 rounded-2xl bg-gray-50 dark:bg-gray-800 border-none focus:ring-2 focus:ring-[#D0771E] transition-all text-sm font-bold text-gray-900 dark:text-white placeholder:text-gray-300 dark:placeholder:text-gray-500"
                                             />
@@ -215,7 +223,7 @@ const VendorSignup = () => {
                         </div>
                     )}
 
-                    {/* STEP 2: CATEGORIES */}
+                    {/* STEP 2: BUSINESS MATRIX */}
                     {step === 2 && (
                         <div className="animate-in fade-in slide-in-from-right-4 duration-500">
                             <div className="mb-10">
@@ -224,7 +232,7 @@ const VendorSignup = () => {
                                 <p className="text-[11px] font-black text-gray-400 dark:text-gray-500 uppercase tracking-widest">Select up to 3 specialties to define your catalog.</p>
                             </div>
 
-                            <div className="flex flex-wrap gap-2.5 mb-12 max-h-[400px] overflow-y-auto pr-2 scrollbar-hide">
+                            <div className="flex flex-wrap gap-2.5 mb-12 max-h-[300px] overflow-y-auto pr-2 scrollbar-hide">
                                 {categories.map(cat => (
                                     <button
                                         key={cat}
@@ -252,7 +260,7 @@ const VendorSignup = () => {
                         </div>
                     )}
 
-                    {/* STEP 3: LOCATION */}
+                    {/* STEP 3: LOGISTICS & ASSETS */}
                     {step === 3 && (
                         <div className="animate-in fade-in slide-in-from-right-4 duration-500">
                             <div className="mb-12">
@@ -262,114 +270,100 @@ const VendorSignup = () => {
                             </div>
 
                             <div className="space-y-6 mb-12">
-                                <div className="space-y-2">
-                                    <label className="text-[10px] font-black uppercase tracking-widest text-[#1D2939] dark:text-white ml-1 block">Country / Nation</label>
-                                    <div className="relative">
-                                        <select className="w-full h-14 px-6 rounded-2xl bg-gray-50 dark:bg-gray-800 border-none focus:ring-2 focus:ring-[#D0771E] transition-all text-sm font-bold text-gray-900 dark:text-white appearance-none">
-                                            <option>Nigeria</option>
-                                            <option>United Kingdom</option>
-                                            <option>United States</option>
-                                            <option>Canada</option>
-                                        </select>
-                                        <ChevronDownIcon className="absolute right-6 top-1/2 -translate-y-1/2 w-4 h-4 text-gray-400 dark:text-gray-500 pointer-events-none" />
+                                <div className="grid grid-cols-2 gap-4">
+                                    <div className="space-y-2">
+                                        <label className="text-[10px] font-black uppercase tracking-widest text-[#1D2939] dark:text-white ml-1 block">Country</label>
+                                        <div className="relative">
+                                            <select
+                                                value={formData.country}
+                                                onChange={(e) => setFormData({ ...formData, country: e.target.value })}
+                                                className="w-full h-14 px-6 rounded-2xl bg-gray-50 dark:bg-gray-800 border-none focus:ring-2 focus:ring-[#D0771E] transition-all text-sm font-bold text-gray-900 dark:text-white appearance-none"
+                                            >
+                                                <option value="">Select</option>
+                                                <option>Nigeria</option>
+                                                <option>UK</option>
+                                                <option>USA</option>
+                                            </select>
+                                            <ChevronDownIcon className="absolute right-6 top-1/2 -translate-y-1/2 w-4 h-4 text-gray-400 dark:text-gray-500 pointer-events-none" />
+                                        </div>
+                                    </div>
+                                    <div className="space-y-2">
+                                        <label className="text-[10px] font-black uppercase tracking-widest text-[#1D2939] dark:text-white ml-1 block">City</label>
+                                        <input
+                                            type="text"
+                                            value={formData.city}
+                                            onChange={(e) => setFormData({ ...formData, city: e.target.value })}
+                                            placeholder="Ex: Lagos"
+                                            className="w-full h-14 px-6 rounded-2xl bg-gray-50 dark:bg-gray-800 border-none focus:ring-2 focus:ring-[#D0771E] transition-all text-sm font-bold text-gray-900 dark:text-white placeholder:text-gray-300 dark:placeholder:text-gray-500"
+                                        />
                                     </div>
                                 </div>
+
                                 <div className="space-y-2">
-                                    <label className="text-[10px] font-black uppercase tracking-widest text-[#1D2939] dark:text-white ml-1 block">State / Region</label>
-                                    <div className="relative">
-                                        <select className="w-full h-14 px-6 rounded-2xl bg-gray-50 dark:bg-gray-800 border-none focus:ring-2 focus:ring-[#D0771E] transition-all text-sm font-bold text-gray-900 dark:text-white appearance-none">
-                                            <option>Lagos State</option>
-                                            <option>Abuja FCT</option>
-                                            <option>London</option>
-                                            <option>New York</option>
-                                        </select>
-                                        <ChevronDownIcon className="absolute right-6 top-1/2 -translate-y-1/2 w-4 h-4 text-gray-400 dark:text-gray-500 pointer-events-none" />
+                                    <label className="text-[10px] font-black uppercase tracking-widest text-[#1D2939] dark:text-white ml-1 block">Brand Assets (ID/Logo)</label>
+                                    <div className="border-[3px] border-dashed border-gray-50 dark:border-gray-800 rounded-[32px] p-10 flex flex-col items-center justify-center gap-4 bg-gray-50/10 dark:bg-gray-800/20 hover:bg-gray-50/50 dark:hover:bg-gray-800/40 hover:border-[#D0771E]/30 transition-all cursor-pointer group">
+                                        <div className="w-14 h-14 bg-white dark:bg-gray-800 rounded-2xl flex items-center justify-center shadow-md dark:shadow-none group-hover:scale-110 group-hover:bg-[#1D2939] transition-all duration-500">
+                                            <CloudArrowUpIcon className="w-7 h-7 text-[#D0771E] group-hover:text-white" />
+                                        </div>
+                                        <p className="text-[10px] font-black uppercase tracking-[0.3em] text-[#1D2939] dark:text-white">Upload Assets</p>
                                     </div>
-                                </div>
-                                <div className="space-y-2">
-                                    <label className="text-[10px] font-black uppercase tracking-widest text-[#1D2939] dark:text-white ml-1 block">City Center</label>
-                                    <input
-                                        type="text"
-                                        placeholder="Ex: Ikoyi"
-                                        className="w-full h-14 px-6 rounded-2xl bg-gray-50 dark:bg-gray-800 border-none focus:ring-2 focus:ring-[#D0771E] transition-all text-sm font-bold text-gray-900 dark:text-white placeholder:text-gray-300 dark:placeholder:text-gray-500"
-                                    />
                                 </div>
                             </div>
 
                             <div className="space-y-4">
                                 <Button
-                                    onClick={nextStep}
-                                    className="w-full h-16 bg-[#D0771E] text-white rounded-2xl text-[11px] font-black uppercase tracking-[0.2em] shadow-2xl shadow-orange-100 dark:shadow-none"
+                                    onClick={handleRegister}
+                                    className="w-full h-16 bg-[#1D2939] dark:bg-gray-800 text-white rounded-2xl text-[11px] font-black uppercase tracking-[0.2em] shadow-2xl dark:shadow-none hover:bg-[#D0771E] transition-all"
                                 >
-                                    Proceed to Media Assets
+                                    Initialize Establishment
                                 </Button>
-                                <button onClick={nextStep} className="w-full text-[10px] font-black uppercase tracking-[0.4em] text-gray-300 dark:text-gray-600 hover:text-[#D0771E] transition-colors py-4">Skip for now</button>
+                                <button onClick={handleRegister} className="w-full text-[10px] font-black uppercase tracking-[0.4em] text-gray-300 dark:text-gray-600 hover:text-[#D0771E] transition-colors py-4">Finalize later</button>
                             </div>
                         </div>
                     )}
 
-                    {/* STEP 4: MEDIA UPLOAD */}
+                    {/* STEP 4: COMPLETION */}
                     {step === 4 && (
-                        <div className="animate-in fade-in slide-in-from-right-4 duration-500">
-                            <div className="mb-12">
-                                <h1 className="text-4xl font-black text-[#1D2939] dark:text-white mb-4 uppercase tracking-tighter leading-tight">Visual <br /> <span className="text-[#D0771E]">Signature.</span></h1>
-                                <p className="text-[11px] font-black text-gray-400 dark:text-gray-500 uppercase tracking-widest">Upload your corporate identification and brand assets.</p>
+                        <div className="animate-in zoom-in fade-in duration-700 flex flex-col items-center justify-center py-20 px-8">
+                            <div className="w-40 h-40 bg-white dark:bg-gray-800 rounded-[60px] shadow-2xl dark:shadow-none flex items-center justify-center mb-12 relative group">
+                                <CheckCircleIcon className="w-20 h-20 text-[#D0771E] relative z-10 transition-transform duration-1000 group-hover:scale-110" />
+                                <div className="absolute inset-2 border-4 border-dashed border-[#D0771E]/20 rounded-[50px] animate-spin-slow"></div>
+                                <SparklesIcon className="absolute -top-4 -right-4 w-12 h-12 text-[#D0771E] animate-bounce" />
                             </div>
 
-                            <div className="space-y-6 mb-12">
-                                <div className="space-y-2 text-center group">
-                                    <label className="text-[10px] font-black uppercase tracking-widest text-[#1D2939] dark:text-white text-left block ml-1 mb-2">Professional Portrait</label>
-                                    <div className="border-[3px] border-dashed border-gray-50 dark:border-gray-800 rounded-[40px] p-12 flex flex-col items-center justify-center gap-4 bg-gray-50/10 dark:bg-gray-800/20 hover:bg-gray-50/50 dark:hover:bg-gray-800/40 hover:border-[#D0771E]/30 dark:hover:border-[#D0771E]/50 transition-all cursor-pointer relative overflow-hidden group">
-                                        <div className="w-16 h-16 bg-white dark:bg-gray-800 rounded-3xl flex items-center justify-center shadow-xl dark:shadow-none group-hover:scale-110 group-hover:bg-[#1D2939] dark:group-hover:bg-gray-700 transition-all duration-500">
-                                            <CloudArrowUpIcon className="w-8 h-8 text-[#D0771E] group-hover:text-white" />
-                                        </div>
-                                        <div className="text-center">
-                                            <p className="text-[10px] font-black uppercase tracking-[0.3em] text-[#1D2939] dark:text-white">Ingest JPG/PNG</p>
-                                            <p className="text-[9px] text-gray-300 dark:text-gray-500 font-bold uppercase tracking-widest mt-1">High fidelity required</p>
-                                        </div>
-                                    </div>
-                                </div>
-                                <div className="space-y-2 text-center">
-                                    <label className="text-[10px] font-black uppercase tracking-widest text-[#1D2939] dark:text-white text-left block ml-1 mb-2">Corporate Logotype</label>
-                                    <div className="border-[3px] border-dashed border-gray-50 dark:border-gray-800 rounded-[40px] p-12 flex flex-col items-center justify-center gap-4 bg-gray-50/10 dark:bg-gray-800/20 hover:bg-gray-50/50 dark:hover:bg-gray-800/40 hover:border-[#D0771E]/30 dark:hover:border-[#D0771E]/50 transition-all cursor-pointer group">
-                                        <div className="w-16 h-16 bg-white dark:bg-gray-800 rounded-3xl flex items-center justify-center shadow-xl dark:shadow-none group-hover:scale-110 group-hover:bg-[#1D2939] dark:group-hover:bg-gray-700 transition-all duration-500">
-                                            <CloudArrowUpIcon className="w-8 h-8 text-[#D0771E] group-hover:text-white" />
-                                        </div>
-                                        <div className="text-center">
-                                            <p className="text-[10px] font-black uppercase tracking-[0.3em] text-[#1D2939] dark:text-white">Brandmark SVG/PNG</p>
-                                            <p className="text-[9px] text-gray-300 dark:text-gray-500 font-bold uppercase tracking-widest mt-1">Logo assets (Primary)</p>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
+                            <h1 className="text-5xl font-black text-[#1D2939] dark:text-white mb-6 uppercase tracking-tight leading-none">Vendor <span className="text-[#D0771E]">Verified.</span></h1>
+                            <p className="text-sm font-medium text-gray-400 dark:text-gray-500 max-w-sm mb-12 leading-relaxed uppercase tracking-widest text-[10px]">
+                                Your enterprise gateway is now active. <br /> Enter your portal to manage your portfolio and inquiries.
+                            </p>
 
-                            <div className="space-y-4">
-                                <Button
-                                    onClick={() => redirectToRoleSubdomain('vendor')}
-                                    className="w-full h-18 bg-[#1D2939] dark:bg-gray-800 text-white rounded-2xl text-[11px] font-black uppercase tracking-[0.3em] shadow-2xl dark:shadow-none hover:scale-[1.05] transition-all flex items-center justify-center gap-4 group"
-                                >
-                                    Start Onboarding
-                                    <ArrowRightIcon className="w-5 h-5 group-hover:translate-x-3 transition-transform" />
-                                </Button>
-                                <button onClick={() => redirectToRoleSubdomain('vendor')} className="w-full text-[10px] font-black uppercase tracking-[0.4em] text-gray-300 dark:text-gray-600 hover:text-[#D0771E] transition-colors py-4">Skip for later</button>
-                            </div>
+                            <Button
+                                onClick={() => redirectToRoleSubdomain('vendor')}
+                                className="w-full max-w-xs h-18 bg-[#1D2939] dark:bg-gray-800 text-white rounded-2xl text-[11px] font-black uppercase tracking-[0.3em] shadow-2xl dark:shadow-none hover:scale-110 transition-all mb-8 group flex items-center justify-center gap-4"
+                            >
+                                Enter Portal
+                                <ArrowRightIcon className="w-5 h-5 group-hover:translate-x-3 transition-transform" />
+                            </Button>
+
+                            <p className="text-[10px] text-gray-300 dark:text-gray-600 font-black uppercase tracking-[0.5em] animate-pulse italic">Ariya Enterprise Core</p>
                         </div>
                     )}
                 </div>
 
                 {/* Bottom Footer Links */}
-                <div className="flex gap-10 pt-16 border-t border-gray-50 dark:border-gray-800 mt-auto items-center">
-                    <button className="text-[9px] font-black uppercase tracking-[0.2em] text-gray-300 dark:text-gray-600 hover:text-[#D0771E] transition-colors">Vendor Policy</button>
-                    <button className="text-[9px] font-black uppercase tracking-[0.2em] text-gray-300 dark:text-gray-600 hover:text-[#D0771E] transition-colors">Compliance</button>
-                    <div className="ml-auto flex items-center gap-3">
-                        <div className="w-1.5 h-1.5 rounded-full bg-emerald-400"></div>
-                        <span className="text-[9px] font-black uppercase tracking-[0.2em] text-[#1D2939] dark:text-white">Ariya Cloud Secure</span>
+                {step !== 4 && (
+                    <div className="flex gap-10 pt-16 border-t border-gray-50 dark:border-gray-800 mt-auto items-center">
+                        <button className="text-[9px] font-black uppercase tracking-[0.2em] text-gray-300 dark:text-gray-600 hover:text-[#D0771E] transition-colors">Vendor Policy</button>
+                        <button className="text-[9px] font-black uppercase tracking-[0.2em] text-gray-300 dark:text-gray-600 hover:text-[#D0771E] transition-colors">Compliance</button>
+                        <div className="ml-auto flex items-center gap-3">
+                            <div className="w-1.5 h-1.5 rounded-full bg-emerald-400"></div>
+                            <span className="text-[9px] font-black uppercase tracking-[0.2em] text-[#1D2939] dark:text-white">Ariya Cloud Secure</span>
+                        </div>
                     </div>
-                </div>
+                )}
             </div>
 
             {/* --- RIGHT SIDE: VISUAL PANE --- */}
-            {renderVisualPane()}
+            {step !== 4 && renderVisualPane()}
         </div>
     );
 };

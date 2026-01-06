@@ -13,7 +13,9 @@ import {
   ArrowPathIcon,
   DocumentTextIcon,
   ChatBubbleLeftIcon,
-  CheckCircleIcon
+  CheckCircleIcon,
+  Squares2X2Icon,
+  ListBulletIcon
 } from '@heroicons/react/24/outline';
 import { StarIcon as StarIconSolid } from '@heroicons/react/24/solid';
 import PageHeader from '../../../components/ui/PageHeader';
@@ -32,6 +34,7 @@ const VendorBookings = () => {
   const [isQuoteModalOpen, setIsQuoteModalOpen] = useState(false);
   const [isReviewModalOpen, setIsReviewModalOpen] = useState(false);
   const [searchQuery, setSearchQuery] = useState('');
+  const [viewMode, setViewMode] = useState<'grid' | 'list'>('grid');
 
   const tabs = [
     { id: 'Confirmed Bookings', label: 'Confirmed Bookings' },
@@ -81,7 +84,7 @@ const VendorBookings = () => {
   return (
     <div className="max-w-[1600px] mx-auto px-8 py-8 h-full flex flex-col gap-10">
       <PageHeader
-        breadcrumb="Dashboard > Operations"
+        breadcrumb="Operations"
         title="Operations"
         subtitle="Manage your bookings, quotes, and customer reviews"
       />
@@ -211,7 +214,7 @@ const VendorBookings = () => {
               ))}
             </div>
 
-            {/* Search & Actions */}
+            {/* Search, Filter & View Toggle */}
             <div className="flex items-center justify-between gap-4">
               <div className="flex gap-4 flex-1">
                 <div className="flex-1 max-w-sm relative group">
@@ -224,6 +227,20 @@ const VendorBookings = () => {
                   />
                   <MagnifyingGlassIcon className="absolute left-4 top-1/2 -translate-y-1/2 w-5 h-5 text-gray-400 group-focus-within:text-[#D0771E] transition-colors" />
                 </div>
+                <div className="flex items-center gap-1 bg-gray-50 dark:bg-gray-800 p-1 rounded-xl border border-gray-100 dark:border-gray-700">
+                  <button
+                    onClick={() => setViewMode('grid')}
+                    className={`p-2 rounded-lg transition-all ${viewMode === 'grid' ? 'bg-white dark:bg-gray-700 text-[#D0771E] shadow-sm dark:shadow-none' : 'text-gray-400 hover:text-gray-600'}`}
+                  >
+                    <Squares2X2Icon className="w-4 h-4" />
+                  </button>
+                  <button
+                    onClick={() => setViewMode('list')}
+                    className={`p-2 rounded-lg transition-all ${viewMode === 'list' ? 'bg-white dark:bg-gray-700 text-[#D0771E] shadow-sm dark:shadow-none' : 'text-gray-400 hover:text-gray-600'}`}
+                  >
+                    <ListBulletIcon className="w-4 h-4" />
+                  </button>
+                </div>
                 <Button variant="outline" className="px-8 h-12 rounded-[20px] border-gray-100 dark:border-gray-700 text-gray-700 dark:text-gray-300">
                   <FunnelIcon className="w-4 h-4 mr-2" />
                   Filter
@@ -234,72 +251,116 @@ const VendorBookings = () => {
                 className="px-10 h-12 rounded-[20px] shadow-2xl shadow-orange-200 dark:shadow-none bg-[#D0771E] text-white"
               >
                 <PlusIcon className="w-5 h-5 mr-2" />
-                Create New Quote
+                New Quote
               </Button>
             </div>
 
             {/* Bookings List */}
-            <div className="grid grid-cols-1 gap-6">
+            <div className={`grid gap-6 ${viewMode === 'grid' ? 'grid-cols-1' : 'grid-cols-1'}`}>
               {bookings.length > 0 ? (
                 bookings.map((booking) => (
                   <PremiumCard
                     key={booking.id}
                     onClick={() => handleBookingClick(booking)}
-                    className="p-0 overflow-hidden cursor-pointer group hover:border-[#D0771E] transition-all border-gray-100 dark:border-gray-800 bg-white dark:bg-gray-900"
+                    className={`${viewMode === 'grid' ? 'p-6' : 'p-4'} overflow-hidden cursor-pointer group hover:border-[#D0771E] transition-all border-gray-100 dark:border-gray-800 bg-white dark:bg-gray-900`}
                   >
-                    <div className="p-8 relative">
-                      {/* Status Badge - Top Right */}
-                      <div className="absolute top-8 right-8">
-                        <span className={`px-4 py-2 rounded-full text-[10px] font-black uppercase tracking-widest border ${booking.status === 'booked' ? 'bg-green-50 dark:bg-green-900/20 text-green-600 dark:text-green-400 border-green-100 dark:border-green-800' :
-                          booking.status === 'completed' ? 'bg-blue-50 dark:bg-blue-900/20 text-blue-600 dark:text-blue-400 border-blue-100 dark:border-blue-800' :
-                            'bg-orange-50 dark:bg-orange-900/20 text-orange-600 dark:text-orange-400 border-orange-100 dark:border-orange-800'
-                          }`}>
-                          {booking.status}
-                        </span>
-                      </div>
-
-                      <div className="flex flex-col gap-8">
-                        {/* Identity Section */}
-                        <div className="space-y-2">
-                          <h3 className="text-xl font-black text-[#1D2939] dark:text-white uppercase tracking-tight group-hover:text-[#D0771E] transition-colors">
-                            {booking.eventName}
-                          </h3>
-                          <div className="flex items-center gap-2 text-[10px] font-black text-gray-400 dark:text-gray-500 uppercase tracking-widest">
-                            <span>{booking.clientName}</span>
-                            <span className="w-1.5 h-1.5 rounded-full bg-gray-200 dark:bg-gray-700"></span>
-                            <span className="text-[#D0771E]">{booking.serviceType}</span>
-                          </div>
+                    {viewMode === 'grid' ? (
+                      <div className="relative">
+                        {/* Status Badge - Top Right */}
+                        <div className="absolute top-0 right-0">
+                          <span className={`px-3 py-1.5 rounded-full text-[9px] font-black uppercase tracking-widest border ${booking.status === 'booked' ? 'bg-green-50 dark:bg-green-900/20 text-green-600 dark:text-green-400 border-green-100 dark:border-green-800' :
+                            booking.status === 'completed' ? 'bg-blue-50 dark:bg-blue-900/20 text-blue-600 dark:text-blue-400 border-blue-100 dark:border-blue-800' :
+                              'bg-orange-50 dark:bg-orange-900/20 text-orange-600 dark:text-orange-400 border-orange-100 dark:border-orange-800'
+                            }`}>
+                            {booking.status}
+                          </span>
                         </div>
 
-                        {/* Details Grid */}
-                        <div className="grid grid-cols-1 sm:grid-cols-3 gap-8 p-6 bg-gray-50 dark:bg-gray-800 rounded-[24px]">
-                          <div>
-                            <p className="text-[10px] font-black text-gray-400 dark:text-gray-500 uppercase tracking-widest mb-1.5">Event Date</p>
-                            <p className="text-[11px] font-black text-[#1D2939] dark:text-white uppercase tracking-tight">{booking.eventDate}</p>
+                        <div className="flex flex-col gap-6">
+                          {/* Identity Section */}
+                          <div className="space-y-1">
+                            <h3 className="text-lg font-black text-[#1D2939] dark:text-white uppercase tracking-tight group-hover:text-[#D0771E] transition-colors">
+                              {booking.eventName}
+                            </h3>
+                            <div className="flex items-center gap-2 text-[9px] font-black text-gray-400 dark:text-gray-500 uppercase tracking-widest">
+                              <span>{booking.clientName}</span>
+                              <span className="w-1.5 h-1.5 rounded-full bg-gray-200 dark:bg-gray-700"></span>
+                              <span className="text-[#D0771E]">{booking.serviceType}</span>
+                            </div>
                           </div>
-                          <div>
-                            <p className="text-[10px] font-black text-gray-400 dark:text-gray-500 uppercase tracking-widest mb-1.5">Budget</p>
-                            <p className="text-xs font-black text-[#D0771E]">{booking.amount ? `₦${booking.amount.toLocaleString()}` : 'N/A'}</p>
+
+                          {/* Details Grid */}
+                          <div className="grid grid-cols-1 sm:grid-cols-3 gap-6 p-4 bg-gray-50 dark:bg-gray-800 rounded-2xl">
+                            <div>
+                              <p className="text-[9px] font-black text-gray-400 dark:text-gray-500 uppercase tracking-widest mb-1">Event Date</p>
+                              <p className="text-[10px] font-black text-[#1D2939] dark:text-white uppercase tracking-tight">{booking.eventDate}</p>
+                            </div>
+                            <div>
+                              <p className="text-[9px] font-black text-gray-400 dark:text-gray-500 uppercase tracking-widest mb-1">Budget</p>
+                              <p className="text-[10px] font-black text-[#D0771E]">{booking.amount ? `₦${booking.amount.toLocaleString()}` : 'N/A'}</p>
+                            </div>
+                            <div>
+                              <p className="text-[9px] font-black text-gray-400 dark:text-gray-500 uppercase tracking-widest mb-1">Reference</p>
+                              <p className="text-[10px] font-black text-[#1D2939] dark:text-white uppercase tracking-tight">#BK-{booking.id.slice(0, 8).toUpperCase()}</p>
+                            </div>
                           </div>
-                          <div>
-                            <p className="text-[10px] font-black text-gray-400 dark:text-gray-500 uppercase tracking-widest mb-1.5">Reference</p>
-                            <p className="text-[11px] font-black text-[#1D2939] dark:text-white uppercase tracking-tight">#BK-{booking.id.slice(0, 8).toUpperCase()}</p>
+
+                          {booking.status === 'booked' && (
+                            <div className="flex items-center gap-2 px-4 py-2 bg-green-50 dark:bg-green-900/20 rounded-xl border border-green-100 dark:border-green-800 w-fit">
+                              <ShieldCheckIcon className="w-4 h-4 text-green-600 dark:text-green-400" />
+                              <span className="text-[9px] font-black text-green-700 dark:text-green-300 uppercase tracking-[0.2em]">Funds Secured</span>
+                            </div>
+                          )}
+                        </div>
+                      </div>
+                    ) : (
+                      /* List View Layout */
+                      <div className="flex items-center justify-between gap-6">
+                        <div className="flex items-center gap-6 flex-1 min-w-0">
+                          <div className={`w-2 h-2 rounded-full shrink-0 ${booking.status === 'booked' ? 'bg-green-500' : 'bg-[#D0771E]'}`}></div>
+                          <div className="min-w-0 flex-1">
+                            <h3 className="text-xs font-black text-[#1D2939] dark:text-white truncate uppercase tracking-tight">
+                              {booking.eventName}
+                            </h3>
+                            <p className="text-[9px] font-bold text-gray-400 uppercase tracking-widest truncate">{booking.clientName} • {booking.eventDate}</p>
+                          </div>
+                          <div className="hidden lg:block w-32 shrink-0">
+                            <p className="text-[8px] font-black text-gray-400 uppercase tracking-widest mb-0.5">Budget</p>
+                            <p className="text-[10px] font-black text-[#1D2939] dark:text-white">{booking.amount ? `₦${booking.amount.toLocaleString()}` : 'N/A'}</p>
+                          </div>
+                          <div className="hidden xl:block flex-1 min-w-0 max-w-xs">
+                            <p className="text-[8px] font-black text-gray-400 uppercase tracking-widest mb-0.5">Service</p>
+                            <p className="text-[10px] font-medium text-gray-500 dark:text-gray-400 truncate uppercase">{booking.serviceType}</p>
+                          </div>
+                          <div className="shrink-0 text-right">
+                            <span className={`px-2 py-1 rounded-lg text-[8px] font-black uppercase tracking-widest shadow-sm dark:shadow-none ${booking.status === 'booked' ? 'bg-green-50 dark:bg-green-900/20 text-green-700 dark:text-green-400 border border-green-100 dark:border-green-800' :
+                              booking.status === 'completed' ? 'bg-blue-50 dark:bg-blue-900/20 text-blue-700 dark:text-blue-400 border border-blue-100 dark:border-blue-800' :
+                                'bg-orange-50 dark:bg-orange-900/20 text-orange-700 dark:text-orange-400 border border-orange-100 dark:border-orange-800'
+                              }`}>
+                              {booking.status}
+                            </span>
                           </div>
                         </div>
-
-                        {booking.status === 'booked' && (
-                          <div className="flex items-center gap-3 px-6 py-3 bg-green-50 dark:bg-green-900/20 rounded-2xl border border-green-100 dark:border-green-800 w-fit">
-                            <ShieldCheckIcon className="w-5 h-5 text-green-600 dark:text-green-400" />
-                            <span className="text-[10px] font-black text-green-700 dark:text-green-300 uppercase tracking-[0.2em]">Funds Secured in Escrow</span>
-                          </div>
-                        )}
+                        <div className="flex items-center gap-2 shrink-0">
+                          <Button
+                            variant="outline"
+                            className="h-8 w-8 p-0 rounded-lg border-gray-100 dark:border-gray-700 text-gray-400 hover:text-[#D0771E]"
+                          >
+                            <ChatBubbleLeftIcon className="w-4 h-4" />
+                          </Button>
+                          <Button
+                            className="h-8 px-4 rounded-lg bg-[#1D2939] dark:bg-gray-700 text-white text-[8px] font-black uppercase tracking-widest hover:bg-black"
+                          >
+                            Manage
+                          </Button>
+                        </div>
                       </div>
-                    </div>
+                    )}
                   </PremiumCard>
                 ))
               ) : (
                 <div className="py-24 text-center bg-gray-50 dark:bg-gray-800 rounded-[40px] border-2 border-dashed border-gray-100 dark:border-gray-700">
-                  <div className="w-20 h-20 bg-white dark:bg-gray-700 rounded-3xl flex items-center justify-center mx-auto mb-6 shadow-sm">
+                  <div className="w-20 h-20 bg-white dark:bg-gray-700 rounded-3xl flex items-center justify-center mx-auto mb-6 shadow-sm dark:shadow-none">
                     <MagnifyingGlassIcon className="w-8 h-8 text-gray-200 dark:text-gray-500" />
                   </div>
                   <p className="text-[11px] font-black text-gray-400 dark:text-gray-500 uppercase tracking-widest">No bookings found in this category</p>
@@ -326,7 +387,7 @@ const VendorBookings = () => {
         onClose={() => setIsReviewModalOpen(false)}
         review={selectedReview}
       />
-    </div>
+    </div >
   );
 };
 

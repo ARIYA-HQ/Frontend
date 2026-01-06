@@ -22,7 +22,6 @@ export const CardGrid = ({
     items,
     onCardClick,
     cols = 3,
-    responsive = 'lg',
     renderCard
 }: CardGridProps) => {
     const gridCols = {

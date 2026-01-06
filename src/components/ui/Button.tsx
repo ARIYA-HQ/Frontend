@@ -32,7 +32,10 @@ interface ButtonComponentProps extends ButtonProps {
 const Button = ({ variant, size, className, isLoading, children, ...props }: ButtonComponentProps) => {
   return (
     <AriaButton
-      className={(renderProps) => buttonVariants({ variant, size, className, ...renderProps }) as string}
+      className={(renderProps) => {
+        const resolvedClassName = typeof className === 'function' ? className(renderProps) : className;
+        return buttonVariants({ variant, size, className: resolvedClassName, ...renderProps });
+      }}
       isDisabled={isLoading || props.isDisabled}
       {...props}
     >

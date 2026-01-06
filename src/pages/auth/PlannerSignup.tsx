@@ -1,23 +1,20 @@
-import { useState, Fragment } from 'react';
-import { useNavigate } from 'react-router-dom';
+import { useState } from 'react';
 import {
-    EyeIcon,
-    XMarkIcon,
     ChevronDownIcon,
     CheckCircleIcon,
     SparklesIcon,
     ArrowLeftIcon,
     ArrowRightIcon,
+    EyeIcon,
     EyeSlashIcon
 } from '@heroicons/react/24/outline';
 import { CheckIcon } from '@heroicons/react/24/solid';
 import { Button } from '../../components/ui/Button';
 import { redirectToRoleSubdomain } from '../../utils/subdomain';
 
-type Step = 1 | 2 | 3 | 4 | 5 | 6 | 7 | 8 | 9;
+type Step = 1 | 2 | 3 | 4;
 
 const PlannerSignup = () => {
-    const navigate = useNavigate();
     const [step, setStep] = useState<Step>(1);
     const [showPassword, setShowPassword] = useState(false);
 
@@ -30,7 +27,7 @@ const PlannerSignup = () => {
         confirmPassword: '',
         eventType: '',
         eventDate: '',
-        country: '',
+        country: 'Nigeria',
         state: '',
         city: '',
         budget: '',
@@ -39,34 +36,12 @@ const PlannerSignup = () => {
         style: ''
     });
 
-    const eventTypes = ["Wedding", "Birthday", "Corporate", "Baby Shower", "Anniversary", "Sports", "Concert", "Bridal Showers", "Fashion Shows", "Workshops"];
+    const eventTypes = ["Wedding", "Birthday", "Corporate", "Baby Shower", "Anniversary", "Others"];
 
-    const services = [
-        "Photographer", "Videographer", "Officiant", "Caterers",
-        "DJ/Band/Musicians", "Sound Technician", "Makeup Artist",
-        "Venues", "Rental Company", "Cake/Dessert Vendor",
-        "Lighting Technician", "Transportation Services",
-        "Hair & Makeup Artists", "Photo Booth Provider",
-        "Decorators/Event Designer", "Bartending Service",
-        "Event Security", "Comedian", "Dancer", "Magician",
-        "Rentals", "Others"
-    ];
-
-    const styles = ["Classic", "Modern", "Rustic", "Bold", "Cultural", "Mixed"];
-
-    const toggleService = (service: string) => {
-        setFormData(prev => {
-            if (prev.services.includes(service)) {
-                return { ...prev, services: prev.services.filter(s => s !== service) };
-            }
-            return { ...prev, services: [...prev.services, service] };
-        });
-    };
-
-    const nextStep = () => setStep(prev => (prev < 9 ? prev + 1 : prev) as Step);
+    const nextStep = () => setStep(prev => (prev < 4 ? prev + 1 : prev) as Step);
     const prevStep = () => setStep(prev => (prev > 1 ? prev - 1 : prev) as Step);
 
-    const progress = (step / 9) * 100;
+    const progress = (step / 4) * 100;
 
     const renderVisualPane = () => {
         const imageUrl = "https://images.unsplash.com/photo-1519741497674-611481863552?q=80&w=1400&auto=format&fit=crop";
@@ -104,12 +79,12 @@ const PlannerSignup = () => {
     return (
         <div className="min-h-screen flex flex-col lg:flex-row bg-white dark:bg-gray-900 selection:bg-[#D0771E]/30 transition-colors">
             {/* --- LEFT SIDE: FORM PANE --- */}
-            <div className={`w-full ${step === 9 ? 'lg:w-full' : 'lg:w-1/2'} flex flex-col p-8 sm:p-12 lg:p-20 relative transition-all duration-700`}>
+            <div className={`w-full ${step === 4 ? 'lg:w-full' : 'lg:w-1/2'} flex flex-col p-8 sm:p-12 lg:p-20 relative transition-all duration-700`}>
                 {/* Background Accent */}
                 <div className="absolute top-0 left-0 w-64 h-64 bg-[#F3F0EB]/50 dark:bg-gray-800/50 rounded-full blur-[100px] -translate-x-1/2 -translate-y-1/2 -z-10"></div>
-                
+
                 {/* Progress Bar */}
-                {step !== 9 && (
+                {step !== 4 && (
                     <div className="fixed top-0 left-0 w-full h-1 bg-gray-50 dark:bg-gray-800 z-[60]">
                         <div
                             className="h-full bg-[#D0771E] transition-all duration-1000 ease-out shadow-[0_0_10px_rgba(208,119,30,0.5)]"
@@ -121,11 +96,11 @@ const PlannerSignup = () => {
                 {/* Top Nav */}
                 <div className="flex justify-between items-center mb-16 lg:mb-20">
                     <div className="text-[#D0771E] font-black text-4xl tracking-tighter uppercase italic">Àriyá</div>
-                    {step !== 9 && (
+                    {step !== 4 && (
                         <div className="flex items-center gap-6">
                             <div className="hidden sm:flex flex-col items-end">
-                                <span className="text-[9px] font-black text-gray-300 dark:text-gray-600 uppercase tracking-widest">Onboarding Phase</span>
-                                <span className="text-[10px] font-black text-[#1D2939] dark:text-white uppercase tracking-widest">Step {step} of 9</span>
+                                <span className="text-[9px] font-black text-gray-300 dark:text-gray-600 uppercase tracking-widest">Initialize Phase</span>
+                                <span className="text-[10px] font-black text-[#1D2939] dark:text-white uppercase tracking-widest">Phase {step} of 4</span>
                             </div>
                             {step > 1 && (
                                 <button
@@ -139,7 +114,7 @@ const PlannerSignup = () => {
                     )}
                 </div>
 
-                <div className={`${step === 9 ? 'max-w-2xl text-center' : 'max-w-md'} w-full mx-auto lg:mx-0 flex-1 flex flex-col justify-center`}>
+                <div className={`${step === 4 ? 'max-w-2xl text-center' : 'max-w-md'} w-full mx-auto lg:mx-0 flex-1 flex flex-col justify-center`}>
 
                     {/* STEP 1: ACCOUNT CREATION */}
                     {step === 1 && (
@@ -203,257 +178,124 @@ const PlannerSignup = () => {
                         </div>
                     )}
 
-                    {/* STEP 2: EVENT TYPE */}
+                    {/* STEP 2: MILESTONE IDENTITY */}
                     {step === 2 && (
                         <div className="animate-in fade-in slide-in-from-right-4 duration-500">
                             <div className="mb-10">
                                 <h1 className="text-3xl font-black text-[#1D2939] dark:text-white mb-4 uppercase tracking-tighter leading-tight">What type of <span className="text-[#D0771E]">Event</span> are you architecting?</h1>
-                                <p className="text-[11px] font-black text-gray-400 dark:text-gray-500 uppercase tracking-widest">Select the primary focus of your milestone.</p>
+                                <p className="text-[11px] font-black text-gray-400 dark:text-gray-500 uppercase tracking-widest">Select the primary focus and timeline of your milestone.</p>
                             </div>
 
-                            <div className="flex flex-wrap gap-3 mb-12">
-                                {eventTypes.map(type => (
-                                    <button
-                                        key={type}
-                                        onClick={() => setFormData({ ...formData, eventType: type })}
-                                        className={`px-6 py-4 rounded-2xl border text-[11px] font-black uppercase tracking-widest transition-all duration-300 flex items-center gap-3 ${formData.eventType === type
-                                            ? 'bg-[#1D2939] dark:bg-gray-800 border-[#1D2939] dark:border-gray-700 text-white shadow-xl dark:shadow-none translate-y-[-2px]'
-                                            : 'bg-white dark:bg-gray-800 border-gray-100 dark:border-gray-700 text-[#1D2939] dark:text-white hover:border-[#D0771E] dark:hover:border-[#D0771E]/50 hover:bg-gray-50 dark:hover:bg-gray-700'
-                                            } `}
-                                    >
-                                        {type}
-                                        {formData.eventType === type && <CheckIcon className="w-4 h-4 text-[#D0771E]" />}
-                                    </button>
-                                ))}
-                            </div>
-
-                            <div className="flex flex-col gap-4">
-                                <Button onClick={nextStep} className="w-full h-16 rounded-2xl text-[11px] font-black uppercase tracking-widest bg-[#D0771E] shadow-orange-100 dark:shadow-none">Proceed to Scheduling</Button>
-                                <button onClick={nextStep} className="text-[10px] font-black uppercase tracking-[0.3em] text-gray-300 dark:text-gray-600 hover:text-[#D0771E] transition-colors py-4">Skip for later</button>
-                            </div>
-                        </div>
-                    )}
-
-                    {/* STEP 3: EVENT DATE */}
-                    {step === 3 && (
-                        <div className="animate-in fade-in slide-in-from-right-4 duration-500">
-                            <div className="mb-10">
-                                <h1 className="text-3xl font-black text-[#1D2939] dark:text-white mb-4 uppercase tracking-tighter leading-tight">When is the <span className="text-[#D0771E]">Commencement?</span></h1>
-                                <p className="text-[11px] font-black text-gray-400 dark:text-gray-500 uppercase tracking-widest">Select your target timeline for the event.</p>
-                            </div>
-
-                            <div className="space-y-4 mb-12">
-                                {["Within 3 Months", "In 6 Months", "In 1 Year", "Undetermined"].map(time => (
-                                    <button
-                                        key={time}
-                                        onClick={() => setFormData({ ...formData, eventDate: time })}
-                                        className={`w-full p-6 rounded-2xl border-2 flex items-center justify-between transition-all duration-300 ${formData.eventDate === time
-                                            ? 'bg-[#1D2939] dark:bg-gray-800 border-[#1D2939] dark:border-gray-700 text-white shadow-xl dark:shadow-none'
-                                            : 'bg-white dark:bg-gray-800 border-gray-50 dark:border-gray-700 hover:border-[#D0771E] dark:hover:border-[#D0771E]/50 text-[#1D2939] dark:text-white'
-                                            }`}
-                                    >
-                                        <span className="text-sm font-black uppercase tracking-widest">{time}</span>
-                                        <div className={`w-6 h-6 rounded-full border-2 flex items-center justify-center ${formData.eventDate === time ? 'bg-[#D0771E] border-[#D0771E]' : 'border-gray-100 dark:border-gray-600'}`}>
-                                            {formData.eventDate === time && <CheckIcon className="w-3 h-3 text-white" />}
-                                        </div>
-                                    </button>
-                                ))}
-                            </div>
-
-                            <div className="flex flex-col gap-4">
-                                <Button onClick={nextStep} className="w-full h-16 rounded-2xl text-[11px] font-black uppercase tracking-widest bg-[#D0771E] shadow-orange-100 dark:shadow-none">Proceed to Location</Button>
-                                <button onClick={nextStep} className="text-[10px] font-black uppercase tracking-[0.3em] text-gray-300 dark:text-gray-600 hover:text-[#D0771E] transition-colors py-4">Skip for later</button>
-                            </div>
-                        </div>
-                    )}
-
-                    {/* STEP 4: LOCATION */}
-                    {step === 4 && (
-                        <div className="animate-in fade-in slide-in-from-right-4 duration-500">
-                            <div className="mb-10">
-                                <h1 className="text-3xl font-black text-[#1D2939] dark:text-white mb-4 uppercase tracking-tighter leading-tight">Where is the <span className="text-[#D0771E]">Geographic Focus?</span></h1>
-                                <p className="text-[11px] font-black text-gray-400 dark:text-gray-500 uppercase tracking-widest font-mono">Input coordinates for logistical mapping.</p>
-                            </div>
-
-                            <div className="space-y-6 mb-12">
-                                <div className="space-y-2">
-                                    <label className="text-[10px] font-black uppercase tracking-widest text-[#1D2939] dark:text-white ml-1 block">Country</label>
-                                    <div className="relative">
-                                        <select className="w-full h-14 px-6 rounded-2xl bg-gray-50 dark:bg-gray-800 border-none focus:ring-2 focus:ring-[#D0771E] transition-all text-sm font-bold text-gray-900 dark:text-white appearance-none">
-                                            <option>Nigeria</option>
-                                            <option>United Kingdom</option>
-                                            <option>United States</option>
-                                        </select>
-                                        <ChevronDownIcon className="absolute right-6 top-1/2 -translate-y-1/2 w-4 h-4 text-gray-400 dark:text-gray-500 pointer-events-none" />
-                                    </div>
+                            <div className="space-y-8">
+                                <div className="flex flex-wrap gap-3">
+                                    {eventTypes.map(type => (
+                                        <button
+                                            key={type}
+                                            onClick={() => setFormData({ ...formData, eventType: type })}
+                                            className={`px-6 py-4 rounded-2xl border text-[11px] font-black uppercase tracking-widest transition-all duration-300 flex items-center gap-3 ${formData.eventType === type
+                                                ? 'bg-[#1D2939] dark:bg-gray-800 border-[#1D2939] dark:border-gray-700 text-white shadow-xl dark:shadow-none translate-y-[-2px]'
+                                                : 'bg-white dark:bg-gray-800 border-gray-100 dark:border-gray-700 text-[#1D2939] dark:text-white hover:border-[#D0771E] dark:hover:border-[#D0771E]/50 hover:bg-gray-50 dark:hover:bg-gray-700'
+                                                } `}
+                                        >
+                                            {type}
+                                            {formData.eventType === type && <CheckIcon className="w-4 h-4 text-[#D0771E]" />}
+                                        </button>
+                                    ))}
                                 </div>
-                                <div className="space-y-2">
-                                    <label className="text-[10px] font-black uppercase tracking-widest text-[#1D2939] dark:text-white ml-1 block">State / Region</label>
-                                    <div className="relative">
-                                        <select className="w-full h-14 px-6 rounded-2xl bg-gray-50 dark:bg-gray-800 border-none focus:ring-2 focus:ring-[#D0771E] transition-all text-sm font-bold text-gray-900 dark:text-white appearance-none">
-                                            <option>Lagos State</option>
-                                            <option>Abuja FCT</option>
-                                            <option>Port Harcourt</option>
-                                        </select>
-                                        <ChevronDownIcon className="absolute right-6 top-1/2 -translate-y-1/2 w-4 h-4 text-gray-400 dark:text-gray-500 pointer-events-none" />
-                                    </div>
-                                </div>
-                                <div className="space-y-2">
-                                    <label className="text-[10px] font-black uppercase tracking-widest text-[#1D2939] dark:text-white ml-1 block">Metropolitan City</label>
-                                    <input type="text" placeholder="Ex: Victoria Island" className="w-full h-14 px-6 rounded-2xl bg-gray-50 dark:bg-gray-800 border-none focus:ring-2 focus:ring-[#D0771E] transition-all text-sm font-bold text-gray-900 dark:text-white placeholder:text-gray-300 dark:placeholder:text-gray-500" />
-                                </div>
-                            </div>
 
-                            <div className="flex flex-col gap-4">
-                                <Button onClick={nextStep} className="w-full h-16 rounded-2xl text-[11px] font-black uppercase tracking-widest bg-[#D0771E] shadow-orange-100 dark:shadow-none">Configure Budget</Button>
-                                <button onClick={nextStep} className="text-[10px] font-black uppercase tracking-[0.3em] text-gray-300 dark:text-gray-600 hover:text-[#D0771E] transition-colors py-4">Skip for later</button>
-                            </div>
-                        </div>
-                    )}
-
-                    {/* STEP 5: BUDGET */}
-                    {step === 5 && (
-                        <div className="animate-in fade-in slide-in-from-right-4 duration-500">
-                            <div className="mb-10">
-                                <h1 className="text-3xl font-black text-[#1D2939] dark:text-white mb-4 uppercase tracking-tighter leading-tight">Financial <span className="text-[#D0771E]">Parameters?</span></h1>
-                                <p className="text-[11px] font-black text-gray-400 dark:text-gray-500 uppercase tracking-widest">Define your investment range for the event.</p>
-                            </div>
-
-                            <div className="space-y-6 mb-12">
-                                <div className="space-y-2">
-                                    <label className="text-[10px] font-black uppercase tracking-widest text-[#1D2939] dark:text-white ml-1 block">Expected Budget Spectrum</label>
-                                    <div className="grid grid-cols-1 gap-4">
-                                        {[
-                                            { label: "Essential", range: "₦5M - ₦10M" },
-                                            { label: "Elite", range: "₦10M - ₦25M" },
-                                            { label: "Imperial", range: "₦25M - ₦100M+" }
-                                        ].map(tier => (
+                                <div className="space-y-4">
+                                    <label className="text-[10px] font-black uppercase tracking-widest text-[#1D2939] dark:text-white ml-1 block">Expected Commencement</label>
+                                    <div className="grid grid-cols-2 gap-4">
+                                        {["Within 3 Months", "In 6 Months", "In 1 Year", "Undetermined"].map(time => (
                                             <button
-                                                key={tier.label}
-                                                onClick={() => setFormData({ ...formData, budget: tier.label })}
-                                                className={`p-6 rounded-2xl border-2 text-left flex items-center justify-between transition-all duration-300 ${formData.budget === tier.label ? 'bg-[#1D2939] dark:bg-gray-800 border-[#1D2939] dark:border-gray-700 text-white' : 'bg-white dark:bg-gray-800 border-gray-50 dark:border-gray-700 hover:border-[#D0771E] dark:hover:border-[#D0771E]/50'
+                                                key={time}
+                                                onClick={() => setFormData({ ...formData, eventDate: time })}
+                                                className={`p-4 rounded-2xl border-2 flex items-center justify-between transition-all duration-300 ${formData.eventDate === time
+                                                    ? 'bg-[#1D2939] dark:bg-gray-800 border-[#1D2939] dark:border-gray-700 text-white shadow-lg'
+                                                    : 'bg-white dark:bg-gray-800 border-gray-50 dark:border-gray-700 hover:border-[#D0771E] dark:hover:border-[#D0771E]/50 text-[#1D2939] dark:text-white'
                                                     }`}
                                             >
-                                                <div>
-                                                    <span className="text-sm font-black uppercase tracking-widest block">{tier.label}</span>
-                                                    <span className="text-[10px] font-bold text-gray-400 dark:text-gray-500 font-mono mt-1">{tier.range}</span>
-                                                </div>
-                                                <div className={`w-8 h-8 rounded-[12px] flex items-center justify-center ${formData.budget === tier.label ? 'bg-[#D0771E]' : 'bg-gray-50 dark:bg-gray-700'}`}>
-                                                    <CheckIcon className={`w-5 h-5 ${formData.budget === tier.label ? 'text-white' : 'text-gray-200 dark:text-gray-400'}`} />
-                                                </div>
+                                                <span className="text-[10px] font-black uppercase tracking-widest">{time}</span>
                                             </button>
                                         ))}
                                     </div>
-                                    <p className="text-[10px] text-gray-300 dark:text-gray-600 mt-4 italic text-center">Calculated based on location and event archetype.</p>
                                 </div>
                             </div>
 
-                            <div className="flex flex-col gap-4">
-                                <Button onClick={nextStep} className="w-full h-16 rounded-2xl text-[11px] font-black uppercase tracking-widest bg-[#D0771E] shadow-orange-100 dark:shadow-none">Set Capacity</Button>
+                            <div className="flex flex-col gap-4 mt-12">
+                                <Button onClick={nextStep} className="w-full h-16 rounded-2xl text-[11px] font-black uppercase tracking-widest bg-[#D0771E] shadow-orange-100 dark:shadow-none">Proceed to Logistics</Button>
                                 <button onClick={nextStep} className="text-[10px] font-black uppercase tracking-[0.3em] text-gray-300 dark:text-gray-600 hover:text-[#D0771E] transition-colors py-4">Skip for later</button>
                             </div>
                         </div>
                     )}
 
-                    {/* STEP 6: GUESTS */}
-                    {step === 6 && (
+                    {/* STEP 3: LOGISTICS & SCALE */}
+                    {step === 3 && (
                         <div className="animate-in fade-in slide-in-from-right-4 duration-500">
                             <div className="mb-10">
-                                <h1 className="text-3xl font-black text-[#1D2939] dark:text-white mb-4 uppercase tracking-tighter leading-tight">Scale & <span className="text-[#D0771E]">Capacity?</span></h1>
-                                <p className="text-[11px] font-black text-gray-400 dark:text-gray-500 uppercase tracking-widest">Expected guest attendance for logistics mapping.</p>
+                                <h1 className="text-3xl font-black text-[#1D2939] dark:text-white mb-4 uppercase tracking-tighter leading-tight">Where is the <span className="text-[#D0771E]">Geographic Focus?</span></h1>
+                                <p className="text-[11px] font-black text-gray-400 dark:text-gray-500 uppercase tracking-widest">Input coordinates and scale for logistical mapping.</p>
                             </div>
 
-                            <div className="grid grid-cols-2 gap-4 mb-12">
-                                {["50 - 100", "100 - 250", "250 - 500", "500 - 1000", "1000 - 5000", "5000+"].map(cap => (
-                                    <button
-                                        key={cap}
-                                        onClick={() => setFormData({ ...formData, guests: cap })}
-                                        className={`p-6 rounded-2xl border-2 transition-all duration-300 text-center ${formData.guests === cap
-                                            ? 'bg-[#1D2939] dark:bg-gray-800 border-[#1D2939] dark:border-gray-700 text-white shadow-xl dark:shadow-none translate-y-[-2px]'
-                                            : 'bg-white dark:bg-gray-800 border-gray-50 dark:border-gray-700 text-[#1D2939] dark:text-white hover:border-[#D0771E] dark:hover:border-[#D0771E]/50 hover:bg-gray-50 dark:hover:bg-gray-700'
-                                            }`}
-                                    >
-                                        <span className="text-xl font-black block">{cap}</span>
-                                        <span className="text-[9px] font-black uppercase tracking-[0.2em] text-gray-400 dark:text-gray-500 mt-1">Guests</span>
-                                    </button>
-                                ))}
-                            </div>
-
-                            <div className="flex flex-col gap-4">
-                                <Button onClick={nextStep} className="w-full h-16 rounded-2xl text-[11px] font-black uppercase tracking-widest bg-[#D0771E] shadow-orange-100 dark:shadow-none">Service Requirements</Button>
-                                <button onClick={nextStep} className="text-[10px] font-black uppercase tracking-[0.3em] text-gray-300 dark:text-gray-600 hover:text-[#D0771E] transition-colors py-4">Skip for later</button>
-                            </div>
-                        </div>
-                    )}
-
-                    {/* STEP 7: SERVICES */}
-                    {step === 7 && (
-                        <div className="animate-in fade-in slide-in-from-right-4 duration-500">
-                            <div className="mb-10">
-                                <h1 className="text-3xl font-black text-[#1D2939] dark:text-white mb-4 uppercase tracking-tighter leading-tight">Service <span className="text-[#D0771E]">Ecosystem?</span></h1>
-                                <p className="text-[11px] font-black text-gray-400 dark:text-gray-500 uppercase tracking-widest text-[#D0771E]">Select the premium vendors required for your vision.</p>
-                            </div>
-
-                            <div className="flex flex-wrap gap-2.5 mb-12 max-h-[400px] overflow-y-auto pr-2 scrollbar-hide">
-                                {services.map(service => (
-                                    <button
-                                        key={service}
-                                        onClick={() => toggleService(service)}
-                                        className={`px-5 py-3.5 rounded-2xl border text-[10px] font-black uppercase tracking-widest transition-all duration-300 flex items-center gap-2 ${formData.services.includes(service)
-                                            ? 'bg-[#1D2939] dark:bg-gray-800 border-[#1D2939] dark:border-gray-700 text-white shadow-xl dark:shadow-none'
-                                            : 'bg-white dark:bg-gray-800 border-gray-100 dark:border-gray-700 text-gray-400 dark:text-gray-500 hover:border-[#D0771E] dark:hover:border-[#D0771E]/50 hover:text-[#1D2939] dark:hover:text-white'
-                                            }`}
-                                    >
-                                        {service}
-                                        {formData.services.includes(service) && <div className="w-2 h-2 rounded-full bg-[#D0771E] shadow-[0_0_8px_#D0771E]"></div>}
-                                    </button>
-                                ))}
-                            </div>
-
-                            <div className="flex flex-col gap-4">
-                                <Button onClick={nextStep} className="w-full h-16 rounded-2xl text-[11px] font-black uppercase tracking-widest bg-[#D0771E] shadow-orange-100 dark:shadow-none">Aesthetic Aesthetic</Button>
-                                <button onClick={nextStep} className="text-[10px] font-black uppercase tracking-[0.3em] text-gray-300 dark:text-gray-600 hover:text-[#D0771E] transition-colors py-4">Skip for later</button>
-                            </div>
-                        </div>
-                    )}
-
-                    {/* STEP 8: STYLE */}
-                    {step === 8 && (
-                        <div className="animate-in fade-in slide-in-from-right-4 duration-500">
-                            <div className="mb-10">
-                                <h1 className="text-3xl font-black text-[#1D2939] dark:text-white mb-4 uppercase tracking-tighter leading-tight">Mood & <span className="text-[#D0771E]">Aesthetic?</span></h1>
-                                <p className="text-[11px] font-black text-gray-400 dark:text-gray-500 uppercase tracking-widest italic">Define the atmospheric soul of your event.</p>
-                            </div>
-
-                            <div className="grid grid-cols-2 gap-4 mb-12">
-                                {styles.map(style => (
-                                    <button
-                                        key={style}
-                                        onClick={() => setFormData({ ...formData, style })}
-                                        className={`p-10 rounded-[40px] border-2 transition-all duration-500 flex flex-col items-center justify-center gap-4 group ${formData.style === style
-                                            ? 'bg-[#1D2939] dark:bg-gray-800 border-[#1D2939] dark:border-gray-700 shadow-2xl dark:shadow-none scale-105'
-                                            : 'bg-white dark:bg-gray-800 border-gray-50 dark:border-gray-700 hover:border-[#D0771E]/30 dark:hover:border-[#D0771E]/50'
-                                            }`}
-                                    >
-                                        <div className={`w-16 h-16 rounded-[20px] flex items-center justify-center transition-all ${formData.style === style ? 'bg-white/10 dark:bg-gray-700/50' : 'bg-gray-50 dark:bg-gray-700 group-hover:bg-[#D0771E]/10 dark:group-hover:bg-[#D0771E]/20'}`}>
-                                            <SparklesIcon className={`w-8 h-8 ${formData.style === style ? 'text-white' : 'text-gray-200 dark:text-gray-500 group-hover:text-[#D0771E]'}`} />
+                            <div className="space-y-8">
+                                <div className="grid grid-cols-2 gap-4">
+                                    <div className="space-y-2">
+                                        <label className="text-[10px] font-black uppercase tracking-widest text-[#1D2939] dark:text-white ml-1 block">State / Region</label>
+                                        <div className="relative">
+                                            <select
+                                                value={formData.state}
+                                                onChange={(e) => setFormData({ ...formData, state: e.target.value })}
+                                                className="w-full h-14 px-6 rounded-2xl bg-gray-50 dark:bg-gray-800 border-none focus:ring-2 focus:ring-[#D0771E] transition-all text-sm font-bold text-gray-900 dark:text-white appearance-none"
+                                            >
+                                                <option value="">Select State</option>
+                                                <option>Lagos State</option>
+                                                <option>Abuja FCT</option>
+                                                <option>Port Harcourt</option>
+                                            </select>
+                                            <ChevronDownIcon className="absolute right-6 top-1/2 -translate-y-1/2 w-4 h-4 text-gray-400 dark:text-gray-500 pointer-events-none" />
                                         </div>
-                                        <span className={`text-sm font-black uppercase tracking-widest ${formData.style === style ? 'text-white' : 'text-gray-400 dark:text-gray-500 group-hover:text-[#1D2939] dark:group-hover:text-white'}`}>{style}</span>
-                                    </button>
-                                ))}
+                                    </div>
+                                    <div className="space-y-2">
+                                        <label className="text-[10px] font-black uppercase tracking-widest text-[#1D2939] dark:text-white ml-1 block">Metropolitan City</label>
+                                        <input
+                                            type="text"
+                                            placeholder="Ex: VI"
+                                            value={formData.city}
+                                            onChange={(e) => setFormData({ ...formData, city: e.target.value })}
+                                            className="w-full h-14 px-6 rounded-2xl bg-gray-50 dark:bg-gray-800 border-none focus:ring-2 focus:ring-[#D0771E] transition-all text-sm font-bold text-gray-900 dark:text-white placeholder:text-gray-300 dark:placeholder:text-gray-500"
+                                        />
+                                    </div>
+                                </div>
+
+                                <div className="space-y-4">
+                                    <label className="text-[10px] font-black uppercase tracking-widest text-[#1D2939] dark:text-white ml-1 block">Expected Guest Attendance</label>
+                                    <div className="grid grid-cols-3 gap-3">
+                                        {["50-100", "100-250", "250-500", "500-1000", "1000-5000", "5000+"].map(cap => (
+                                            <button
+                                                key={cap}
+                                                onClick={() => setFormData({ ...formData, guests: cap })}
+                                                className={`py-4 rounded-2xl border transition-all duration-300 text-center ${formData.guests === cap
+                                                    ? 'bg-[#1D2939] dark:bg-gray-800 border-[#1D2939] text-white shadow-lg'
+                                                    : 'bg-white dark:bg-gray-800 border-gray-50 dark:border-gray-700 text-[#1D2939] dark:text-white hover:border-[#D0771E]'
+                                                    }`}
+                                            >
+                                                <span className="text-[10px] font-black">{cap}</span>
+                                            </button>
+                                        ))}
+                                    </div>
+                                </div>
                             </div>
 
-                            <div className="flex flex-col gap-4">
-                                <Button onClick={nextStep} className="w-full h-16 rounded-2xl text-[11px] font-black uppercase tracking-widest bg-[#D0771E] shadow-orange-100 dark:shadow-none shadow-2xl">Finalize Onboarding</Button>
-                                <button onClick={nextStep} className="text-[10px] font-black uppercase tracking-[0.3em] text-gray-300 dark:text-gray-600 hover:text-[#D0771E] transition-colors py-4">Skip it all</button>
+                            <div className="flex flex-col gap-4 mt-12">
+                                <Button onClick={nextStep} className="w-full h-16 rounded-2xl text-[11px] font-black uppercase tracking-widest bg-[#D0771E] shadow-orange-100 dark:shadow-none">Finalize Architecture</Button>
+                                <button onClick={nextStep} className="text-[10px] font-black uppercase tracking-[0.3em] text-gray-300 dark:text-gray-600 hover:text-[#D0771E] transition-colors py-4">Skip for later</button>
                             </div>
                         </div>
                     )}
 
-                    {/* STEP 9: SUCCESS */}
-                    {step === 9 && (
+                    {/* STEP 4: SUCCESS */}
+                    {step === 4 && (
                         <div className="animate-in zoom-in fade-in duration-700 flex flex-col items-center justify-center py-20 px-8">
-                            {/* Background Accents */}
                             <div className="fixed inset-0 bg-[#F3F0EB]/30 dark:bg-gray-900/50 -z-10 animate-pulse"></div>
 
                             <div className="w-40 h-40 bg-white dark:bg-gray-800 rounded-[60px] shadow-2xl dark:shadow-none flex items-center justify-center mb-12 relative group">
@@ -481,7 +323,7 @@ const PlannerSignup = () => {
                 </div>
 
                 {/* Bottom Footer Links */}
-                {step !== 9 && (
+                {step !== 4 && (
                     <div className="flex gap-10 pt-16 mt-auto">
                         <button className="text-[9px] font-black uppercase tracking-[0.2em] text-gray-300 dark:text-gray-600 hover:text-[#D0771E] transition-colors">Privacy Infrastructure</button>
                         <button className="text-[9px] font-black uppercase tracking-[0.2em] text-gray-300 dark:text-gray-600 hover:text-[#D0771E] transition-colors">Legal Terms</button>
@@ -490,7 +332,7 @@ const PlannerSignup = () => {
             </div>
 
             {/* --- RIGHT SIDE: VISUAL PANE --- */}
-            {step !== 9 && renderVisualPane()}
+            {step !== 4 && renderVisualPane()}
         </div>
     );
 };

@@ -397,7 +397,7 @@ const Messages = () => {
                     <PageHeader
                         title="Messages"
                         subtitle="Secure communication with your vendors and clients"
-                        breadcrumb="Dashboard > Messages"
+                        breadcrumb="Messages"
                     />
                 </div>
 

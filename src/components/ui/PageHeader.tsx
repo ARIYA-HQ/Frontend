@@ -9,11 +9,14 @@ interface PageHeaderProps {
 }
 
 const PageHeader: React.FC<PageHeaderProps> = ({ breadcrumb, title, subtitle, actions }) => {
+    const isVendor = window.location.pathname.includes('/dashboard/vendor');
+    const dashboardLabel = isVendor ? 'Vendor Dashboard' : 'Planner Dashboard';
+
     return (
         <div className="mb-10">
             {breadcrumb && (
                 <div className="flex items-center gap-2 text-[10px] font-black text-gray-400 dark:text-gray-500 uppercase tracking-widest mb-4">
-                    <span>Planner Dashboard</span>
+                    <span>{dashboardLabel}</span>
                     <ChevronRightIcon className="w-3 h-3 text-gray-400 dark:text-gray-500" />
                     <span className="text-gray-900 dark:text-white">{breadcrumb}</span>
                 </div>

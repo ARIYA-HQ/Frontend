@@ -1,28 +1,38 @@
 import { useState } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
-import { EyeSlashIcon, EyeIcon, UserIcon, BuildingStorefrontIcon, ArrowRightIcon } from '@heroicons/react/24/outline';
+import { UserIcon, BuildingStorefrontIcon, ArrowRightIcon } from '@heroicons/react/24/outline';
 import { BriefcaseIcon } from '@heroicons/react/24/solid';
 import { Button } from '../../components/ui/Button';
-import { redirectToRoleSubdomain } from '../../utils/subdomain';
 
 const SignupPage = () => {
   const navigate = useNavigate();
   const [role, setRole] = useState('personal_planner');
+  const [isLoading, setIsLoading] = useState(false);
 
   const handleProceed = () => {
-    // Redirect directly to the appropriate subdomain based on selected role
-    redirectToRoleSubdomain(role);
+    setIsLoading(true);
+    // Simulate a brief delay for premium feel and to show loading state
+    setTimeout(() => {
+      const registrationPaths: Record<string, string> = {
+        'personal_planner': '/auth/planner-signup',
+        'professional_event_planner': '/auth/professional-planner-signup',
+        'vendor': '/auth/vendor-signup'
+      };
+
+      const targetPath = registrationPaths[role] || '/auth/signup';
+      navigate(targetPath);
+    }, 800);
   };
 
   return (
-    <div className="min-h-screen flex flex-col lg:flex-row bg-white dark:bg-gray-900 selection:bg-[#D0771E]/30">
+    <div className="min-h-screen flex flex-col lg:flex-row bg-white dark:bg-gray-900 selection:bg-[#D0771E]/30 overflow-x-hidden">
       {/* --- LEFT SIDE: SELECTION --- */}
-      <div className="w-full lg:w-1/2 flex flex-col p-8 sm:p-12 lg:p-20 relative">
+      <div className="w-full lg:w-1/2 flex flex-col p-8 sm:p-12 lg:p-20 relative min-h-screen">
         {/* Background Accent */}
         <div className="absolute top-0 right-0 w-96 h-96 bg-[#D0771E]/5 dark:bg-[#D0771E]/10 rounded-full blur-[120px] translate-x-1/2 -translate-y-1/2 -z-10"></div>
 
         {/* Top Bar with Logo and Login Link */}
-        <div className="flex justify-between items-center mb-16 lg:mb-24">
+        <div className="flex justify-between items-center mb-12 lg:mb-20">
           <div className="text-[#D0771E] font-black text-4xl tracking-tighter uppercase italic">Àriyá</div>
           <Link to="/auth/login" className="flex items-center gap-3 group">
             <span className="text-[10px] font-black uppercase tracking-widest text-gray-400 dark:text-gray-400 group-hover:text-[#D0771E] transition-all">Existing account?</span>
@@ -33,7 +43,7 @@ const SignupPage = () => {
         </div>
 
         <div className="max-w-xl w-full mx-auto lg:mx-0 flex-1 flex flex-col justify-center">
-          <div className="mb-12">
+          <div className="mb-10 lg:mb-12">
             <h2 className="text-[10px] font-black text-[#D0771E] uppercase tracking-[0.4em] mb-4">Onboarding Studio</h2>
             <h1 className="text-4xl lg:text-5xl font-black text-[#1D2939] dark:text-white mb-6 uppercase tracking-tighter leading-tight">
               Choose Your <br /> <span className="text-[#D0771E]">Identity.</span>
@@ -43,13 +53,13 @@ const SignupPage = () => {
             </p>
           </div>
 
-          <div className="space-y-4 mb-12">
+          <div className="space-y-4 mb-10 lg:mb-12">
             {/* Role: Personal Planner */}
             <div
               onClick={() => setRole('personal_planner')}
-              className={`p-6 rounded-[24px] border-2 cursor-pointer transition-all duration-500 flex items-center gap-6 group ${role === 'personal_planner'
-                  ? 'bg-[#1D2939] dark:bg-gray-800 border-[#1D2939] dark:border-gray-700 shadow-xl dark:shadow-none'
-                  : 'bg-white dark:bg-gray-800 border-gray-100 dark:border-gray-700 hover:border-[#D0771E]/30 dark:hover:border-[#D0771E]/50'
+              className={`p-6 rounded-[24px] border-2 cursor-pointer transition-all duration-500 flex items-center gap-6 group hover:scale-[1.02] active:scale-[0.98] ${role === 'personal_planner'
+                ? 'bg-[#1D2939] dark:bg-gray-800 border-[#1D2939] dark:border-gray-700 shadow-2xl shadow-gray-200 dark:shadow-none'
+                : 'bg-white dark:bg-gray-800 border-gray-100 dark:border-gray-700 hover:border-[#D0771E]/30 dark:hover:border-[#D0771E]/50'
                 }`}
             >
               <div className={`w-16 h-16 rounded-[20px] flex items-center justify-center transition-all duration-500 ${role === 'personal_planner' ? 'bg-white/10 dark:bg-gray-700/50' : 'bg-gray-50 dark:bg-gray-700 group-hover:bg-[#D0771E]/10 dark:group-hover:bg-[#D0771E]/20'
@@ -69,9 +79,9 @@ const SignupPage = () => {
             {/* Role: Professional Event Planner */}
             <div
               onClick={() => setRole('professional_event_planner')}
-              className={`p-6 rounded-[24px] border-2 cursor-pointer transition-all duration-500 flex items-center gap-6 group ${role === 'professional_event_planner'
-                  ? 'bg-[#1D2939] dark:bg-gray-800 border-[#1D2939] dark:border-gray-700 shadow-xl dark:shadow-none'
-                  : 'bg-white dark:bg-gray-800 border-gray-100 dark:border-gray-700 hover:border-[#D0771E]/30 dark:hover:border-[#D0771E]/50'
+              className={`p-6 rounded-[24px] border-2 cursor-pointer transition-all duration-500 flex items-center gap-6 group hover:scale-[1.02] active:scale-[0.98] ${role === 'professional_event_planner'
+                ? 'bg-[#1D2939] dark:bg-gray-800 border-[#1D2939] dark:border-gray-700 shadow-2xl shadow-gray-200 dark:shadow-none'
+                : 'bg-white dark:bg-gray-800 border-gray-100 dark:border-gray-700 hover:border-[#D0771E]/30 dark:hover:border-[#D0771E]/50'
                 }`}
             >
               <div className={`w-16 h-16 rounded-[20px] flex items-center justify-center transition-all duration-500 ${role === 'professional_event_planner' ? 'bg-white/10 dark:bg-gray-700/50' : 'bg-gray-50 dark:bg-gray-700 group-hover:bg-[#D0771E]/10 dark:group-hover:bg-[#D0771E]/20'
@@ -91,9 +101,9 @@ const SignupPage = () => {
             {/* Role: Vendor */}
             <div
               onClick={() => setRole('vendor')}
-              className={`p-6 rounded-[24px] border-2 cursor-pointer transition-all duration-500 flex items-center gap-6 group ${role === 'vendor'
-                  ? 'bg-[#1D2939] dark:bg-gray-800 border-[#1D2939] dark:border-gray-700 shadow-xl dark:shadow-none'
-                  : 'bg-white dark:bg-gray-800 border-gray-100 dark:border-gray-700 hover:border-[#D0771E]/30 dark:hover:border-[#D0771E]/50'
+              className={`p-6 rounded-[24px] border-2 cursor-pointer transition-all duration-500 flex items-center gap-6 group hover:scale-[1.02] active:scale-[0.98] ${role === 'vendor'
+                ? 'bg-[#1D2939] dark:bg-gray-800 border-[#1D2939] dark:border-gray-700 shadow-2xl shadow-gray-200 dark:shadow-none'
+                : 'bg-white dark:bg-gray-800 border-gray-100 dark:border-gray-700 hover:border-[#D0771E]/30 dark:hover:border-[#D0771E]/50'
                 }`}
             >
               <div className={`w-16 h-16 rounded-[20px] flex items-center justify-center transition-all duration-500 ${role === 'vendor' ? 'bg-white/10 dark:bg-gray-700/50' : 'bg-gray-50 dark:bg-gray-700 group-hover:bg-[#D0771E]/10 dark:group-hover:bg-[#D0771E]/20'
@@ -113,17 +123,21 @@ const SignupPage = () => {
 
           <Button
             onClick={handleProceed}
-            className="w-full h-16 bg-[#D0771E] text-white rounded-2xl text-[11px] font-black uppercase tracking-[0.25em] shadow-2xl shadow-orange-100 dark:shadow-none hover:translate-x-2 transition-all group flex items-center justify-center gap-4"
+            isLoading={isLoading}
+            className="w-full h-18 bg-[#D0771E] text-white rounded-2xl text-[11px] font-black uppercase tracking-[0.25em] shadow-2xl shadow-orange-100 dark:shadow-none hover:translate-y-[-2px] transition-all group flex items-center justify-center gap-4 active:scale-[0.98]"
           >
-            Initialize Onboarding
-            <ArrowRightIcon className="w-5 h-5 group-hover:translate-x-2 transition-transform" />
+            {isLoading ? 'Processing Security Protocol...' : 'Initialize Onboarding'}
+            {!isLoading && <ArrowRightIcon className="w-5 h-5 group-hover:translate-x-2 transition-transform" />}
           </Button>
         </div>
 
         {/* Footer Credits */}
-        <div className="flex gap-8 mt-12 py-6 border-t border-gray-50 dark:border-gray-700 lg:absolute lg:bottom-12 lg:left-20">
-          <span className="text-[9px] font-black uppercase tracking-[0.3em] text-gray-300 dark:text-gray-500">Verified by Ariya Security Layer</span>
-          <span className="text-[9px] font-black uppercase tracking-[0.3em] text-[#D0771E]">Join 10k+ Members</span>
+        <div className="flex flex-col sm:flex-row gap-6 sm:gap-12 mt-12 pt-8 border-t border-gray-50 dark:border-gray-800">
+          <span className="text-[9px] font-black uppercase tracking-[0.3em] text-gray-300 dark:text-gray-500 italic">Verified by Ariya Security Layer</span>
+          <span className="text-[9px] font-black uppercase tracking-[0.3em] text-[#D0771E] flex items-center gap-2">
+            <div className="w-1.5 h-1.5 rounded-full bg-[#D0771E] animate-pulse"></div>
+            Join 10k+ Members
+          </span>
         </div>
       </div>
 

@@ -2,7 +2,7 @@ import React, { useState, useEffect } from 'react';
 import { XMarkIcon } from '@heroicons/react/24/outline';
 import { Button } from '../ui/Button';
 import { PremiumInput } from '../ui/PremiumInput';
-import { Proposal } from '../../data/mockProposals';
+import type { Proposal } from '../../data/mockProposals';
 import { MOCK_CLIENTS } from '../../data/mockClients';
 
 interface ProposalModalProps {

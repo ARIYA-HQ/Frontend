@@ -45,7 +45,7 @@ const VendorDashboard = () => {
       />
 
       {/* Banner */}
-      <div className="relative overflow-hidden rounded-[40px] h-48 flex items-center px-16 shadow-2xl group border border-white/10">
+      <div className="relative overflow-hidden rounded-[40px] h-48 flex items-center px-16 shadow-2xl dark:shadow-none group border border-white/10">
         <div className="absolute inset-0 bg-gradient-to-r from-[#1A051D] via-[#2D0A31] to-[#1A051D] group-hover:scale-105 transition-transform duration-700"></div>
         <div className="absolute inset-0 opacity-10 bg-[url('https://www.transparenttextures.com/patterns/carbon-fibre.png')]"></div>
         <div className="absolute -right-20 -top-20 w-64 h-64 bg-orange-500/10 blur-[100px] rounded-full"></div>
@@ -91,32 +91,32 @@ const VendorDashboard = () => {
           <PremiumCard className="p-10">
             <div className="flex items-center justify-between mb-10">
               <div className="space-y-1">
-                <h3 className="text-lg font-black text-[#1D2939] uppercase tracking-tight">This Week's Schedule</h3>
-                <p className="text-[10px] font-black text-gray-400 uppercase tracking-widest">7 Planned sessions / activities</p>
+                <h3 className="text-lg font-black text-[#1D2939] dark:text-white uppercase tracking-tight">This Week's Schedule</h3>
+                <p className="text-[10px] font-black text-gray-400 dark:text-gray-500 uppercase tracking-widest">7 Planned sessions / activities</p>
               </div>
-              <Button variant="ghost" className="text-[10px] text-[#D0771E] hover:text-[#D0771E] font-black uppercase tracking-widest">
+              <Button variant="ghost" className="text-[10px] text-[#D0771E] hover:text-[#D0771E] font-black uppercase tracking-widest hover:bg-[#D0771E]/5">
                 Explore Calendar
               </Button>
             </div>
 
             <div className="space-y-4">
               {schedule.map((item, idx) => (
-                <div key={idx} className="flex items-center gap-6 p-6 rounded-[32px] bg-gray-50/50 hover:bg-white hover:shadow-xl hover:shadow-gray-200/50 transition-all border border-transparent hover:border-gray-100 group">
-                  <div className="flex flex-col items-center justify-center p-3 bg-[#1D2939] text-white rounded-[20px] min-w-[80px] group-hover:bg-[#D0771E] transition-colors">
+                <div key={idx} className="flex items-center gap-6 p-6 rounded-[32px] bg-gray-50/50 dark:bg-gray-800/50 hover:bg-white dark:hover:bg-gray-700 hover:shadow-xl dark:hover:shadow-none hover:shadow-gray-200/50 transition-all border border-transparent hover:border-gray-100 dark:hover:border-gray-600 group">
+                  <div className="flex flex-col items-center justify-center p-3 bg-[#1D2939] dark:bg-gray-900 text-white rounded-[20px] min-w-[80px] group-hover:bg-[#D0771E] transition-colors">
                     <span className="text-[9px] font-black uppercase tracking-[0.1em] opacity-60 mb-0.5">{item.date}</span>
                     <span className="text-xs font-black whitespace-nowrap uppercase tracking-tighter">{item.month}</span>
                   </div>
                   <div className="flex-1">
                     <ul className="space-y-2">
                       {item.events.map((event, eIdx) => (
-                        <li key={eIdx} className="text-sm font-bold text-gray-600 flex items-center gap-3">
+                        <li key={eIdx} className="text-sm font-bold text-gray-600 dark:text-gray-400 flex items-center gap-3">
                           <div className="w-1.5 h-1.5 rounded-full bg-[#D0771E]"></div>
                           {event}
                         </li>
                       ))}
                     </ul>
                   </div>
-                  <div className="text-[10px] font-black text-gray-400 uppercase tracking-widest bg-white px-4 py-2 rounded-full border border-gray-100">
+                  <div className="text-[10px] font-black text-gray-400 dark:text-gray-500 uppercase tracking-widest bg-white dark:bg-gray-900 px-4 py-2 rounded-full border border-gray-100 dark:border-gray-800">
                     {item.time}
                   </div>
                 </div>
@@ -130,8 +130,8 @@ const VendorDashboard = () => {
           {/* Pending Actions */}
           <PremiumCard className="p-10 h-fit">
             <div className="space-y-1 mb-10">
-              <h3 className="text-lg font-black text-[#1D2939] uppercase tracking-tight">Pending Actions</h3>
-              <p className="text-[10px] font-black text-gray-400 uppercase tracking-widest">Needs your attention</p>
+              <h3 className="text-lg font-black text-[#1D2939] dark:text-white uppercase tracking-tight">Pending Actions</h3>
+              <p className="text-[10px] font-black text-gray-400 dark:text-gray-500 uppercase tracking-widest">Needs your attention</p>
             </div>
 
             <div className="space-y-4">
@@ -154,63 +154,63 @@ const VendorDashboard = () => {
           {/* Business Health */}
           <PremiumCard className="p-10">
             <div className="space-y-1 mb-10">
-              <h3 className="text-lg font-black text-[#1D2939] uppercase tracking-tight">Business Health</h3>
-              <p className="text-[10px] font-black text-gray-400 uppercase tracking-widest">Live statistics</p>
+              <h3 className="text-lg font-black text-[#1D2939] dark:text-white uppercase tracking-tight">Business Health</h3>
+              <p className="text-[10px] font-black text-gray-400 dark:text-gray-500 uppercase tracking-widest">Live statistics</p>
             </div>
 
             <div className="space-y-8">
               <div className="space-y-4">
                 <div className="flex justify-between items-end">
                   <div className="space-y-1">
-                    <span className="text-[10px] font-black uppercase tracking-widest text-gray-400">Profile Completion</span>
-                    <p className="text-xs font-black text-[#1D2939]">Almost there!</p>
+                    <span className="text-[10px] font-black uppercase tracking-widest text-gray-400 dark:text-gray-500">Profile Completion</span>
+                    <p className="text-xs font-black text-[#1D2939] dark:text-white">Almost there!</p>
                   </div>
-                  <span className="text-xs font-black text-green-600">95%</span>
+                  <span className="text-xs font-black text-green-600 dark:text-green-500">95%</span>
                 </div>
-                <div className="h-2 w-full bg-gray-100 rounded-full overflow-hidden">
-                  <div className="h-full bg-green-500 rounded-full w-[95%] shadow-[0_0_10px_rgba(34,197,94,0.3)]"></div>
+                <div className="h-2 w-full bg-gray-100 dark:bg-gray-900 rounded-full overflow-hidden">
+                  <div className="h-full bg-green-500 rounded-full w-[95%] shadow-[0_0_10px_rgba(34,197,94,0.3)] dark:shadow-none"></div>
                 </div>
               </div>
 
               <div className="space-y-4">
                 <div className="flex justify-between items-end">
                   <div className="space-y-1">
-                    <span className="text-[10px] font-black uppercase tracking-widest text-gray-400">Portfolio Images</span>
-                    <p className="text-xs font-black text-[#1D2939]">Needs more visuals</p>
+                    <span className="text-[10px] font-black uppercase tracking-widest text-gray-400 dark:text-gray-500">Portfolio Images</span>
+                    <p className="text-xs font-black text-[#1D2939] dark:text-white">Needs more visuals</p>
                   </div>
                   <span className="text-xs font-black text-orange-500">10/40</span>
                 </div>
-                <div className="h-2 w-full bg-gray-100 rounded-full overflow-hidden">
-                  <div className="h-full bg-orange-500 rounded-full w-[25%] shadow-[0_0_10px_rgba(249,115,22,0.3)]"></div>
+                <div className="h-2 w-full bg-gray-100 dark:bg-gray-900 rounded-full overflow-hidden">
+                  <div className="h-full bg-orange-500 rounded-full w-[25%] shadow-[0_0_10px_rgba(249,115,22,0.3)] dark:shadow-none"></div>
                 </div>
               </div>
 
-              <div className="space-y-5 pt-8 border-t border-gray-100">
+              <div className="space-y-5 pt-8 border-t border-gray-100 dark:border-gray-800">
                 <div className="flex items-center justify-between">
-                  <span className="text-[10px] font-black uppercase tracking-widest text-gray-400">Payment Status</span>
-                  <span className="px-3 py-1 bg-green-50 text-green-700 text-[9px] font-black uppercase tracking-widest rounded-full border border-green-100">Active</span>
+                  <span className="text-[10px] font-black uppercase tracking-widest text-gray-400 dark:text-gray-500">Payment Status</span>
+                  <span className="px-3 py-1 bg-green-50 dark:bg-green-500/10 text-green-700 dark:text-green-500 text-[9px] font-black uppercase tracking-widest rounded-full border border-green-100 dark:border-green-800/50">Active</span>
                 </div>
                 <div className="flex items-center justify-between">
-                  <span className="text-[10px] font-black uppercase tracking-widest text-gray-400">Verification</span>
-                  <span className="flex items-center gap-1.5 text-green-600">
+                  <span className="text-[10px] font-black uppercase tracking-widest text-gray-400 dark:text-gray-500">Verification</span>
+                  <span className="flex items-center gap-1.5 text-green-600 dark:text-green-500">
                     <CheckBadgeIcon className="w-4 h-4" />
                     <span className="text-[9px] font-black uppercase tracking-widest">Verified</span>
                   </span>
                 </div>
                 <div className="flex items-center justify-between">
-                  <span className="text-[10px] font-black uppercase tracking-widest text-gray-400">Avg Ratings</span>
-                  <span className="flex items-center gap-1.5 text-[#1D2939] font-black text-xs">
+                  <span className="text-[10px] font-black uppercase tracking-widest text-gray-400 dark:text-gray-500">Avg Ratings</span>
+                  <span className="flex items-center gap-1.5 text-[#1D2939] dark:text-white font-black text-xs">
                     <StarIcon className="w-4 h-4 text-orange-400 fill-orange-400" />
-                    4.9 <span className="text-gray-400 font-bold ml-0.5">(40)</span>
+                    4.9 <span className="text-gray-400 dark:text-gray-500 font-bold ml-0.5">(40)</span>
                   </span>
                 </div>
                 <div className="flex items-center justify-between">
-                  <span className="text-[10px] font-black uppercase tracking-widest text-gray-400">Profile Views</span>
-                  <span className="text-xs font-black text-[#1D2939]">1,234</span>
+                  <span className="text-[10px] font-black uppercase tracking-widest text-gray-400 dark:text-gray-500">Profile Views</span>
+                  <span className="text-xs font-black text-[#1D2939] dark:text-white">1,234</span>
                 </div>
               </div>
 
-              <Button className="w-full h-14 rounded-[24px] text-[10px] shadow-2xl shadow-orange-100 mt-4 group">
+              <Button className="w-full h-14 rounded-[24px] text-[10px] shadow-2xl shadow-orange-100 dark:shadow-none mt-4 group">
                 <SparklesIcon className="w-4 h-4 mr-2 group-hover:rotate-12 transition-transform" />
                 Boost Your Profile
               </Button>

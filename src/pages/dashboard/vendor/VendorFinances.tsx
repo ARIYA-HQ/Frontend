@@ -3,7 +3,9 @@ import {
     MagnifyingGlassIcon,
     FunnelIcon,
     PlusIcon,
-    ArrowDownTrayIcon
+    ArrowDownTrayIcon,
+    Squares2X2Icon,
+    ListBulletIcon
 } from '@heroicons/react/24/outline';
 import PageHeader from '../../../components/ui/PageHeader';
 import PremiumTabs from '../../../components/ui/PremiumTabs';
@@ -11,7 +13,7 @@ import StatCard from '../../../components/dashboard/StatCard';
 import PremiumCard from '../../../components/ui/PremiumCard';
 import { Button } from '../../../components/ui/Button';
 import {
-    Invoice,
+    type Invoice,
     FINANCE_STATS,
     INITIAL_PAYMENTS,
     OUTSTANDING_PAYMENTS,
@@ -24,6 +26,7 @@ const VendorFinances = () => {
     const [showNewInvoiceModal, setShowNewInvoiceModal] = useState(false);
     const [selectedInvoice, setSelectedInvoice] = useState<Invoice | null>(null);
     const [isDetailOpen, setIsDetailOpen] = useState(false);
+    const [viewMode, setViewMode] = useState<'grid' | 'list'>('grid');
 
     const [newInvoiceForm, setNewInvoiceForm] = useState<Partial<Invoice>>({
         clientName: '',
@@ -104,92 +107,146 @@ const VendorFinances = () => {
     );
 
     const renderInvoiceList = (data: Invoice[]) => (
-        <div className="grid grid-cols-1 gap-6 animate-fade-in">
+        <div className={`grid gap-6 animate-fade-in ${viewMode === 'grid' ? 'grid-cols-1' : 'grid-cols-1'}`}>
             {data.length > 0 ? data.map((item) => (
-                <PremiumCard key={item.id} className="p-10 group hover:border-[#D0771E]/30 transition-all border-gray-100 dark:border-gray-800 bg-white dark:bg-gray-900">
-                    <div className="flex flex-col md:flex-row justify-between items-start gap-6">
-                        <div className="space-y-2">
-                            <h3 className="text-xl font-black text-[#1D2939] dark:text-white group-hover:text-[#D0771E] transition-colors tracking-tight cursor-pointer" onClick={() => { setSelectedInvoice(item); setIsDetailOpen(true); }}>
-                                {item.clientName}
-                            </h3>
-                            <div className="flex items-center gap-3">
-                                <span className="text-[10px] font-black uppercase tracking-[0.2em] text-[#D0771E] py-1 px-3 bg-[#D0771E]/5 dark:bg-[#D0771E]/10 rounded-full border border-[#D0771E]/10 dark:border-[#D0771E]/20">
-                                    Invoice #{item.invoiceNumber}
-                                </span>
-                                <span className="w-1 h-1 rounded-full bg-gray-300 dark:bg-gray-600"></span>
-                                <span className="text-[10px] font-black uppercase tracking-widest text-gray-400 dark:text-gray-500">{item.timestamp}</span>
+                <PremiumCard
+                    key={item.id}
+                    className={`${viewMode === 'grid' ? 'p-6' : 'p-4'} group hover:border-[#D0771E]/30 transition-all border-gray-100 dark:border-gray-800 bg-white dark:bg-gray-900`}
+                >
+                    {viewMode === 'grid' ? (
+                        <>
+                            <div className="flex flex-col md:flex-row justify-between items-start gap-4">
+                                <div className="space-y-1">
+                                    <h3 className="text-lg font-black text-[#1D2939] dark:text-white group-hover:text-[#D0771E] transition-colors tracking-tight cursor-pointer" onClick={() => { setSelectedInvoice(item); setIsDetailOpen(true); }}>
+                                        {item.clientName}
+                                    </h3>
+                                    <div className="flex items-center gap-3">
+                                        <span className="text-[9px] font-black uppercase tracking-[0.2em] text-[#D0771E] py-0.5 px-2.5 bg-[#D0771E]/5 dark:bg-[#D0771E]/10 rounded-full border border-[#D0771E]/10 dark:border-[#D0771E]/20">
+                                            Invoice #{item.invoiceNumber}
+                                        </span>
+                                        <span className="w-1 h-1 rounded-full bg-gray-300 dark:bg-gray-600"></span>
+                                        <span className="text-[9px] font-black uppercase tracking-widest text-gray-400 dark:text-gray-500">{item.timestamp}</span>
+                                    </div>
+                                </div>
+                                <div className="flex items-center gap-2">
+                                    <div className={`w-2 h-2 rounded-full ${item.status === 'PAID' ? 'bg-green-500 shadow-[0_0_8px_rgba(34,197,94,0.4)] dark:shadow-none' : item.status === 'OVERDUE' ? 'bg-rose-500 shadow-[0_0_8px_rgba(244,63,94,0.4)] dark:shadow-none' : 'bg-orange-500 shadow-[0_0_8px_rgba(249,115,22,0.4)] dark:shadow-none'}`}></div>
+                                    <span className={`px-3 py-1.5 rounded-full text-[8px] font-black uppercase tracking-[0.2em] ${item.status === 'PAID' ? 'bg-green-50 dark:bg-green-900/20 text-green-700 dark:text-green-400 border border-green-100 dark:border-green-800' :
+                                        item.status === 'OVERDUE' ? 'bg-rose-50 dark:bg-rose-900/20 text-rose-700 dark:text-rose-400 border border-rose-100 dark:border-rose-800' :
+                                            'bg-orange-50 dark:bg-orange-900/20 text-orange-700 dark:text-orange-400 border border-orange-100 dark:border-orange-800'
+                                        }`}>
+                                        {item.status}
+                                    </span>
+                                </div>
+                            </div>
+
+                            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-x-8 gap-y-4 my-6 py-4 border-y border-gray-50/50 dark:border-gray-800">
+                                <div className="space-y-1">
+                                    <span className="text-[8px] font-black uppercase tracking-widest text-gray-400 dark:text-gray-500">Total Amount</span>
+                                    <p className="text-[11px] font-black text-[#1D2939] dark:text-white">{item.amount}</p>
+                                </div>
+                                <div className="space-y-1">
+                                    <span className="text-[8px] font-black uppercase tracking-widest text-gray-400 dark:text-gray-500">Due Date</span>
+                                    <p className="text-[11px] font-black text-[#1D2939] dark:text-white uppercase">{item.date}</p>
+                                </div>
+                                <div className="space-y-1">
+                                    <span className="text-[8px] font-black uppercase tracking-widest text-gray-400 dark:text-gray-500">Payment Method</span>
+                                    <p className="text-[11px] font-black text-[#1D2939] dark:text-white capitalize">{item.paymentMethod}</p>
+                                </div>
+                                <div className="space-y-1">
+                                    <span className="text-[8px] font-black uppercase tracking-widest text-gray-400 dark:text-gray-500">VAT / Fees</span>
+                                    <p className="text-[11px] font-black text-[#1D2939] dark:text-white">{item.tax}</p>
+                                </div>
+                            </div>
+
+                            <div className="space-y-2 mb-6">
+                                <div className="flex items-center justify-between">
+                                    <span className="text-[8px] font-black uppercase tracking-widest text-gray-400 dark:text-gray-500">Description & Notes</span>
+                                    <span className="text-[8px] font-black uppercase tracking-widest text-[#D0771E]">{item.service}</span>
+                                </div>
+                                <p className="text-[11px] font-medium text-gray-500 dark:text-gray-400 leading-relaxed max-w-4xl line-clamp-2">
+                                    {item.notes}
+                                </p>
+                            </div>
+
+                            <div className="flex flex-col sm:flex-row items-center justify-between gap-4 pt-4 border-t border-gray-50/50 dark:border-gray-800">
+                                <div className="flex flex-wrap items-center gap-2 w-full sm:w-auto">
+                                    {item.status === 'PAID' ? (
+                                        <Button className="h-10 px-6 rounded-xl shadow-md shadow-orange-100 dark:shadow-none bg-[#D0771E] text-white text-[10px]">
+                                            View Receipt
+                                        </Button>
+                                    ) : (
+                                        <Button className={`h-10 px-6 rounded-xl shadow-md ${item.status === 'OVERDUE' ? 'shadow-rose-100 dark:shadow-none bg-rose-500 text-white' : 'shadow-orange-100 dark:shadow-none bg-[#D0771E] text-white'} text-[10px]`} onClick={() => handleMarkAsPaid(item)}>
+                                            Mark as Paid
+                                        </Button>
+                                    )}
+
+                                    <Button variant="outline" className="h-10 px-6 rounded-xl border-gray-100 dark:border-gray-700 text-gray-600 dark:text-gray-300 hover:bg-gray-50 dark:hover:bg-gray-800 text-[10px]">
+                                        <ArrowDownTrayIcon className="w-4 h-4 mr-2" />
+                                        PDF
+                                    </Button>
+                                    <Button variant="ghost" className="h-10 px-6 rounded-xl text-gray-400 hover:text-[#1D2939] dark:hover:text-white font-black uppercase tracking-widest text-[9px]" onClick={() => { setSelectedInvoice(item); setIsDetailOpen(true); }}>
+                                        View Details
+                                    </Button>
+                                </div>
+
+                                <div className="flex items-center gap-2">
+                                    <Button variant="outline" className="h-8 w-8 p-0 rounded-lg border-gray-100 dark:border-gray-700 text-gray-400 hover:text-rose-500 dark:hover:text-rose-400 hover:bg-rose-50 dark:hover:bg-rose-900/20" onClick={() => handleDelete(item.id, item.status === 'PAID')}>
+                                        <PlusIcon className="w-3.5 h-3.5 mx-auto rotate-45" />
+                                    </Button>
+                                    <Button variant="outline" className="h-8 px-4 rounded-lg border-gray-100 dark:border-gray-700 text-[#D0771E] bg-orange-50/50 dark:bg-orange-900/10 text-[8px] font-black uppercase tracking-widest" onClick={() => { setSelectedInvoice(item); setIsDetailOpen(true); }}>
+                                        Manage
+                                    </Button>
+                                </div>
+                            </div>
+                        </>
+                    ) : (
+                        /* List View Layout */
+                        <div className="flex items-center justify-between gap-6">
+                            <div className="flex items-center gap-6 flex-1 min-w-0">
+                                <div className={`w-2 h-2 rounded-full shrink-0 ${item.status === 'PAID' ? 'bg-green-500' : 'bg-[#D0771E]'}`}></div>
+                                <div className="min-w-0 flex-1">
+                                    <h3 className="text-xs font-black text-[#1D2939] dark:text-white truncate uppercase tracking-tight cursor-pointer" onClick={() => { setSelectedInvoice(item); setIsDetailOpen(true); }}>
+                                        {item.clientName}
+                                    </h3>
+                                    <p className="text-[9px] font-bold text-gray-400 uppercase tracking-widest truncate">INV-{item.invoiceNumber} • {item.date}</p>
+                                </div>
+                                <div className="hidden lg:block w-32 shrink-0">
+                                    <p className="text-[8px] font-black text-gray-400 uppercase tracking-widest mb-0.5">Amount</p>
+                                    <p className="text-[10px] font-black text-[#1D2939] dark:text-white">{item.amount}</p>
+                                </div>
+                                <div className="hidden xl:block flex-1 min-w-0 max-w-xs">
+                                    <p className="text-[8px] font-black text-gray-400 uppercase tracking-widest mb-0.5">Payment Method</p>
+                                    <p className="text-[10px] font-medium text-gray-500 dark:text-gray-400 truncate capitalize">{item.paymentMethod}</p>
+                                </div>
+                                <div className="shrink-0 text-right">
+                                    <span className={`px-2 py-1 rounded-lg text-[8px] font-black uppercase tracking-widest shadow-sm dark:shadow-none ${item.status === 'PAID' ? 'bg-green-50 dark:bg-green-900/20 text-green-700 dark:text-green-400 border border-green-100 dark:border-green-800' :
+                                        item.status === 'OVERDUE' ? 'bg-rose-50 dark:bg-rose-900/20 text-rose-700 dark:text-rose-400 border border-rose-100 dark:border-rose-800' :
+                                            'bg-orange-50 dark:bg-orange-900/20 text-orange-700 dark:text-orange-400 border border-orange-100 dark:border-orange-800'
+                                        }`}>
+                                        {item.status}
+                                    </span>
+                                </div>
+                            </div>
+                            <div className="flex items-center gap-2 shrink-0">
+                                <Button
+                                    variant="outline"
+                                    onClick={() => {
+                                        setSelectedInvoice(item);
+                                        setIsDetailOpen(true);
+                                    }}
+                                    className="h-8 w-8 p-0 rounded-lg border-gray-100 dark:border-gray-700 text-gray-400 hover:text-[#D0771E]"
+                                >
+                                    <PlusIcon className="w-3.5 h-3.5 rotate-45" />
+                                </Button>
+                                <Button
+                                    className="h-8 px-4 rounded-lg bg-[#1D2939] dark:bg-gray-700 text-white text-[8px] font-black uppercase tracking-widest hover:bg-black"
+                                    onClick={() => { setSelectedInvoice(item); setIsDetailOpen(true); }}
+                                >
+                                    Details
+                                </Button>
                             </div>
                         </div>
-                        <div className="flex items-center gap-2">
-                            <div className={`w-2.5 h-2.5 rounded-full ${item.status === 'PAID' ? 'bg-green-500 shadow-[0_0_8px_rgba(34,197,94,0.4)]' : item.status === 'OVERDUE' ? 'bg-rose-500 shadow-[0_0_8px_rgba(244,63,94,0.4)]' : 'bg-orange-500 shadow-[0_0_8px_rgba(249,115,22,0.4)]'}`}></div>
-                            <span className={`px-4 py-2 rounded-full text-[9px] font-black uppercase tracking-[0.2em] ${item.status === 'PAID' ? 'bg-green-50 dark:bg-green-900/20 text-green-700 dark:text-green-400 border border-green-100 dark:border-green-800' :
-                                item.status === 'OVERDUE' ? 'bg-rose-50 dark:bg-rose-900/20 text-rose-700 dark:text-rose-400 border border-rose-100 dark:border-rose-800' :
-                                    'bg-orange-50 dark:bg-orange-900/20 text-orange-700 dark:text-orange-400 border border-orange-100 dark:border-orange-800'
-                                }`}>
-                                {item.status}
-                            </span>
-                        </div>
-                    </div>
-
-                    <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-x-12 gap-y-6 my-10 py-8 border-y border-gray-50/50 dark:border-gray-800">
-                        <div className="space-y-1.5">
-                            <span className="text-[9px] font-black uppercase tracking-widest text-gray-400 dark:text-gray-500">Total Amount</span>
-                            <p className="text-sm font-black text-[#1D2939] dark:text-white">{item.amount}</p>
-                        </div>
-                        <div className="space-y-1.5">
-                            <span className="text-[9px] font-black uppercase tracking-widest text-gray-400 dark:text-gray-500">Due Date</span>
-                            <p className="text-sm font-black text-[#1D2939] dark:text-white">{item.date}</p>
-                        </div>
-                        <div className="space-y-1.5">
-                            <span className="text-[9px] font-black uppercase tracking-widest text-gray-400 dark:text-gray-500">Payment Method</span>
-                            <p className="text-sm font-black text-[#1D2939] dark:text-white capitalize">{item.paymentMethod}</p>
-                        </div>
-                        <div className="space-y-1.5">
-                            <span className="text-[9px] font-black uppercase tracking-widest text-gray-400 dark:text-gray-500">VAT / Fees</span>
-                            <p className="text-sm font-black text-[#1D2939] dark:text-white">{item.tax}</p>
-                        </div>
-                    </div>
-
-                    <div className="space-y-4 mb-10">
-                        <div className="flex items-center justify-between">
-                            <span className="text-[9px] font-black uppercase tracking-widest text-gray-400 dark:text-gray-500">Description & Notes</span>
-                            <span className="text-[9px] font-black uppercase tracking-widest text-[#D0771E]">{item.service}</span>
-                        </div>
-                        <p className="text-xs font-medium text-gray-500 dark:text-gray-400 leading-[1.8] max-w-5xl line-clamp-2">
-                            {item.notes}
-                        </p>
-                    </div>
-
-                    <div className="flex flex-col sm:flex-row items-center justify-between gap-6 pt-6 border-t border-gray-50/50 dark:border-gray-800">
-                        <div className="flex flex-wrap items-center gap-3 w-full sm:w-auto">
-                            {item.status === 'PAID' ? (
-                                <Button className="h-12 px-8 rounded-2xl shadow-xl shadow-orange-100 dark:shadow-none bg-[#D0771E] text-white">
-                                    View Receipt
-                                </Button>
-                            ) : (
-                                <Button className={`h-12 px-8 rounded-2xl shadow-xl ${item.status === 'OVERDUE' ? 'shadow-red-100 dark:shadow-none bg-rose-500 text-white' : 'shadow-orange-100 dark:shadow-none bg-[#D0771E] text-white'}`} onClick={() => handleMarkAsPaid(item)}>
-                                    Mark as Paid
-                                </Button>
-                            )}
-
-                            <Button variant="outline" className="h-12 px-8 rounded-2xl border-gray-100 dark:border-gray-700 text-gray-600 dark:text-gray-300 hover:bg-gray-50 dark:hover:bg-gray-800">
-                                <ArrowDownTrayIcon className="w-4 h-4 mr-2" />
-                                Download PDF
-                            </Button>
-                            <Button variant="ghost" className="h-12 px-8 rounded-2xl text-gray-400 hover:text-[#1D2939] dark:hover:text-white font-black uppercase tracking-widest text-[10px]" onClick={() => { setSelectedInvoice(item); setIsDetailOpen(true); }}>
-                                View Details
-                            </Button>
-                        </div>
-
-                        <div className="flex items-center gap-3">
-                            <Button variant="outline" className="h-10 w-10 p-0 rounded-xl border-gray-100 dark:border-gray-700 text-gray-400 hover:text-rose-500 dark:hover:text-rose-400 hover:bg-rose-50 dark:hover:bg-rose-900/20" onClick={() => handleDelete(item.id, item.status === 'PAID')}>
-                                <PlusIcon className="w-4 h-4 mx-auto rotate-45" />
-                            </Button>
-                            <Button variant="outline" className="h-10 px-6 rounded-xl border-gray-100 dark:border-gray-700 text-[#D0771E] bg-orange-50/50 dark:bg-orange-900/10 text-[9px] font-black uppercase tracking-widest" onClick={() => { setSelectedInvoice(item); setIsDetailOpen(true); }}>
-                                Manage Invoice
-                            </Button>
-                        </div>
-                    </div>
+                    )}
                 </PremiumCard>
             )) : (
                 <div className="text-center py-20 bg-white dark:bg-gray-900/50 rounded-[40px] border border-gray-50 dark:border-gray-800">
@@ -203,7 +260,7 @@ const VendorFinances = () => {
         if (!showNewInvoiceModal) return null;
         return (
             <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-[#1D2939]/40 dark:bg-black/60 backdrop-blur-sm animate-in fade-in duration-300">
-                <PremiumCard className="w-full max-w-xl p-0 animate-in zoom-in-95 duration-300 shadow-2xl overflow-hidden bg-white dark:bg-gray-900 border border-gray-100 dark:border-gray-800">
+                <PremiumCard className="w-full max-w-xl p-0 animate-in zoom-in-95 duration-300 shadow-2xl dark:shadow-none overflow-hidden bg-white dark:bg-gray-900 border border-gray-100 dark:border-gray-800">
                     <div className="px-10 py-10 bg-[#F3F0EB]/30 dark:bg-gray-800/50 border-b border-gray-100 dark:border-gray-800 flex justify-between items-center">
                         <h3 className="text-2xl font-black uppercase tracking-tighter text-[#1D2939] dark:text-white">New Invoice</h3>
                         <button onClick={() => setShowNewInvoiceModal(false)} className="p-3 hover:bg-black/5 dark:hover:bg-white/10 rounded-2xl transition-colors">
@@ -243,7 +300,7 @@ const VendorFinances = () => {
         if (!selectedInvoice || !isDetailOpen) return null;
         return (
             <div className="fixed inset-0 z-[60] flex justify-end bg-black/20 dark:bg-black/60 backdrop-blur-sm animate-in fade-in duration-300">
-                <div className="w-full max-w-2xl bg-white dark:bg-gray-900 h-full shadow-2xl animate-in slide-in-from-right duration-500 overflow-y-auto border-l border-gray-100 dark:border-gray-800">
+                <div className="w-full max-w-2xl bg-white dark:bg-gray-900 h-full shadow-2xl dark:shadow-none animate-in slide-in-from-right duration-500 overflow-y-auto border-l border-gray-100 dark:border-gray-800">
                     <div className="p-12">
                         <div className="flex justify-between items-start mb-12">
                             <div>
@@ -412,7 +469,7 @@ const VendorFinances = () => {
                         onChange={setActiveTab}
                     />
 
-                    {/* Search & Filter */}
+                    {/* Search, Filter & View Toggle */}
                     <div className="flex items-center gap-4">
                         <div className="relative group">
                             <MagnifyingGlassIcon className="absolute left-4 top-1/2 -translate-y-1/2 w-4 h-4 text-gray-400 group-focus-within:text-[#D0771E] transition-colors" />
@@ -423,6 +480,20 @@ const VendorFinances = () => {
                                 onChange={(e) => setSearchQuery(e.target.value)}
                                 className="w-full md:w-64 pl-11 pr-4 py-3 bg-gray-50 dark:bg-gray-800 border border-transparent rounded-xl text-xs font-black placeholder:text-gray-400 dark:placeholder:text-gray-500 dark:text-white focus:ring-2 focus:ring-[#D0771E]/20 focus:bg-white dark:focus:bg-gray-900 focus:border-[#D0771E] transition-all outline-none"
                             />
+                        </div>
+                        <div className="flex items-center gap-1 bg-gray-50 dark:bg-gray-800 p-1 rounded-xl border border-gray-100 dark:border-gray-700">
+                            <button
+                                onClick={() => setViewMode('grid')}
+                                className={`p-2 rounded-lg transition-all ${viewMode === 'grid' ? 'bg-white dark:bg-gray-700 text-[#D0771E] shadow-sm dark:shadow-none' : 'text-gray-400 hover:text-gray-600'}`}
+                            >
+                                <Squares2X2Icon className="w-4 h-4" />
+                            </button>
+                            <button
+                                onClick={() => setViewMode('list')}
+                                className={`p-2 rounded-lg transition-all ${viewMode === 'list' ? 'bg-white dark:bg-gray-700 text-[#D0771E] shadow-sm dark:shadow-none' : 'text-gray-400 hover:text-gray-600'}`}
+                            >
+                                <ListBulletIcon className="w-4 h-4" />
+                            </button>
                         </div>
                         <Button variant="outline" className="h-11 rounded-xl px-5 border-gray-100 dark:border-gray-700 text-gray-600 dark:text-gray-300">
                             <FunnelIcon className="w-4 h-4 mr-2" />

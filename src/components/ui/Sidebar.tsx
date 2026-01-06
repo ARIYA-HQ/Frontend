@@ -68,9 +68,10 @@ const vendorNavigation = [
   { name: 'Analytics', href: '/dashboard/vendor/analytics', icon: ChartBarIcon },
   { name: 'Service Listings', href: '/dashboard/vendor/services', icon: BuildingStorefrontIcon },
   { name: 'Calendar', href: '/dashboard/vendor/calendar', icon: CalendarDaysIcon },
+  { name: 'Portfolio', href: '/dashboard/vendor/portfolio', icon: PhotoIcon },
   { name: 'Finances', href: '/dashboard/vendor/finances', icon: BanknotesIcon },
   { name: 'Growth', href: '/dashboard/vendor/growth', icon: ArrowTrendingUpIcon },
-  { name: 'Messages', href: '/messages', icon: ChatBubbleLeftRightIcon },
+  { name: 'Messages', href: '/dashboard/vendor/messages', icon: ChatBubbleLeftRightIcon },
   { name: 'Settings', href: '/dashboard/vendor/settings', icon: Cog6ToothIcon },
 ];
 

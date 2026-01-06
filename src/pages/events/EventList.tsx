@@ -117,12 +117,12 @@ const EventList = () => {
                     <div className="grid grid-cols-1 md:grid-cols-2 gap-8 max-w-5xl mx-auto pt-8">
 
                         {/* AI Planner Card */}
-                        <PremiumCard className="relative overflow-hidden bg-[#262626] dark:bg-gray-800 border-none p-10 min-h-[500px] flex flex-col justify-between shadow-2xl dark:shadow-none group">
+                        <PremiumCard className="relative overflow-hidden !bg-[#262626] dark:bg-gray-800 border-none p-10 min-h-[500px] flex flex-col justify-between shadow-2xl dark:shadow-none group">
                             {/* Decorative Background */}
                             <div className="absolute top-0 right-0 w-64 h-64 bg-[#D0771E] opacity-10 blur-[80px] rounded-full transform translate-x-1/3 -translate-y-1/3 group-hover:opacity-20 transition-all duration-700" />
 
                             <div className="relative z-10">
-                                <div className="w-16 h-16 rounded-2xl bg-white/10 dark:bg-gray-700/50 backdrop-blur-md flex items-center justify-center mb-8 border border-white/10 dark:border-gray-600 group-hover:scale-110 transition-transform duration-500 shadow-xl dark:shadow-none">
+                                <div className="w-16 h-16 rounded-2xl !bg-white/10 dark:bg-gray-700/50 backdrop-blur-md flex items-center justify-center mb-8 border border-white/10 dark:border-gray-600 group-hover:scale-110 transition-transform duration-500 shadow-xl dark:shadow-none">
                                     <SparklesIcon className="w-8 h-8 text-[#D0771E]" />
                                 </div>
                                 <h3 className="text-3xl font-black text-white uppercase tracking-tight mb-4">
