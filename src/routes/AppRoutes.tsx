@@ -82,6 +82,8 @@ const Messages = lazy(() => import('../pages/messages/Messages'));
 const OnboardingPage = lazy(() => import('../pages/onboarding/OnboardingPage'));
 // 404 Not Found page
 const NotFound = lazy(() => import('../pages/public/NotFound'));
+// 503 Maintenance page
+const Maintenance = lazy(() => import('../pages/public/Maintenance'));
 
 // Loading fallback component
 const LoadingFallback = () => (
@@ -100,6 +102,7 @@ const AppRoutes = () => {
           <Route path="event/:eventId" element={<EventWebsitePublic />} />
           <Route path="event/:eventId/rsvp" element={<RSVPPage />} />
           <Route path="event/:eventId/registry" element={<RegistryPage />} />
+          <Route path="maintenance" element={<Maintenance />} />
         </Route>
 
         {/* Auth Routes */}
