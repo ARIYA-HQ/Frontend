@@ -935,6 +935,9 @@
   .block {
     display: block;
   }
+  .contents {
+    display: contents;
+  }
   .flex {
     display: flex;
   }
@@ -9555,4 +9558,4 @@ html.dark body {
 }
 /* refined resets if needed, or empty */
 
-/*# sourceMappingURL=main.1559a0c9472ba6cddb8b.css.map*/
+/*# sourceMappingURL=main.e1d8c4471e745f21d56c.css.map*/
