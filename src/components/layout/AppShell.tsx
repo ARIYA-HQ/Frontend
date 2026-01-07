@@ -1,9 +1,11 @@
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import type { ReactNode } from 'react';
 import { Outlet, useLocation } from 'react-router-dom';
 import Sidebar from '../ui/Sidebar';
 import Header from '../ui/Header';
 import { authService } from '../../services/authService';
+import AriyaCopilot from '../ui/AriyaCopilot';
+import { useNotifications } from '../../contexts/NotificationContext';
 
 interface AppShellProps {
   children?: ReactNode;
@@ -56,6 +58,34 @@ const AppShell = ({ children }: AppShellProps) => {
     return 'personal_planner'; // default
   };
 
+  const { addNotification } = useNotifications();
+
+  // Simulate incoming notifications
+  useEffect(() => {
+    const notifyTimer = setTimeout(() => {
+      addNotification({
+        title: 'New Lead: Sarah & David',
+        message: 'A new inquiry has been received for their December Wedding.',
+        type: 'success',
+        link: '/dashboard/vendor/inquiries'
+      });
+    }, 10000); // 10 seconds after load
+
+    const conflictTimer = setTimeout(() => {
+      addNotification({
+        title: 'Seating Conflict Detected',
+        message: 'Guest "Phoenix Baker" has a dietary restriction at Table 4.',
+        type: 'warning',
+        link: '/dashboard/seating'
+      });
+    }, 25000); // 25 seconds after load
+
+    return () => {
+      clearTimeout(notifyTimer);
+      clearTimeout(conflictTimer);
+    };
+  }, []);
+
   const userRole = getUserRole();
 
   return (
@@ -76,6 +106,7 @@ const AppShell = ({ children }: AppShellProps) => {
             </div>
           </main>
         </div>
+        <AriyaCopilot />
       </div>
     </>
   );

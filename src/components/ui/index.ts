@@ -8,6 +8,7 @@ export { PremiumButton, type PremiumButtonProps } from './PremiumButton';
 export { PremiumInput, PremiumSearch, type PremiumInputProps } from './PremiumInput';
 export { default as PremiumCard, type PremiumCardProps } from './PremiumCard';
 export { default as PremiumTabs } from './PremiumTabs';
+export { PremiumEmptyState } from './PremiumEmptyState';
 
 // Loading Components
 export { LoadingSpinner, type LoadingSpinnerProps } from './LoadingSpinner';

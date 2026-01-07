@@ -9,7 +9,8 @@ import {
     ChevronDownIcon,
     ArrowDownTrayIcon,
     ShareIcon,
-    HashtagIcon
+    HashtagIcon,
+    ExclamationCircleIcon
 } from '@heroicons/react/24/outline';
 
 interface Table {
@@ -20,6 +21,7 @@ interface Table {
     guestIds: number[];
     x: number;
     y: number;
+    conflicts?: string[];
 }
 
 interface Guest {
@@ -28,6 +30,8 @@ interface Guest {
     group: string;
     assignedTableId?: string;
     avatar?: string;
+    isVIP?: boolean;
+    dietary?: string;
 }
 
 interface SeatingChartProps {
@@ -93,12 +97,47 @@ const SeatingChart = ({ guests, tables, setTables, setGuests }: SeatingChartProp
     };
 
 
+    const detectConflicts = (table: Table, allGuests: Guest[]) => {
+        const tableGuests = allGuests.filter(g => table.guestIds.includes(g.id));
+        const conflicts: string[] = [];
+
+        // Rule 1: Capacity
+        if (table.guestIds.length > table.capacity) {
+            conflicts.push('Over capacity');
+        }
+
+        // Rule 2: Dietary Mix (Critical Warning)
+        const hasAllergy = tableGuests.some(g => g.dietary?.toLowerCase().includes('allergy'));
+        if (hasAllergy) {
+            conflicts.push('Critical: Food Allergy at Table');
+        }
+
+        // Rule 3: VIP Status Mix
+        const hasVIP = tableGuests.some(g => g.isVIP);
+        const hasNonVIP = tableGuests.some(g => !g.isVIP && g.group !== 'VIP');
+        if (hasVIP && hasNonVIP && table.name.toLowerCase().includes('head')) {
+            conflicts.push('Non-VIP at Head Table');
+        }
+
+        return conflicts;
+    };
+
+    const updateTableConflicts = (tableList: Table[], guestList: Guest[]) => {
+        return tableList.map(t => ({
+            ...t,
+            conflicts: detectConflicts(t, guestList)
+        }));
+    };
+
     const saveTableSettings = () => {
-        setTables(prev => prev.map(t =>
-            t.id === selectedTableId
-                ? { ...t, name: editTableName, capacity: editCapacity }
-                : t
-        ));
+        setTables(prev => {
+            const updated = prev.map(t =>
+                t.id === selectedTableId
+                    ? { ...t, name: editTableName, capacity: editCapacity }
+                    : t
+            );
+            return updateTableConflicts(updated, guests);
+        });
         setSelectedTableId(null);
     };
 
@@ -108,14 +147,18 @@ const SeatingChart = ({ guests, tables, setTables, setGuests }: SeatingChartProp
         const table = tables.find(t => t.id === tableId);
         if (!table || table.guestIds.length >= table.capacity) return;
 
-        setTables(prevTables => prevTables.map(t => ({
-            ...t,
-            guestIds: t.guestIds.filter(id => id !== gId)
-        })));
+        setTables(prevTables => {
+            const updated = prevTables.map(t => ({
+                ...t,
+                guestIds: t.guestIds.filter(id => id !== gId)
+            }));
 
-        setTables(prevTables => prevTables.map(t =>
-            t.id === tableId ? { ...t, guestIds: [...t.guestIds, gId] } : t
-        ));
+            const withNewGuest = updated.map(t =>
+                t.id === tableId ? { ...t, guestIds: [...t.guestIds, gId] } : t
+            );
+
+            return updateTableConflicts(withNewGuest, guests);
+        });
 
         setGuests(prev => prev.map(g => g.id === gId ? { ...g, assignedTableId: tableId } : g));
         setSelectedGuestId(null);
@@ -192,11 +235,11 @@ const SeatingChart = ({ guests, tables, setTables, setGuests }: SeatingChartProp
     };
 
     return (
-        <div className="flex h-[800px] bg-white dark:bg-gray-800 rounded-3xl overflow-hidden border-none shadow-2xl shadow-gray-100/50 dark:shadow-none font-inter relative">
+        <div className="flex flex-col lg:flex-row h-auto lg:h-[800px] bg-white dark:bg-gray-800 rounded-3xl overflow-hidden border-none shadow-2xl shadow-gray-100/50 dark:shadow-none font-inter relative">
 
             {/* --- LEFT SIDEBAR: MANAGE QUEUE --- */}
-            <div className="w-[340px] border-r border-gray-50 dark:border-gray-700 flex flex-col bg-[#FCFCFC]/30 dark:bg-gray-900 shrink-0">
-                <div className="p-8 space-y-8">
+            <div className="w-full lg:w-[340px] border-r-0 lg:border-r border-b lg:border-b-0 border-gray-50 dark:border-gray-700 flex flex-col bg-[#FCFCFC]/30 dark:bg-gray-900 shrink-0 h-[500px] lg:h-auto">
+                <div className="p-6 lg:p-8 space-y-6 lg:space-y-8">
                     <div className="flex items-center gap-3">
                         <div className="relative flex-1">
                             <input
@@ -280,30 +323,30 @@ const SeatingChart = ({ guests, tables, setTables, setGuests }: SeatingChartProp
             </div>
 
             {/* --- MAIN CANVAS: SEATING MAP --- */}
-            <div className="flex-1 flex flex-col bg-[#FCFCFC] dark:bg-gray-900 overflow-hidden relative">
+            <div className="flex-1 flex flex-col bg-[#FCFCFC] dark:bg-gray-900 overflow-hidden relative min-h-[600px] lg:min-h-0">
 
                 {/* Canvas Toolbar Overlay */}
-                <div className="absolute top-8 left-12 right-12 z-20 flex justify-between items-center pointer-events-none">
-                    <div className="flex gap-8 pointer-events-auto">
-                        <div className="flex items-center gap-2 group cursor-pointer px-4 py-2 bg-white/80 dark:bg-gray-800/80 backdrop-blur-sm rounded-2xl border border-gray-100/50 dark:border-gray-700/50 hover:border-[#D0771E]/30 transition-all">
+                <div className="absolute top-4 lg:top-8 left-4 lg:left-12 right-4 lg:right-12 z-20 flex flex-col lg:flex-row gap-4 justify-between items-start lg:items-center pointer-events-none">
+                    <div className="flex gap-4 lg:gap-8 pointer-events-auto w-full lg:w-auto overflow-x-auto pb-2 lg:pb-0">
+                        <div className="flex items-center gap-2 group cursor-pointer px-4 py-2 bg-white/80 dark:bg-gray-800/80 backdrop-blur-sm rounded-2xl border border-gray-100/50 dark:border-gray-700/50 hover:border-[#D0771E]/30 transition-all shrink-0">
                             <MagnifyingGlassIcon className="w-4 h-4 text-gray-400 dark:text-gray-500 group-hover:text-[#D0771E]" />
                             <span className="text-xs font-black text-gray-600 dark:text-gray-300 uppercase tracking-widest">Search</span>
                         </div>
-                        <div className="flex items-center gap-2 group cursor-pointer px-4 py-2 bg-white/80 dark:bg-gray-800/80 backdrop-blur-sm rounded-2xl border border-gray-100/50 dark:border-gray-700/50 hover:border-[#D0771E]/30 transition-all">
+                        <div className="flex items-center gap-2 group cursor-pointer px-4 py-2 bg-white/80 dark:bg-gray-800/80 backdrop-blur-sm rounded-2xl border border-gray-100/50 dark:border-gray-700/50 hover:border-[#D0771E]/30 transition-all shrink-0">
                             <FunnelIcon className="w-4 h-4 text-gray-400 dark:text-gray-500 group-hover:text-[#D0771E]" />
                             <span className="text-xs font-black text-gray-600 dark:text-gray-300 uppercase tracking-widest">Filter</span>
                         </div>
                     </div>
 
-                    <div className="flex gap-4 pointer-events-auto">
+                    <div className="flex gap-2 lg:gap-4 pointer-events-auto w-full lg:w-auto">
                         <button
                             onClick={() => setIsPreviewMode(true)}
-                            className="flex items-center gap-2 px-6 py-3 bg-white/80 dark:bg-gray-800/80 backdrop-blur-sm rounded-2xl border border-gray-100/50 dark:border-gray-700/50 text-xs font-black text-gray-600 dark:text-gray-300 hover:text-[#D0771E] hover:border-[#D0771E]/30 transition-all uppercase tracking-widest"
+                            className="flex-1 lg:flex-none flex items-center justify-center gap-2 px-6 py-3 bg-white/80 dark:bg-gray-800/80 backdrop-blur-sm rounded-2xl border border-gray-100/50 dark:border-gray-700/50 text-xs font-black text-gray-600 dark:text-gray-300 hover:text-[#D0771E] hover:border-[#D0771E]/30 transition-all uppercase tracking-widest"
                         >
                             <EyeIcon className="w-4 h-4" /> Preview
                         </button>
-                        <button className="px-8 py-3 bg-[#D0771E] text-white rounded-2xl text-xs font-black hover:bg-orange-600 transition-all shadow-lg dark:shadow-none shadow-orange-100 uppercase tracking-widest transform active:scale-95">
-                            Save Layout
+                        <button className="flex-1 lg:flex-none px-8 py-3 bg-[#D0771E] text-white rounded-2xl text-xs font-black hover:bg-orange-600 transition-all shadow-lg dark:shadow-none shadow-orange-100 uppercase tracking-widest transform active:scale-95">
+                            Save
                         </button>
                     </div>
                 </div>
@@ -409,10 +452,16 @@ const SeatingChart = ({ guests, tables, setTables, setGuests }: SeatingChartProp
                                     ${dragOverTableId === table.id ? 'border-4 border-[#D0771E] bg-orange-50/40 shadow-2xl scale-110' :
                                         selectedGuestId ? 'border border-dashed border-[#D0771E] bg-orange-50/20 shadow-md' :
                                             selectedTableId === table.id ? 'border-2 border-[#D0771E] bg-orange-50/5 shadow-md' :
-                                                'border border-orange-100/40 bg-white shadow-lg'}
+                                                table.conflicts && table.conflicts.length > 0 ? 'border-2 border-rose-500 bg-rose-50/5 shadow-lg' :
+                                                    'border border-orange-100/40 bg-white shadow-lg'}
                                 `}>
                                     <div className="text-center">
                                         <p className="text-sm font-normal text-[#262626] dark:text-gray-300 truncate max-w-[80px]">{table.name}</p>
+                                        {table.conflicts && table.conflicts.length > 0 && (
+                                            <div className="absolute -top-2 -right-2 bg-rose-500 text-white w-5 h-5 rounded-full flex items-center justify-center animate-pulse">
+                                                <ExclamationCircleIcon className="w-3.5 h-3.5" />
+                                            </div>
+                                        )}
                                     </div>
                                     <div className="absolute -top-10 left-1/2 -translate-x-1/2">
                                         <span className="text-xs font-normal text-[#BFBFBF] dark:text-gray-500">
@@ -430,7 +479,7 @@ const SeatingChart = ({ guests, tables, setTables, setGuests }: SeatingChartProp
             {selectedTableId && (
                 <div className="absolute inset-0 z-[100] flex justify-end animate-fade-in group">
                     <div onClick={() => setSelectedTableId(null)} className="absolute inset-0 bg-black/5 backdrop-blur-[2px]"></div>
-                    <div className="w-[420px] bg-white dark:bg-gray-800 h-full shadow-2xl dark:shadow-none relative flex flex-col animate-slide-in-right border-l border-gray-100 dark:border-gray-700">
+                    <div className="w-full sm:w-[420px] bg-white dark:bg-gray-800 h-full shadow-2xl dark:shadow-none relative flex flex-col animate-slide-in-right border-l border-gray-100 dark:border-gray-700">
                         {/* Header */}
                         <div className="p-8 border-b border-gray-100 dark:border-gray-700 flex items-center justify-between">
                             <h2 className="text-xl font-bold text-gray-900 dark:text-white">Table Settings</h2>
@@ -441,6 +490,21 @@ const SeatingChart = ({ guests, tables, setTables, setGuests }: SeatingChartProp
 
                         {/* Form Body */}
                         <div className="flex-1 overflow-y-auto p-8 space-y-8">
+                            {/* Conflicts Listing */}
+                            {currentTable?.conflicts && currentTable.conflicts.length > 0 && (
+                                <div className="p-6 bg-rose-50 dark:bg-rose-900/20 border border-rose-100 dark:border-rose-800 rounded-2xl space-y-3">
+                                    <div className="flex items-center gap-2 text-rose-600 dark:text-rose-400">
+                                        <ExclamationCircleIcon className="w-5 h-5" />
+                                        <span className="text-[10px] font-black uppercase tracking-widest">Active Table Conflicts ({currentTable.conflicts.length})</span>
+                                    </div>
+                                    <ul className="space-y-1">
+                                        {currentTable.conflicts.map((c, i) => (
+                                            <li key={i} className="text-xs font-bold text-rose-800 dark:text-rose-300">• {c}</li>
+                                        ))}
+                                    </ul>
+                                </div>
+                            )}
+
                             {/* Table Name */}
                             <div className="space-y-2.5">
                                 <label className="text-xs font-bold text-gray-900 dark:text-white block">Table Name</label>

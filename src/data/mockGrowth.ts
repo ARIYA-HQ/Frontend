@@ -13,13 +13,19 @@ export const GROWTH_STATS = [
 ];
 
 export const MONTHLY_DATA = [
-    { month: 'Jan', views: 800, inquiries: 30 },
-    { month: 'Feb', views: 950, inquiries: 35 },
-    { month: 'Mar', views: 1100, inquiries: 42 },
-    { month: 'Apr', views: 1050, inquiries: 38 },
-    { month: 'May', views: 1200, inquiries: 45 },
-    { month: 'Jun', views: 1350, inquiries: 48 },
-    { month: 'Jul', views: 1250, inquiries: 44 }
+    { month: 'Jan', views: 800, inquiries: 30, revenue: 1500000 },
+    { month: 'Feb', views: 950, inquiries: 35, revenue: 1800000 },
+    { month: 'Mar', views: 1100, inquiries: 42, revenue: 2500000 },
+    { month: 'Apr', views: 1050, inquiries: 38, revenue: 2100000 },
+    { month: 'May', views: 1200, inquiries: 45, revenue: 2800000 },
+    { month: 'Jun', views: 1350, inquiries: 48, revenue: 3200000 },
+    { month: 'Jul', views: 1250, inquiries: 44, revenue: 2900000 }
+];
+
+export const CUSTOMER_SOURCES = [
+    { source: 'Ariya Core', value: 85, color: '#D0771E' },
+    { source: 'Direct Search', value: 10, color: '#1D2939' },
+    { source: 'Other', value: 5, color: '#98A2B3' },
 ];
 
 export const TOP_SERVICES = [

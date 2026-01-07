@@ -1,8 +1,8 @@
 import { useState } from 'react';
-import { 
-  ArrowPathIcon, 
-  LightBulbIcon, 
-  CurrencyDollarIcon, 
+import {
+  ArrowPathIcon,
+  LightBulbIcon,
+  CurrencyDollarIcon,
   ArrowTrendingUpIcon,
   CheckCircleIcon
 } from '@heroicons/react/24/outline';
@@ -28,8 +28,8 @@ const AIPlanner = () => {
     const { name, value } = e.target;
     // Map old field names to new ones for consistency
     const fieldName = name === 'eventType' ? 'occasion' :
-                    name === 'date' ? 'eventDate' :
-                    name === 'theme' ? 'atmosphere' : name;
+      name === 'date' ? 'eventDate' :
+        name === 'theme' ? 'atmosphere' : name;
     setFormData(prev => ({
       ...prev,
       [fieldName]: value
@@ -103,7 +103,7 @@ const AIPlanner = () => {
                   <option value="engagement">Engagement</option>
                 </select>
               </div>
-              
+
               <div>
                 <label htmlFor="guestCount" className="block text-sm font-medium text-gray-700 dark:text-gray-300">
                   Number of Guests
@@ -118,7 +118,7 @@ const AIPlanner = () => {
                   placeholder="Approximate number"
                 />
               </div>
-              
+
               <div className="sm:col-span-2">
                 <label htmlFor="location" className="block text-sm font-medium text-gray-700 dark:text-gray-300">
                   Location
@@ -155,7 +155,7 @@ const AIPlanner = () => {
                   placeholder="Total budget"
                 />
               </div>
-              
+
               <div>
                 <label htmlFor="eventDate" className="block text-sm font-medium text-gray-700 dark:text-gray-300">
                   Event Date
@@ -169,7 +169,7 @@ const AIPlanner = () => {
                   className="mt-1 block w-full rounded-md border border-gray-300 dark:border-gray-600 dark:bg-gray-700 dark:text-white shadow-sm dark:shadow-none focus:border-[#D0771E] focus:ring-[#D0771E] sm:text-sm py-2 pl-3"
                 />
               </div>
-              
+
               <div className="sm:col-span-2">
                 <label htmlFor="atmosphere" className="block text-sm font-medium text-gray-700 dark:text-gray-300">
                   Event Atmosphere
@@ -252,7 +252,7 @@ const AIPlanner = () => {
   };
 
   return (
-    <div className="dark:bg-gray-900">
+    <div className="dark:bg-gray-900 animate-in fade-in slide-in-from-bottom-4 duration-700">
       <div className="mb-6">
         <h1 className="text-2xl font-bold text-gray-900 dark:text-white">AI Event Planner</h1>
         <p className="mt-1 text-sm text-gray-500 dark:text-gray-400">Let our AI help you plan the perfect event</p>
@@ -269,8 +269,8 @@ const AIPlanner = () => {
             </div>
             <div className="mt-4">
               <div className="overflow-hidden h-2 bg-gray-200 dark:bg-gray-700 rounded-full">
-                <div 
-                  className="h-full bg-indigo-600 dark:bg-indigo-500 transition-all duration-300 ease-in-out" 
+                <div
+                  className="h-full bg-indigo-600 dark:bg-indigo-500 transition-all duration-300 ease-in-out"
                   style={{ width: `${(currentStep / totalSteps) * 100}%` }}
                 ></div>
               </div>
@@ -285,15 +285,14 @@ const AIPlanner = () => {
                 type="button"
                 onClick={handleBack}
                 disabled={currentStep === 1}
-                className={`inline-flex items-center px-4 py-2 border border-gray-300 dark:border-gray-600 text-sm font-medium rounded-md ${
-                  currentStep === 1 
-                    ? 'text-gray-400 dark:text-gray-600 bg-gray-100 dark:bg-gray-700 cursor-not-allowed' 
+                className={`inline-flex items-center px-4 py-2 border border-gray-300 dark:border-gray-600 text-sm font-medium rounded-md ${currentStep === 1
+                    ? 'text-gray-400 dark:text-gray-600 bg-gray-100 dark:bg-gray-700 cursor-not-allowed'
                     : 'text-gray-700 dark:text-gray-300 bg-white dark:bg-gray-700 hover:bg-gray-50 dark:hover:bg-gray-600'
-                }`}
+                  }`}
               >
                 Back
               </button>
-              
+
               <button
                 type="button"
                 onClick={handleNext}

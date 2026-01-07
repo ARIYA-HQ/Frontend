@@ -12,7 +12,7 @@ const EventPlannerDashboard = () => {
   const navigate = useNavigate();
 
   return (
-    <div className="max-w-[1600px] mx-auto px-8 py-8 h-full flex flex-col gap-10 dark:bg-gray-900">
+    <div className="max-w-[1600px] mx-auto px-8 py-8 h-full flex flex-col gap-10 dark:bg-gray-900 animate-in fade-in slide-in-from-bottom-4 duration-700">
       <PageHeader
         breadcrumb="Overview"
         title="Dashboard"
@@ -112,7 +112,7 @@ const EventPlannerDashboard = () => {
 
         {/* Right Sidebar Column (1/3) - Recent Activities */}
         <div className="h-full">
-          <PremiumCard className="p-10 h-full">
+          <PremiumCard className="p-10 h-full animate-in fade-in slide-in-from-right-4 duration-700 delay-300">
             <RecentActivities />
           </PremiumCard>
         </div>

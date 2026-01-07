@@ -173,7 +173,7 @@ const Tasks = () => {
   };
 
   return (
-    <div className="max-w-7xl mx-auto pb-12">
+    <div className="max-w-7xl mx-auto pb-12 animate-in fade-in slide-in-from-bottom-4 duration-700">
       <PageHeader
         breadcrumb="Project Management"
         title="Tasks"

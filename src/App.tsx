@@ -3,6 +3,7 @@ import { useEffect } from 'react';
 import { ThemeProvider } from './contexts/ThemeContext';
 import { UIProvider } from './contexts/UIContext';
 import { CartProvider } from './contexts/CartContext';
+import { NotificationProvider } from './contexts/NotificationContext';
 import ErrorBoundary from './components/ErrorBoundary';
 import { authService } from './services/authService';
 import AppRoutes from './routes/AppRoutes';
@@ -73,16 +74,18 @@ function App() {
     <ErrorBoundary>
       <ThemeProvider>
         <UIProvider>
-          <CartProvider>
-            {/* Repository: ARIYA-HQ/Frontend */}
-            <Router basename={process.env.NODE_ENV === 'production' ? '/Frontend' : '/'}>
-              <AuthSetup />
-              <SubdomainRouter />
-              <div className="App">
-                <AppRoutes />
-              </div>
-            </Router>
-          </CartProvider>
+          <NotificationProvider>
+            <CartProvider>
+              {/* Repository: ARIYA-HQ/Frontend */}
+              <Router basename={process.env.NODE_ENV === 'production' ? '/Frontend' : '/'}>
+                <AuthSetup />
+                <SubdomainRouter />
+                <div className="App">
+                  <AppRoutes />
+                </div>
+              </Router>
+            </CartProvider>
+          </NotificationProvider>
         </UIProvider>
       </ThemeProvider>
     </ErrorBoundary>

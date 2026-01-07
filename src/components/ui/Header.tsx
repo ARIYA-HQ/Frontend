@@ -18,6 +18,9 @@ import { Avatar } from './Avatar';
 import { useCart } from '../../contexts/CartContext';
 import { XMarkIcon as XMarkIconSolid } from '@heroicons/react/20/solid';
 
+import { useNotifications } from '../../contexts/NotificationContext';
+import { formatDistanceToNow } from 'date-fns';
+
 interface HeaderProps {
   onMenuClick: () => void;
 }
@@ -26,6 +29,7 @@ const Header = ({ onMenuClick }: HeaderProps) => {
   const [searchQuery, setSearchQuery] = useState('');
   const [isSearchFocused, setIsSearchFocused] = useState(false);
   const { cart, removeFromCart } = useCart();
+  const { notifications, unreadCount, markAsRead, markAllAsRead } = useNotifications();
 
   const formatPrice = (price: number) => {
     return '₦' + price.toLocaleString(undefined, { minimumFractionDigits: 1, maximumFractionDigits: 1 });
@@ -148,32 +152,76 @@ const Header = ({ onMenuClick }: HeaderProps) => {
 
             {/* Notifications */}
             <Popover className="relative">
-              <Popover.Button className="p-1.5 text-gray-400 dark:text-gray-500 hover:text-[#D0771E] transition-colors outline-none">
-                <BellIcon className="h-6 w-6" aria-hidden="true" />
-              </Popover.Button>
-              <Transition
-                as={Fragment}
-                enter="transition ease-out duration-200"
-                enterFrom="opacity-0 translate-y-1"
-                enterTo="opacity-100 translate-y-0"
-                leave="transition ease-in duration-150"
-                leaveFrom="opacity-100 translate-y-0"
-                leaveTo="opacity-0 translate-y-1"
-              >
-                <Popover.Panel className="absolute right-0 z-10 mt-3 w-80 transform px-4 sm:px-0">
-                  <div className="overflow-hidden rounded-2xl shadow-2xl dark:shadow-none ring-1 ring-black dark:ring-gray-700 ring-opacity-5 bg-white dark:bg-gray-800">
-                    <div className="p-4 bg-gray-50/50 dark:bg-gray-700/50 border-b border-gray-100 dark:border-gray-700">
-                      <h3 className="text-xs font-black text-gray-900 dark:text-white uppercase">Notifications</h3>
-                    </div>
-                    <div className="p-8 text-center">
-                      <div className="w-12 h-12 bg-gray-50 dark:bg-gray-700 rounded-full flex items-center justify-center mx-auto mb-3">
-                        <BellIcon className="w-6 h-6 text-gray-300 dark:text-gray-500" />
+              {() => (
+                <>
+                  <Popover.Button className="p-1.5 text-gray-400 dark:text-gray-500 hover:text-[#D0771E] transition-colors outline-none relative">
+                    <BellIcon className="h-6 w-6" aria-hidden="true" />
+                    {unreadCount > 0 && (
+                      <span className="absolute top-1.5 right-1.5 block h-2.5 w-2.5 rounded-full bg-red-500 ring-2 ring-white dark:ring-gray-800 animate-pulse" />
+                    )}
+                  </Popover.Button>
+                  <Transition
+                    as={Fragment}
+                    enter="transition ease-out duration-200"
+                    enterFrom="opacity-0 translate-y-1"
+                    enterTo="opacity-100 translate-y-0"
+                    leave="transition ease-in duration-150"
+                    leaveFrom="opacity-100 translate-y-0"
+                    leaveTo="opacity-0 translate-y-1"
+                  >
+                    <Popover.Panel className="absolute right-0 z-10 mt-3 w-96 transform px-4 sm:px-0">
+                      <div className="overflow-hidden rounded-2xl shadow-2xl dark:shadow-none ring-1 ring-black dark:ring-gray-700 ring-opacity-5 bg-white dark:bg-gray-800 max-h-[80vh] flex flex-col">
+                        <div className="p-4 bg-gray-50/50 dark:bg-gray-700/50 border-b border-gray-100 dark:border-gray-700 flex justify-between items-center shrink-0">
+                          <h3 className="text-xs font-black text-gray-900 dark:text-white uppercase">Notifications</h3>
+                          {unreadCount > 0 && (
+                            <button
+                              onClick={markAllAsRead}
+                              className="text-[10px] font-bold text-[#D0771E] hover:underline uppercase tracking-wide"
+                            >
+                              Mark all read
+                            </button>
+                          )}
+                        </div>
+                        <div className="overflow-y-auto">
+                          {notifications.length > 0 ? (
+                            <div className="divide-y divide-gray-100 dark:divide-gray-700">
+                              {notifications.map((notification) => (
+                                <div
+                                  key={notification.id}
+                                  className={`p-4 hover:bg-gray-50 dark:hover:bg-gray-700/50 transition-colors cursor-pointer ${!notification.read ? 'bg-orange-50/30 dark:bg-orange-900/10' : ''}`}
+                                  onClick={() => markAsRead(notification.id)}
+                                >
+                                  <div className="flex gap-3">
+                                    <div className={`mt-1 flex-shrink-0 w-2 h-2 rounded-full ${!notification.read ? 'bg-[#D0771E]' : 'bg-transparent'}`} />
+                                    <div className="flex-1 space-y-1">
+                                      <p className={`text-xs ${!notification.read ? 'font-black text-gray-900 dark:text-white' : 'font-medium text-gray-600 dark:text-gray-400'}`}>
+                                        {notification.title}
+                                      </p>
+                                      <p className="text-[11px] text-gray-500 dark:text-gray-500 leading-snug">
+                                        {notification.message}
+                                      </p>
+                                      <p className="text-[10px] font-medium text-gray-400">
+                                        {formatDistanceToNow(notification.timestamp, { addSuffix: true })}
+                                      </p>
+                                    </div>
+                                  </div>
+                                </div>
+                              ))}
+                            </div>
+                          ) : (
+                            <div className="p-8 text-center">
+                              <div className="w-12 h-12 bg-gray-50 dark:bg-gray-700 rounded-full flex items-center justify-center mx-auto mb-3">
+                                <BellIcon className="w-6 h-6 text-gray-300 dark:text-gray-500" />
+                              </div>
+                              <p className="text-xs font-bold text-gray-400 dark:text-gray-500 uppercase tracking-widest">No New Notifications</p>
+                            </div>
+                          )}
+                        </div>
                       </div>
-                      <p className="text-xs font-bold text-gray-400 dark:text-gray-500 uppercase tracking-widest">No New Notifications</p>
-                    </div>
-                  </div>
-                </Popover.Panel>
-              </Transition>
+                    </Popover.Panel>
+                  </Transition>
+                </>
+              )}
             </Popover>
 
             {/* Cart */}

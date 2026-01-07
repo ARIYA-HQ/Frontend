@@ -4,9 +4,11 @@ import { PencilSquareIcon, CheckCircleIcon, ChatBubbleBottomCenterTextIcon } fro
 import { LockClosedIcon, SparklesIcon } from '@heroicons/react/24/solid';
 import { Chart as ChartJS, ArcElement, Tooltip, Legend } from 'chart.js';
 import { Doughnut } from 'react-chartjs-2';
+import { PlusIcon } from '@heroicons/react/24/outline';
 import PageHeader from '../../components/ui/PageHeader';
 import PremiumTabs from '../../components/ui/PremiumTabs';
 import PremiumCard from '../../components/ui/PremiumCard';
+import { Button } from '../../components/ui/Button';
 
 ChartJS.register(ArcElement, Tooltip, Legend);
 
@@ -24,6 +26,14 @@ const AIEventDashboard = () => {
     const location = useLocation();
     const eventData = location.state?.eventData || {};
     const [activeTab, setActiveTab] = useState('Overview');
+    const [showEditModal, setShowEditModal] = useState(false);
+    const [isRegenerating, setIsRegenerating] = useState(false);
+    const [visionPrompt, setVisionPrompt] = useState(`An elegant wedding for ${eventData.guestCount || 150} guests in ${eventData.location || "Lagos"} on ${eventData.eventDate || "June 15, 2025"}. I want to maintain a premium feel while optimizing for cultural elements.`);
+
+    const [suggestions, setSuggestions] = useState([
+        { id: 1, title: 'Garden Ceremony & Ballroom Reception', desc: 'Perfect blend of outdoor romance and indoor elegance' },
+        { id: 2, title: 'Waterfront Sunset Wedding', desc: 'Stunning Lagos lagoon backdrop for unforgettable photos' }
+    ]);
 
     // Default values falling back to eventData or defaults
     const [eventName] = useState(eventData.eventName || "Tosin & John's Wedding");
@@ -97,11 +107,37 @@ const AIEventDashboard = () => {
         });
     };
 
+    // Handle AI Regeneration
+    const handleUpdatePlan = (newPrompt?: string) => {
+        setIsRegenerating(true);
+        if (newPrompt) setVisionPrompt(newPrompt);
+
+        // Simulate AI Thinking
+        setTimeout(() => {
+            const scenarios = [
+                [
+                    { id: 101, title: 'Boutique Art Gallery Affair', desc: 'Intimate, sophisticated setting for modern couples.' },
+                    { id: 102, title: 'Penthouse Skyline Celebration', desc: 'Panoramic city views with minimalist decor.' }
+                ],
+                [
+                    { id: 201, title: 'Traditional Royal Palace Gala', desc: 'Rich cultural heritage meets grand scale luxury.' },
+                    { id: 202, title: 'Estate Heritage Grounds', desc: 'Classic architecture with sprawling manicured gardens.' }
+                ]
+            ];
+
+            setSuggestions(scenarios[Math.floor(Math.random() * scenarios.length)]);
+            setIsRegenerating(false);
+            setShowEditModal(false);
+        }, 2000);
+    };
+
     // Handle Budget Update
     const handleBudgetUpdate = () => {
         const value = parseInt(budgetInput.replace(/[^0-9]/g, ''), 10);
         if (!isNaN(value) && value > 0) {
             setTotalBudget(value);
+            // Re-shuffle vendors based on budget tier
+            setVendors(prev => [...prev].sort(() => Math.random() - 0.5));
         }
     };
 
@@ -134,7 +170,7 @@ const AIEventDashboard = () => {
                     subtitle={`${eventDate} • ${guestCount} Guests • ${eventLocation}`} // Dynamic
                     actions={
                         <button
-                            onClick={() => alert("Edit details functionality coming soon!")}
+                            onClick={() => setShowEditModal(true)}
                             className="h-[48px] px-6 bg-white dark:bg-gray-800 border border-gray-100 dark:border-gray-700 rounded-2xl text-[10px] font-black text-[#D0771E] uppercase tracking-widest hover:bg-gray-50 dark:hover:bg-gray-700 transition-all flex items-center gap-2 dark:shadow-none"
                         >
                             <PencilSquareIcon className="w-4 h-4" />
@@ -142,6 +178,41 @@ const AIEventDashboard = () => {
                         </button>
                     }
                 />
+
+                {/* Edit Modal */}
+                {showEditModal && (
+                    <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-[#1D2939]/40 dark:bg-black/60 backdrop-blur-sm animate-in fade-in duration-300">
+                        <PremiumCard className="w-full max-w-xl animate-in zoom-in-95 duration-300 bg-white dark:bg-gray-900 border-none shadow-2xl p-0 overflow-hidden">
+                            <div className="px-10 py-10 bg-[#F3F0EB]/30 dark:bg-gray-800/50 border-b border-gray-100 dark:border-gray-800 flex justify-between items-center">
+                                <h3 className="text-2xl font-black uppercase tracking-tighter text-[#1D2939] dark:text-white">Refine AI Prompt</h3>
+                                <button onClick={() => setShowEditModal(false)} className="p-3 hover:bg-black/5 dark:hover:bg-white/10 rounded-2xl transition-colors">
+                                    <PlusIcon className="w-6 h-6 rotate-45 text-gray-500 dark:text-gray-400" />
+                                </button>
+                            </div>
+                            <div className="p-10 space-y-8">
+                                <div className="space-y-2">
+                                    <label className="text-[10px] font-black text-gray-400 dark:text-gray-500 uppercase tracking-widest mb-2">Your Vision</label>
+                                    <textarea
+                                        className="w-full h-40 p-6 rounded-2xl bg-gray-50 dark:bg-gray-800 border-none focus:ring-2 focus:ring-[#D0771E] transition-all text-sm font-medium text-[#1D2939] dark:text-white resize-none"
+                                        placeholder="Describe any changes to your event vision..."
+                                        value={visionPrompt}
+                                        onChange={(e) => setVisionPrompt(e.target.value)}
+                                    />
+                                </div>
+                                <div className="flex gap-4">
+                                    <Button variant="outline" className="flex-1 h-14 rounded-2xl" onClick={() => setShowEditModal(false)}>Cancel</Button>
+                                    <Button
+                                        className="flex-1 h-14 rounded-2xl bg-[#D0771E] text-white"
+                                        isDisabled={isRegenerating}
+                                        onClick={() => handleUpdatePlan()}
+                                    >
+                                        {isRegenerating ? "Regenerating..." : "Update Plan"}
+                                    </Button>
+                                </div>
+                            </div>
+                        </PremiumCard>
+                    </div>
+                )}
 
                 {/* Tabs */}
                 <PremiumTabs
@@ -168,15 +239,22 @@ const AIEventDashboard = () => {
                                 </h3>
                                 <p className="text-xs font-bold text-gray-500 dark:text-gray-400 mb-6 uppercase tracking-wide">Based on your preferences for an elegant wedding with {guestCount} guests in {eventLocation}</p>
 
-                                <div className="space-y-4">
-                                    <div className="bg-white dark:bg-gray-800 p-6 rounded-2xl shadow-sm dark:shadow-none border border-gray-100 dark:border-gray-700 hover:shadow-md dark:hover:shadow-none transition-shadow cursor-pointer">
-                                        <h4 className="font-black text-gray-900 dark:text-white text-sm mb-1 uppercase tracking-tight">Garden Ceremony & Ballroom Reception</h4>
-                                        <p className="text-xs font-medium text-gray-500 dark:text-gray-400">Perfect blend of outdoor romance and indoor elegance</p>
-                                    </div>
-                                    <div className="bg-white dark:bg-gray-800 p-6 rounded-2xl shadow-sm dark:shadow-none border border-gray-100 dark:border-gray-700 hover:shadow-md dark:hover:shadow-none transition-shadow cursor-pointer">
-                                        <h4 className="font-black text-gray-900 dark:text-white text-sm mb-1 uppercase tracking-tight">Waterfront Sunset Wedding</h4>
-                                        <p className="text-xs font-medium text-gray-500 dark:text-gray-400">Stunning Lagos lagoon backdrop for unforgettable photos</p>
-                                    </div>
+                                <div className="space-y-4 min-h-[160px] relative">
+                                    {isRegenerating ? (
+                                        <div className="absolute inset-0 flex items-center justify-center bg-white/50 dark:bg-gray-800/50 backdrop-blur-[1px] rounded-2xl z-10">
+                                            <div className="flex flex-col items-center gap-3">
+                                                <div className="w-8 h-8 border-4 border-[#D0771E]/20 border-t-[#D0771E] rounded-full animate-spin"></div>
+                                                <span className="text-[10px] font-black uppercase tracking-widest text-[#D0771E]">Designing your vision...</span>
+                                            </div>
+                                        </div>
+                                    ) : null}
+
+                                    {suggestions.map((s) => (
+                                        <div key={s.id} className="bg-white dark:bg-gray-800 p-6 rounded-2xl shadow-sm dark:shadow-none border border-gray-100 dark:border-gray-700 hover:shadow-md dark:hover:shadow-none transition-shadow cursor-pointer group">
+                                            <h4 className="font-black text-gray-900 dark:text-white text-sm mb-1 uppercase tracking-tight group-hover:text-[#D0771E] transition-colors">{s.title}</h4>
+                                            <p className="text-xs font-medium text-gray-500 dark:text-gray-400">{s.desc}</p>
+                                        </div>
+                                    ))}
                                 </div>
                             </PremiumCard>
 
