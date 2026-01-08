@@ -374,7 +374,7 @@ const VendorFinances = () => {
     };
 
     const renderChart = () => (
-        <PremiumCard className="p-10 border-gray-100 dark:border-gray-800 bg-white dark:bg-gray-900 animate-fade-in">
+        <PremiumCard className="p-6 sm:p-10 border-gray-100 dark:border-gray-800 bg-white dark:bg-gray-900 animate-fade-in">
             <div className="flex items-center justify-between mb-12">
                 <h3 className="text-xl font-black text-[#1D2939] dark:text-white uppercase tracking-tight">Revenue vs Expenses</h3>
                 <select className="h-11 px-4 rounded-xl bg-gray-50 dark:bg-gray-800 border-none text-[10px] font-black uppercase tracking-widest text-gray-700 dark:text-gray-300 focus:ring-2 focus:ring-[#D0771E]/20 transition-all cursor-pointer outline-none">
@@ -382,40 +382,42 @@ const VendorFinances = () => {
                     <option>This Year</option>
                 </select>
             </div>
-            <div className="h-[300px] flex items-end justify-between px-4 pb-8 border-b border-dashed border-gray-100 dark:border-gray-800 relative">
-                {/* Y-axis grid lines */}
-                <div className="absolute inset-x-0 bottom-0 h-full pointer-events-none flex flex-col justify-between pb-8">
-                    {[...Array(5)].map((_, i) => (
-                        <div key={i} className="w-full h-px bg-gray-50 dark:bg-gray-800/50"></div>
+            <div className="overflow-x-auto -mx-6 sm:mx-0 px-6 sm:px-0 scrollbar-hide">
+                <div className="h-[300px] flex items-end justify-between px-4 pb-8 border-b border-dashed border-gray-100 dark:border-gray-800 relative min-w-[500px]">
+                    {/* Y-axis grid lines */}
+                    <div className="absolute inset-x-0 bottom-0 h-full pointer-events-none flex flex-col justify-between pb-8">
+                        {[...Array(5)].map((_, i) => (
+                            <div key={i} className="w-full h-px bg-gray-50 dark:bg-gray-800/50"></div>
+                        ))}
+                    </div>
+
+                    {REVENUE_DATA.map((data, index) => (
+                        <div key={index} className="flex flex-col items-center flex-1 group z-10 relative">
+                            <div className="flex items-end justify-center w-full gap-2 h-[200px]">
+                                {/* Revenue Bar */}
+                                <div
+                                    className="w-4 md:w-8 bg-[#D0771E] rounded-t-lg transition-all duration-500 hover:brightness-110 relative group/bar"
+                                    style={{ height: `${(data.revenue / 30000000) * 100}%` }}
+                                >
+                                    <div className="absolute -top-10 left-1/2 -translate-x-1/2 opacity-0 group-hover/bar:opacity-100 transition-opacity bg-black dark:bg-white text-white dark:text-black text-[9px] font-black px-2 py-1 rounded whitespace-nowrap z-20">
+                                        ₦{(data.revenue / 1000000).toFixed(1)}M
+                                    </div>
+                                </div>
+
+                                {/* Expenses Bar */}
+                                <div
+                                    className="w-4 md:w-8 bg-gray-200 dark:bg-gray-700 rounded-t-lg transition-all duration-500 hover:brightness-90 relative group/exp"
+                                    style={{ height: `${(data.expenses / 30000000) * 100}%` }}
+                                >
+                                    <div className="absolute -top-10 left-1/2 -translate-x-1/2 opacity-0 group-hover/exp:opacity-100 transition-opacity bg-gray-600 text-white text-[9px] font-black px-2 py-1 rounded whitespace-nowrap z-20">
+                                        ₦{(data.expenses / 1000000).toFixed(1)}M
+                                    </div>
+                                </div>
+                            </div>
+                            <div className="mt-4 text-[10px] font-black text-gray-400 dark:text-gray-500 uppercase tracking-widest">{data.month}</div>
+                        </div>
                     ))}
                 </div>
-
-                {REVENUE_DATA.map((data, index) => (
-                    <div key={index} className="flex flex-col items-center flex-1 group z-10 relative">
-                        <div className="flex items-end justify-center w-full gap-2 h-[200px]">
-                            {/* Revenue Bar */}
-                            <div
-                                className="w-4 md:w-8 bg-[#D0771E] rounded-t-lg transition-all duration-500 hover:brightness-110 relative group/bar"
-                                style={{ height: `${(data.revenue / 30000000) * 100}%` }}
-                            >
-                                <div className="absolute -top-10 left-1/2 -translate-x-1/2 opacity-0 group-hover/bar:opacity-100 transition-opacity bg-black dark:bg-white text-white dark:text-black text-[9px] font-black px-2 py-1 rounded whitespace-nowrap z-20">
-                                    ₦{(data.revenue / 1000000).toFixed(1)}M
-                                </div>
-                            </div>
-
-                            {/* Expenses Bar */}
-                            <div
-                                className="w-4 md:w-8 bg-gray-200 dark:bg-gray-700 rounded-t-lg transition-all duration-500 hover:brightness-90 relative group/exp"
-                                style={{ height: `${(data.expenses / 30000000) * 100}%` }}
-                            >
-                                <div className="absolute -top-10 left-1/2 -translate-x-1/2 opacity-0 group-hover/exp:opacity-100 transition-opacity bg-gray-600 text-white text-[9px] font-black px-2 py-1 rounded whitespace-nowrap z-20">
-                                    ₦{(data.expenses / 1000000).toFixed(1)}M
-                                </div>
-                            </div>
-                        </div>
-                        <div className="mt-4 text-[10px] font-black text-gray-400 dark:text-gray-500 uppercase tracking-widest">{data.month}</div>
-                    </div>
-                ))}
             </div>
             <div className="flex justify-center gap-6 mt-6">
                 <div className="flex items-center gap-2">
@@ -431,7 +433,7 @@ const VendorFinances = () => {
     );
 
     return (
-        <div className="max-w-[1600px] mx-auto px-8 py-8 flex flex-col gap-10">
+        <div className="max-w-[1600px] mx-auto px-4 sm:px-8 py-8 flex flex-col gap-8 sm:gap-10">
             {renderNewInvoiceModal()}
             {renderDetailDrawer()}
             <PageHeader
@@ -447,7 +449,7 @@ const VendorFinances = () => {
             />
 
             {/* Stats Bar */}
-            <div className="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-4 gap-6">
+            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
                 {FINANCE_STATS.map((stat, idx) => (
                     <StatCard
                         key={idx}
@@ -470,7 +472,7 @@ const VendorFinances = () => {
                     />
 
                     {/* Search, Filter & View Toggle */}
-                    <div className="flex items-center gap-4">
+                    <div className="flex flex-col sm:flex-row items-stretch sm:items-center gap-3 sm:gap-4">
                         <div className="relative group">
                             <MagnifyingGlassIcon className="absolute left-4 top-1/2 -translate-y-1/2 w-4 h-4 text-gray-400 group-focus-within:text-[#D0771E] transition-colors" />
                             <input

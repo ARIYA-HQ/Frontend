@@ -7,6 +7,8 @@ import {
   CheckCircleIcon
 } from '@heroicons/react/24/outline';
 import { mockAIRecommendations } from '../../data/mockData';
+import { api } from '@/api/client';
+import type { AxiosResponse } from 'axios';
 
 const AIPlanner = () => {
   const [currentStep, setCurrentStep] = useState(1);
@@ -53,11 +55,27 @@ const AIPlanner = () => {
 
   const generateRecommendations = () => {
     setLoading(true);
-    // Simulate API call delay
-    setTimeout(() => {
-      setRecommendations(mockAIRecommendations);
-      setLoading(false);
-    }, 1500);
+
+    // Construct a vision prompt from form data
+    const visionPrompt = `Occasion: ${formData.occasion}, Location: ${formData.location}, Atmosphere: ${formData.atmosphere}, Requirements: ${formData.specialRequirements}`;
+
+    api.api.aiControllerGenerateEvent({
+      visionPrompt,
+      guestCount: parseInt(formData.guestCount) || 0,
+      budgetTotal: parseInt(formData.budget) || 0
+    })
+      .then((res: AxiosResponse<any>) => {
+        // Casting through unknown
+        const data = (res.data as unknown) as any;
+        // In the real app, this might return specific recommendations or an event object
+        // For now, we update recommendations with the result if it matches or keep mock for structure
+        setRecommendations(data.recommendations || mockAIRecommendations);
+      })
+      .catch(err => {
+        console.error('AI Generation failed', err);
+        setRecommendations(mockAIRecommendations); // Fallback to mock on error
+      })
+      .finally(() => setLoading(false));
   };
 
   const resetForm = () => {
@@ -286,8 +304,8 @@ const AIPlanner = () => {
                 onClick={handleBack}
                 disabled={currentStep === 1}
                 className={`inline-flex items-center px-4 py-2 border border-gray-300 dark:border-gray-600 text-sm font-medium rounded-md ${currentStep === 1
-                    ? 'text-gray-400 dark:text-gray-600 bg-gray-100 dark:bg-gray-700 cursor-not-allowed'
-                    : 'text-gray-700 dark:text-gray-300 bg-white dark:bg-gray-700 hover:bg-gray-50 dark:hover:bg-gray-600'
+                  ? 'text-gray-400 dark:text-gray-600 bg-gray-100 dark:bg-gray-700 cursor-not-allowed'
+                  : 'text-gray-700 dark:text-gray-300 bg-white dark:bg-gray-700 hover:bg-gray-50 dark:hover:bg-gray-600'
                   }`}
               >
                 Back

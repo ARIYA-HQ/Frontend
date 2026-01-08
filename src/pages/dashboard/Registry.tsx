@@ -1,4 +1,4 @@
-import { useState, Fragment } from 'react';
+import { useState, Fragment, useEffect } from 'react';
 import { Dialog, Transition } from '@headlessui/react';
 import PremiumCard from '../../components/ui/PremiumCard';
 import {
@@ -12,6 +12,8 @@ import {
   CheckBadgeIcon,
   HeartIcon
 } from '@heroicons/react/24/outline';
+import { api } from '@/api/client';
+import type { AxiosResponse } from 'axios';
 
 const Registry = () => {
   const [registryItems, setRegistryItems] = useState([
@@ -71,24 +73,69 @@ const Registry = () => {
     setIsFundModalOpen(true);
   };
 
+  const [loading, setLoading] = useState(true);
+
+  useEffect(() => {
+    // Fetch registry items
+    api.events.eventsControllerFindAll()
+      .then((res: AxiosResponse<any>) => {
+        const events = (res.data as unknown) as any[];
+        if (events && events.length > 0) {
+          return api.events.registryControllerGetRegistry(events[0].id);
+        }
+        return Promise.resolve(null);
+      })
+      .then((res: any) => {
+        if (res && res.data) {
+          const registry = (res.data as unknown) as any;
+          setRegistryItems(registry.gifts || []);
+          setCashFunds(registry.funds || []);
+        }
+      })
+      .catch(err => console.error('Failed to fetch registry', err))
+      .finally(() => setLoading(false));
+  }, []);
+
   const handleSaveItem = (e: React.FormEvent) => {
     e.preventDefault();
-    if (editingItem) {
-      setRegistryItems(prev => prev.map(i => i.id === editingItem.id ? { ...i, ...itemFormData } : i));
-    } else {
-      setRegistryItems(prev => [...prev, { ...itemFormData, id: Date.now(), purchased: 0 }]);
-    }
-    setIsItemModalOpen(false);
+    setLoading(true);
+
+    api.events.eventsControllerFindAll()
+      .then((res: AxiosResponse<any>) => {
+        const events = (res.data as unknown) as any[];
+        if (events && events.length > 0) {
+          return api.events.registryControllerAddGift(events[0].id, itemFormData as any);
+        }
+        throw new Error('No event found');
+      })
+      .then((res: AxiosResponse<any>) => {
+        const newGift = (res.data as unknown) as any;
+        setRegistryItems(prev => [...prev, newGift]);
+        setIsItemModalOpen(false);
+      })
+      .catch(err => console.error('Failed to save gift', err))
+      .finally(() => setLoading(false));
   };
 
   const handleSaveFund = (e: React.FormEvent) => {
     e.preventDefault();
-    if (editingFund) {
-      setCashFunds(prev => prev.map(f => f.id === editingFund.id ? { ...f, ...fundFormData } : f));
-    } else {
-      setCashFunds(prev => [...prev, { ...fundFormData, id: Date.now(), raised: 0 }]);
-    }
-    setIsFundModalOpen(false);
+    setLoading(true);
+
+    api.events.eventsControllerFindAll()
+      .then((res: AxiosResponse<any>) => {
+        const events = (res.data as unknown) as any[];
+        if (events && events.length > 0) {
+          return api.events.registryControllerAddFund(events[0].id, fundFormData as any);
+        }
+        throw new Error('No event found');
+      })
+      .then((res: AxiosResponse<any>) => {
+        const newFund = (res.data as unknown) as any;
+        setCashFunds(prev => [...prev, newFund]);
+        setIsFundModalOpen(false);
+      })
+      .catch(err => console.error('Failed to save fund', err))
+      .finally(() => setLoading(false));
   };
 
   const handleDeleteItem = (id: number) => {

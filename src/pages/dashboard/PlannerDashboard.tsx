@@ -1,5 +1,5 @@
 import { useNavigate } from 'react-router-dom';
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { Button } from '../../components/ui/Button';
 import { PlusIcon } from '@heroicons/react/24/outline';
 import UpgradeModal from '../../components/ui/UpgradeModal';
@@ -13,6 +13,8 @@ import { CurrencyDollarIcon, BuildingStorefrontIcon, UserGroupIcon, ClipboardDoc
 import PageHeader from '../../components/ui/PageHeader';
 import PremiumCard from '../../components/ui/PremiumCard';
 import { authService } from '../../services/authService';
+import { api } from '@/api/client';
+import type { AxiosResponse } from 'axios';
 
 const PlannerDashboard = () => {
   const navigate = useNavigate();
@@ -31,6 +33,42 @@ const PlannerDashboard = () => {
   };
   const currentUser = authService.getCurrentUser();
   const isProfessionalPlanner = currentUser?.role === 'professional_event_planner';
+
+  const [stats, setStats] = useState<any>(null);
+  const [loading, setLoading] = useState(true);
+  const [activities, setActivities] = useState<any[]>([]);
+  const [notifications, setNotifications] = useState<any[]>([]);
+
+  useEffect(() => {
+    setLoading(true);
+    // 1. Fetch all events to find the active one
+    api.events.eventsControllerFindAll()
+      .then((res: AxiosResponse<any>) => {
+        const events = (res.data as unknown) as any[];
+        if (events && events.length > 0) {
+          const id = events[0].id;
+          return Promise.all([
+            api.events.eventsControllerGetDashboard(id),
+            api.events.eventsControllerGetSummary(id),
+            api.api.notificationsControllerFindAll({ cursor: '', limit: 5 })
+          ]);
+        }
+        return Promise.resolve(null);
+      })
+      .then((results: any) => {
+        if (results) {
+          const [dashRes, sumRes, notifRes] = results;
+          if (dashRes.data) setStats(dashRes.data as unknown);
+          if (sumRes.data) {
+            const sumData = sumRes.data as unknown as any;
+            setActivities(sumData.activities || []);
+          }
+          if (notifRes.data) setNotifications((notifRes.data as unknown) as any[]);
+        }
+      })
+      .catch(err => console.error('Dashboard fetch failed', err))
+      .finally(() => setLoading(false));
+  }, []);
 
   return (
     <div className="max-w-[1600px] mx-auto px-8 py-8 h-full flex flex-col gap-10 dark:bg-gray-900 animate-in fade-in slide-in-from-bottom-4 duration-700">
@@ -52,29 +90,34 @@ const PlannerDashboard = () => {
 
           {/* Stats Grid */}
           <div className="grid grid-cols-1 sm:grid-cols-2 gap-6">
-            {isProfessionalPlanner ? (
+            {loading ? (
+              <>
+                <div className="h-24 bg-gray-50 dark:bg-gray-800 animate-pulse rounded-2xl"></div>
+                <div className="h-24 bg-gray-50 dark:bg-gray-800 animate-pulse rounded-2xl"></div>
+              </>
+            ) : isProfessionalPlanner ? (
               <>
                 <StatCard
                   label="Client Budget Health"
-                  value="₦45,000,000"
+                  value={stats?.budgetHealth || "₦45,000,000"}
                   icon={<CurrencyDollarIcon className="w-5 h-5 text-[#D0771E]" />}
                   onClick={() => navigate('/budget')}
                 />
                 <StatCard
                   label="Active Client Events"
-                  value="8"
+                  value={stats?.activeEvents || "8"}
                   icon={<BriefcaseIcon className="w-5 h-5 text-[#D0771E]" />}
                   onClick={() => navigate('/events')}
                 />
                 <StatCard
                   label="Client Vendors Booked"
-                  value="24"
+                  value={stats?.vendorsBooked || "24"}
                   icon={<BuildingStorefrontIcon className="w-5 h-5 text-[#D0771E]" />}
                   onClick={() => navigate('/dashboard/my-vendors')}
                 />
                 <StatCard
                   label="Client Satisfaction"
-                  value="4.8/5"
+                  value={stats?.satisfaction || "4.8/5"}
                   icon={<UserGroupIcon className="w-5 h-5 text-[#D0771E]" />}
                   onClick={() => navigate('/clients')}
                 />
@@ -83,25 +126,25 @@ const PlannerDashboard = () => {
               <>
                 <StatCard
                   label="Budget Health"
-                  value="₦20,000,000"
+                  value={stats?.budgetHealth || "₦20,000,000"}
                   icon={<CurrencyDollarIcon className="w-5 h-5 text-[#D0771E]" />}
                   onClick={() => navigate('/budget')}
                 />
                 <StatCard
                   label="Vendors Booked"
-                  value="12"
+                  value={stats?.vendorsBooked || "12"}
                   icon={<BuildingStorefrontIcon className="w-5 h-5 text-[#D0771E]" />}
                   onClick={() => navigate('/dashboard/my-vendors')}
                 />
                 <StatCard
                   label="Guest RSVP"
-                  value="1,500"
+                  value={stats?.guestRsvp || "1,500"}
                   icon={<UserGroupIcon className="w-5 h-5 text-[#D0771E]" />}
                   onClick={() => navigate('/guests')}
                 />
                 <StatCard
                   label="Task Completed"
-                  value="9"
+                  value={stats?.tasksCompleted || "9"}
                   icon={<ClipboardDocumentCheckIcon className="w-5 h-5 text-[#D0771E]" />}
                   onClick={() => navigate('/tasks')}
                 />
@@ -112,53 +155,59 @@ const PlannerDashboard = () => {
           {/* Actions & Suggestions Split */}
           <div className="grid grid-cols-1 md:grid-cols-2 gap-10">
 
-            {/* Urgent Actions */}
             <div className="space-y-6">
               <h3 className="text-[10px] font-black text-gray-400 dark:text-gray-400 uppercase tracking-[0.2em] ml-2">
                 {isProfessionalPlanner ? "Client Priorities" : "Urgent Actions"}
               </h3>
               <div className="space-y-4">
-                {isProfessionalPlanner ? (
-                  <>
+                {loading ? (
+                  <div className="space-y-4">
+                    <div className="h-20 bg-gray-50 dark:bg-gray-800 animate-pulse rounded-2xl"></div>
+                    <div className="h-20 bg-gray-50 dark:bg-gray-800 animate-pulse rounded-2xl"></div>
+                  </div>
+                ) : notifications.length > 0 ? (
+                  notifications.map((notif, idx) => (
                     <UrgentActionCard
-                      title="Client meeting tomorrow"
-                      subtitle="Prepare presentation for Johnson wedding"
-                      variant="info"
-                      onClick={() => navigate('/clients')}
+                      key={notif.id || idx}
+                      title={notif.title || notif.message}
+                      subtitle={notif.message}
+                      variant={(notif.type === 'alert' || notif.severity === 'high') ? 'danger' : 'warning'}
+                      onClick={() => navigate(notif.link || '/notifications')}
                     />
-                    <UrgentActionCard
-                      title="Vendor contract review"
-                      subtitle="Review and approve contract for upcoming event"
-                      variant="warning"
-                      onClick={() => navigate('/dashboard/my-vendors')}
-                    />
-                    <UrgentActionCard
-                      title="Client budget approval"
-                      subtitle="Awaiting approval for additional services"
-                      variant="info"
-                      onClick={() => navigate('/budget')}
-                    />
-                  </>
+                  ))
                 ) : (
                   <>
-                    <UrgentActionCard
-                      title="Photographer deposit due"
-                      subtitle="3 days overdue • Pay via My Vendors"
-                      variant="warning"
-                      onClick={() => navigate('/dashboard/my-vendors')}
-                    />
-                    <UrgentActionCard
-                      title="Create your guest list now"
-                      subtitle="Set up your guest list to start tracking RSVPs"
-                      variant="danger"
-                      onClick={() => navigate('/guests')}
-                    />
-                    <UrgentActionCard
-                      title="Budget limit approaching"
-                      subtitle="You have reached 80% of your allocated budget"
-                      variant="warning"
-                      onClick={() => navigate('/budget')}
-                    />
+                    {isProfessionalPlanner ? (
+                      <>
+                        <UrgentActionCard
+                          title="Client meeting tomorrow"
+                          subtitle="Prepare presentation for Johnson wedding"
+                          variant="info"
+                          onClick={() => navigate('/clients')}
+                        />
+                        <UrgentActionCard
+                          title="Vendor contract review"
+                          subtitle="Review and approve contract for upcoming event"
+                          variant="warning"
+                          onClick={() => navigate('/dashboard/my-vendors')}
+                        />
+                      </>
+                    ) : (
+                      <>
+                        <UrgentActionCard
+                          title="Photographer deposit due"
+                          subtitle="3 days overdue • Pay via My Vendors"
+                          variant="warning"
+                          onClick={() => navigate('/dashboard/my-vendors')}
+                        />
+                        <UrgentActionCard
+                          title="Create your guest list now"
+                          subtitle="Set up your guest list to start tracking RSVPs"
+                          variant="danger"
+                          onClick={() => navigate('/guests')}
+                        />
+                      </>
+                    )}
                   </>
                 )}
               </div>
@@ -229,7 +278,7 @@ const PlannerDashboard = () => {
         {/* Right Sidebar Column (1/3) - Recent Activities */}
         <div className="h-full">
           <PremiumCard className="p-10 h-full animate-in fade-in slide-in-from-right-4 duration-700 delay-300">
-            <RecentActivities />
+            <RecentActivities items={activities} loading={loading} />
           </PremiumCard>
         </div>
       </div>

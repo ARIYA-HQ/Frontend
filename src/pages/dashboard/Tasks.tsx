@@ -1,4 +1,4 @@
-import { useState, Fragment } from 'react';
+import { useState, Fragment, useEffect } from 'react';
 import { Dialog, Transition } from '@headlessui/react';
 import {
   PlusIcon,
@@ -11,6 +11,8 @@ import { CheckCircleIcon as CheckCircleSolid } from '@heroicons/react/24/solid';
 import PageHeader from '../../components/ui/PageHeader';
 import PremiumTabs from '../../components/ui/PremiumTabs';
 import PremiumCard from '../../components/ui/PremiumCard';
+import { api } from '@/api/client';
+import type { AxiosResponse } from 'axios';
 
 interface Task {
   id: number;
@@ -98,6 +100,27 @@ const Tasks = () => {
     return task.status === filter;
   });
 
+  const [loading, setLoading] = useState(true);
+
+  useEffect(() => {
+    setLoading(true);
+    api.events.eventsControllerFindAll()
+      .then((res: AxiosResponse<any>) => {
+        const events = (res.data as unknown) as any[];
+        if (events && events.length > 0) {
+          return api.events.tasksControllerFindAll(events[0].id);
+        }
+        return Promise.resolve(null);
+      })
+      .then((res: any) => {
+        if (res && res.data) {
+          setTasks((res.data as unknown) as Task[]);
+        }
+      })
+      .catch(err => console.error('Failed to fetch tasks', err))
+      .finally(() => setLoading(false));
+  }, []);
+
   const handleOpenModal = (task?: Task) => {
     if (task) {
       setEditingTask(task);
@@ -119,21 +142,46 @@ const Tasks = () => {
 
   const handleSaveTask = (e: React.FormEvent) => {
     e.preventDefault();
-    if (editingTask) {
-      setTasks(tasks.map(t => t.id === editingTask.id ? { ...t, ...formData } as Task : t));
-    } else {
-      const newTask = {
-        ...formData,
-        id: Math.max(0, ...tasks.map(t => t.id)) + 1,
-      } as Task;
-      setTasks([newTask, ...tasks]);
-    }
-    setIsModalOpen(false);
+    setLoading(true);
+
+    api.events.eventsControllerFindAll()
+      .then((res: AxiosResponse<any>) => {
+        const events = (res.data as unknown) as any[];
+        const eventId = events[0]?.id;
+        if (!eventId) throw new Error('No event');
+
+        if (editingTask) {
+          return api.events.tasksControllerUpdate(eventId, editingTask.id.toString(), formData as any);
+        } else {
+          return api.events.tasksControllerCreate(eventId, formData as any);
+        }
+      })
+      .then((res: AxiosResponse<any>) => {
+        const task = (res.data as unknown) as Task;
+        if (editingTask) {
+          setTasks(prev => prev.map(t => t.id === task.id ? task : t));
+        } else {
+          setTasks(prev => [...prev, task]);
+        }
+        setIsModalOpen(false);
+      })
+      .catch(err => console.error('Task save failed', err))
+      .finally(() => setLoading(false));
   };
 
   const handleDeleteTask = (id: number) => {
     if (window.confirm('Are you sure you want to delete this task?')) {
-      setTasks(tasks.filter(t => t.id !== id));
+      setLoading(true);
+      api.events.eventsControllerFindAll()
+        .then((res: AxiosResponse<any>) => {
+          const events = (res.data as unknown) as any[];
+          if (events[0]) return api.events.tasksControllerDelete(events[0].id, id.toString());
+        })
+        .then(() => {
+          setTasks(prev => prev.filter(t => t.id !== id));
+        })
+        .catch(err => console.error('Task delete failed', err))
+        .finally(() => setLoading(false));
     }
   };
 
@@ -235,7 +283,16 @@ const Tasks = () => {
                   </tr>
                 </thead>
                 <tbody className="bg-white dark:bg-gray-800 divide-y divide-gray-50 dark:divide-gray-700">
-                  {filteredTasks.length > 0 ? filteredTasks.map((task) => (
+                  {loading ? (
+                    <tr>
+                      <td colSpan={7} className="px-8 py-20 text-center">
+                        <div className="flex flex-col items-center justify-center gap-4">
+                          <div className="w-12 h-12 border-4 border-[#D0771E]/20 border-t-[#D0771E] rounded-full animate-spin"></div>
+                          <p className="text-[10px] font-black text-gray-400 uppercase tracking-widest">Syncing Tasks...</p>
+                        </div>
+                      </td>
+                    </tr>
+                  ) : filteredTasks.length > 0 ? filteredTasks.map((task) => (
                     <tr key={task.id} className="group hover:bg-orange-50/30 dark:hover:bg-orange-900/10 transition-colors">
                       <td className="px-8 py-5">
                         <div className="flex items-center gap-4">
@@ -258,7 +315,7 @@ const Tasks = () => {
                       <td className="px-6 py-5 whitespace-nowrap">
                         <div className="flex items-center gap-2">
                           <div className="h-6 w-6 rounded-full bg-gray-100 dark:bg-gray-700 flex items-center justify-center text-[8px] font-black dark:text-white">
-                            {task.assignee.split(' ').map(n => n[0]).join('')}
+                            {task.assignee.split(' ').map((n: string) => n[0]).join('')}
                           </div>
                           <span className="text-xs text-gray-700 dark:text-gray-300 font-medium">{task.assignee}</span>
                         </div>
@@ -305,7 +362,12 @@ const Tasks = () => {
           <div className="p-10">
             <h3 className="text-xs font-black text-gray-400 dark:text-gray-400 uppercase tracking-[0.3em] mb-8">Calendar Timeline</h3>
             <div className="relative border-l-2 border-orange-100 dark:border-orange-900/30 ml-4 space-y-12">
-              {filteredTasks.map((task) => (
+              {loading ? (
+                <div className="flex flex-col items-center justify-center py-20 gap-4">
+                  <div className="w-12 h-12 border-4 border-[#D0771E]/20 border-t-[#D0771E] rounded-full animate-spin"></div>
+                  <p className="text-[10px] font-black text-gray-400 uppercase tracking-widest">Syncing Timeline...</p>
+                </div>
+              ) : filteredTasks.map((task) => (
                 <div key={task.id} className="relative pl-10">
                   <div className={`absolute left-0 top-0 -translate-x-1/2 w-6 h-6 rounded-full border-4 border-white dark:border-gray-800 shadow-md dark:shadow-none flex items-center justify-center ${task.status === 'completed' ? 'bg-green-500' :
                     task.status === 'in-progress' ? 'bg-blue-500' : 'bg-orange-500'

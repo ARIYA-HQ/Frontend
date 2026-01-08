@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import {
   Chart as ChartJS,
   CategoryScale,
@@ -21,7 +21,10 @@ import PageHeader from '../../../components/ui/PageHeader';
 import PremiumCard from '../../../components/ui/PremiumCard';
 import StatCard from '../../../components/dashboard/StatCard';
 import { Button } from '../../../components/ui/Button';
-import { GROWTH_STATS, MONTHLY_DATA, TOP_SERVICES, CUSTOMER_SOURCES } from '../../../data/mockGrowth';
+import { GROWTH_STATS, TOP_SERVICES, CUSTOMER_SOURCES, MONTHLY_DATA } from '../../../data/mockGrowth';
+import { api } from '@/api/client';
+import { authService } from '@/services/authService';
+import type { AxiosResponse } from 'axios';
 
 // Register ChartJS components
 ChartJS.register(
@@ -40,16 +43,30 @@ ChartJS.register(
 const VendorAnalytics = () => {
   const [timeRange, setTimeRange] = useState('7m');
 
-  // Dynamic Data Filtering
-  const getFilteredData = () => {
-    switch (timeRange) {
-      case '7m': return MONTHLY_DATA.slice(-7);
-      case 'YTD': return MONTHLY_DATA.slice(0, 7); // Simulating Jan-July
-      default: return MONTHLY_DATA;
-    }
-  };
+  const [analyticsData, setAnalyticsData] = useState<any[]>([]);
+  const [loading, setLoading] = useState(true);
 
-  const currentData = getFilteredData();
+  // Load analytics from API
+  useEffect(() => {
+    const vendorId = authService.getCurrentUser()?.id || 'v1';
+    setLoading(true);
+
+    // Pass timeRange as required by the spec
+    api.api.analyticsControllerGetVendorAnalytics(vendorId, {
+      timeRange: timeRange as any
+    })
+      .then((res: AxiosResponse<any>) => {
+        // Casting through unknown because generated type is void
+        const data = (res.data as unknown) as any[];
+        setAnalyticsData(data || []);
+      })
+      .catch(err => {
+        console.error('Failed to fetch analytics:', err);
+      })
+      .finally(() => setLoading(false));
+  }, [timeRange]);
+
+  const currentData = analyticsData;
 
   // Revenue & Engagement Line Chart Data
   const lineData = {
@@ -192,8 +209,17 @@ const VendorAnalytics = () => {
               ))}
             </div>
           </div>
-          <div className="h-[400px] w-full mt-4">
-            <Line data={lineData} options={chartOptions} />
+          <div className="h-[400px] w-full mt-4 flex items-center justify-center">
+            {loading ? (
+              <div className="flex flex-col items-center gap-4">
+                <div className="w-10 h-10 border-4 border-[#D0771E]/20 border-t-[#D0771E] rounded-full animate-spin"></div>
+                <p className="text-[10px] font-black text-gray-400 uppercase tracking-widest">Compiling Metrics...</p>
+              </div>
+            ) : currentData.length > 0 ? (
+              <Line data={lineData} options={chartOptions} />
+            ) : (
+              <div className="text-gray-400 text-xs font-bold">No data available for this range</div>
+            )}
           </div>
         </PremiumCard>
 
@@ -219,10 +245,10 @@ const VendorAnalytics = () => {
             ))}
           </div>
         </PremiumCard>
-      </div>
+      </div >
 
       {/* Secondary Table Row */}
-      <PremiumCard className="p-0 overflow-hidden border-gray-100 dark:border-gray-800">
+      < PremiumCard className="p-0 overflow-hidden border-gray-100 dark:border-gray-800" >
         <div className="p-10 border-b border-gray-50 dark:border-gray-800 bg-white dark:bg-gray-900 flex justify-between items-center">
           <h3 className="text-xl font-black text-[#1D2939] dark:text-white uppercase tracking-tight">Market Conversion Ranking</h3>
           <Button variant="ghost" className="text-[10px] font-black uppercase tracking-widest text-[#D0771E]">View Full Report</Button>

@@ -1,13 +1,13 @@
 import { useState } from 'react';
-import { Link, useNavigate } from 'react-router-dom';
+import { Link } from 'react-router-dom';
 import { EyeSlashIcon, EyeIcon } from '@heroicons/react/24/outline';
 import { Button } from '../../components/ui/Button';
 import userService from '../../services/userService';
 import { authService } from '../../services/authService';
+import { api } from '@/api/client';
 import { redirectToRoleSubdomain } from '../../utils/subdomain';
 
 const LoginPage = () => {
-  const navigate = useNavigate();
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [showPassword, setShowPassword] = useState(false);
@@ -21,13 +21,17 @@ const LoginPage = () => {
 
     try {
       const response = await userService.login({ email, password });
-      
+
       if (response.status === 'success') {
-        authService.setCurrentUser(response.data.user);
-        authService.setToken(response.data.token);
-        
+        const { user, token } = response.data;
+        authService.setCurrentUser(user);
+        authService.setToken(token);
+
+        // Explicitly set security data for the generated API client
+        api.setSecurityData(token);
+
         // Redirect to appropriate subdomain based on role
-        redirectToRoleSubdomain(response.data.user.role);
+        redirectToRoleSubdomain(user.role);
       } else {
         setError(response.error?.message || 'Login failed. Please check your credentials.');
       }
@@ -71,7 +75,7 @@ const LoginPage = () => {
                 {error}
               </div>
             )}
-            
+
             <div className="space-y-3">
               <label className="block text-[10px] font-black uppercase tracking-widest text-[#1D2939] dark:text-white ml-1">Email Address</label>
               <input
@@ -122,7 +126,7 @@ const LoginPage = () => {
 
             <Button
               type="submit"
-              disabled={isLoading}
+              isDisabled={isLoading}
               className="w-full h-16 bg-[#D0771E] text-white rounded-2xl text-[11px] font-black uppercase tracking-[0.25em] shadow-2xl shadow-orange-100 dark:shadow-none hover:translate-y-[-2px] active:translate-y-[0px] transition-all duration-300 !mt-10 disabled:opacity-70 disabled:cursor-not-allowed"
             >
               {isLoading ? 'Logging In...' : 'Log In to Dashboard'}

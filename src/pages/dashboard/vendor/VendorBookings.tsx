@@ -82,7 +82,7 @@ const VendorBookings = () => {
   };
 
   return (
-    <div className="max-w-[1600px] mx-auto px-8 py-8 h-full flex flex-col gap-10">
+    <div className="max-w-[1600px] mx-auto px-4 sm:px-8 py-8 h-full flex flex-col gap-8 sm:gap-10">
       <PageHeader
         breadcrumb="Operations"
         title="Operations"
@@ -105,7 +105,7 @@ const VendorBookings = () => {
           /* REVIEWS VIEW */
           <div className="animate-fade-in space-y-10">
             {/* Review Stats */}
-            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
+            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
               {reviewStats.map((stat, idx) => (
                 <StatCard
                   key={idx}
@@ -119,7 +119,7 @@ const VendorBookings = () => {
             </div>
 
             {/* Search & Filter */}
-            <div className="flex items-center justify-between gap-4">
+            <div className="flex flex-col sm:flex-row items-stretch sm:items-center justify-between gap-4">
               <div className="flex-1 max-w-md relative group">
                 <input
                   type="text"
@@ -201,7 +201,7 @@ const VendorBookings = () => {
           /* BOOKINGS VIEW */
           <div className="animate-fade-in space-y-10">
             {/* Booking Stats */}
-            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
+            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
               {bookingStats.map((stat, idx) => (
                 <StatCard
                   key={idx}
@@ -215,8 +215,8 @@ const VendorBookings = () => {
             </div>
 
             {/* Search, Filter & View Toggle */}
-            <div className="flex items-center justify-between gap-4">
-              <div className="flex gap-4 flex-1">
+            <div className="flex flex-col lg:flex-row items-stretch lg:items-center justify-between gap-4">
+              <div className="flex flex-col sm:flex-row gap-3 sm:gap-4 flex-1">
                 <div className="flex-1 max-w-sm relative group">
                   <input
                     type="text"
@@ -290,7 +290,7 @@ const VendorBookings = () => {
                           </div>
 
                           {/* Details Grid */}
-                          <div className="grid grid-cols-1 sm:grid-cols-3 gap-6 p-4 bg-gray-50 dark:bg-gray-800 rounded-2xl">
+                          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 sm:gap-6 p-4 bg-gray-50 dark:bg-gray-800 rounded-2xl">
                             <div>
                               <p className="text-[10px] font-black text-gray-400 dark:text-gray-500 uppercase tracking-widest mb-1">Event Date</p>
                               <p className="text-sm font-black text-[#1D2939] dark:text-white uppercase tracking-tight">{booking.eventDate}</p>

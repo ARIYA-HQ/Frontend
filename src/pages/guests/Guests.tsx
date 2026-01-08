@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import {
     FunnelIcon,
     ArrowDownTrayIcon,
@@ -39,6 +39,8 @@ import { PremiumSearch } from '../../components/ui/PremiumInput';
 import AddGuestModal from '../../components/guests/AddGuestModal';
 import SeatingChart from '../../components/guests/SeatingChart';
 import StatCard from '../../components/dashboard/StatCard';
+import { api } from '@/api/client';
+import type { AxiosResponse } from 'axios';
 
 interface Table {
     id: string;
@@ -83,21 +85,55 @@ const Guests = () => {
     ];
 
     // Mock Guest Data
-    const [guests, setGuests] = useState([
-        { id: 1, name: 'Mary Olivia Jane', role: 'Maid of honour', email: 'olivia@untitledui.com', phone: '+1 (555) 123-4567', status: 'Confirmed', extras: 1, category: 'Family', dietary: 'Vegetarian', avatar: 'https://images.unsplash.com/photo-1494790108377-be9c29b29330?ixlib=rb-1.2.1&auto=format&fit=facearea&facepad=2&w=256&h=256&q=80', checkedIn: true, assignedTableId: undefined },
-        { id: 2, name: 'Olaoluwa Taiwo', role: 'Uncle', email: 'olivia@untitledui.com', phone: '+1 (555) 123-4567', status: 'Declined', extras: 2, category: 'Friend', dietary: 'None', avatar: 'https://images.unsplash.com/photo-1519244703995-f4e0f30006d5?ixlib=rb-1.2.1&auto=format&fit=facearea&facepad=2&w=256&h=256&q=80', checkedIn: false, assignedTableId: undefined },
-        { id: 3, name: 'Philip Isaiah Crown', role: 'Former Colleague', email: 'olivia@untitledui.com', phone: '+1 (555) 123-4567', status: 'Confirmed', extras: 0, category: 'Work', dietary: 'Gluten-free', avatar: 'https://images.unsplash.com/photo-1506794778202-cad84cf45f1d?ixlib=rb-1.2.1&auto=format&fit=facearea&facepad=2&w=256&h=256&q=80', checkedIn: false, assignedTableId: undefined },
-        { id: 4, name: 'Demi Wilkinson', role: 'Friend from school', email: 'olivia@untitledui.com', phone: '+1 (555) 123-4567', status: 'Confirmed', extras: 0, category: 'Work', dietary: 'None', avatar: 'https://images.unsplash.com/photo-1517841905240-472988babdf9?ixlib=rb-1.2.1&auto=format&fit=facearea&facepad=2&w=256&h=256&q=80', checkedIn: true, assignedTableId: undefined },
-        { id: 5, name: 'Candice Wu', role: '@candice', email: 'olivia@untitledui.com', phone: '+1 (555) 123-4567', status: 'Pending', extras: 0, category: 'Work', dietary: 'None', avatar: 'https://images.unsplash.com/photo-1438761681033-6461ffad8d80?ixlib=rb-1.2.1&auto=format&fit=facearea&facepad=2&w=256&h=256&q=80', checkedIn: false, assignedTableId: undefined },
-        { id: 6, name: 'Natali Craig', role: '@natali', email: 'olivia@untitledui.com', phone: '+1 (555) 123-4567', status: 'Pending', extras: 0, category: 'Work', dietary: 'None', avatar: 'https://images.unsplash.com/photo-1487412720507-e7ab37603c6f?ixlib=rb-1.2.1&auto=format&fit=facearea&facepad=2&w=256&h=256&q=80', checkedIn: false, assignedTableId: undefined },
-        { id: 7, name: 'Drew Cano', role: '@drew', email: 'olivia@untitledui.com', phone: '+1 (555) 123-4567', status: 'Declined', extras: 0, category: 'Work', dietary: 'None', avatar: 'https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?ixlib=rb-1.2.1&auto=format&fit=facearea&facepad=2&w=256&h=256&q=80', checkedIn: false, assignedTableId: undefined },
-        { id: 8, name: 'Orlando Diggs', role: '@orlando', email: 'olivia@untitledui.com', phone: '+1 (555) 123-4567', status: 'Declined', extras: 0, category: 'Work', dietary: 'None', avatar: 'https://images.unsplash.com/photo-1500648767791-00dcc994a43e?ixlib=rb-1.2.1&auto=format&fit=facearea&facepad=2&w=256&h=256&q=80', checkedIn: false, assignedTableId: undefined },
-        { id: 9, name: 'Andi Lane', role: '@andi', email: 'olivia@untitledui.com', phone: '+1 (555) 123-4567', status: 'Pending', extras: 0, category: 'Work', dietary: 'None', avatar: 'https://images.unsplash.com/photo-1534528741775-53994a69daeb?ixlib=rb-1.2.1&auto=format&fit=facearea&facepad=2&w=256&h=256&q=80', checkedIn: false, assignedTableId: undefined },
-        { id: 10, name: 'Kate Morrison', role: '@kate', email: 'olivia@untitledui.com', phone: '+1 (555) 123-4567', status: 'Declined', extras: 0, category: 'Work', dietary: 'None', avatar: 'https://images.unsplash.com/photo-1544005313-94ddf0286df2?ixlib=rb-1.2.1&auto=format&fit=facearea&facepad=2&w=256&h=256&q=80', checkedIn: false, assignedTableId: undefined },
-    ]);
+    const [guests, setGuests] = useState<any[]>([]);
+    const [loading, setLoading] = useState(true);
+
+    useEffect(() => {
+        setLoading(true);
+        api.events.eventsControllerFindAll()
+            .then((res: AxiosResponse<any>) => {
+                const events = (res.data as unknown) as any[];
+                if (events && events.length > 0) {
+                    const id = events[0].id;
+                    return Promise.all([
+                        api.events.guestsControllerFindAll(id),
+                        api.events.seatingControllerGetTables(id)
+                    ]);
+                }
+                return Promise.resolve(null);
+            })
+            .then((results: any) => {
+                if (results) {
+                    const [guestRes, tableRes] = results;
+                    if (guestRes.data) setGuests((guestRes.data as unknown) as any[]);
+                    if (tableRes.data) setTables((tableRes.data as unknown) as Table[]);
+                }
+            })
+            .catch(err => console.error('Failed to fetch guests/tables', err))
+            .finally(() => setLoading(false));
+    }, []);
 
     const handleToggleCheckIn = (guestId: number) => {
-        setGuests((prev: any[]) => prev.map((g: any) => g.id === guestId ? { ...g, checkedIn: !g.checkedIn } : g));
+        setLoading(true);
+        api.events.eventsControllerFindAll()
+            .then((res: AxiosResponse<any>) => {
+                const events = (res.data as unknown) as any[];
+                if (events[0]) {
+                    // Find guest to get current checkedIn status
+                    const guest = guests.find((g: any) => g.id === guestId);
+                    if (guest) {
+                        return api.events.guestsControllerUpdate(events[0].id, guestId.toString(), { checkedIn: !guest.checkedIn } as any);
+                    }
+                }
+            })
+            .then((res: AxiosResponse<any>) => {
+                if (res?.data) {
+                    const updatedGuest = (res.data as unknown) as any;
+                    setGuests((prev: any[]) => prev.map((g: any) => g.id === guestId ? updatedGuest : g));
+                }
+            })
+            .catch(err => console.error('Check-in toggle failed', err))
+            .finally(() => setLoading(false));
     };
 
     // Filter guests for Check-in search

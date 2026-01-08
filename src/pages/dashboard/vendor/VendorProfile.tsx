@@ -103,7 +103,7 @@ const VendorProfile = () => {
   };
 
   return (
-    <div className="max-w-[1600px] mx-auto px-8 py-8 h-full flex flex-col dark:bg-gray-900">
+    <div className="max-w-[1600px] mx-auto px-4 sm:px-8 py-8 h-full flex flex-col dark:bg-gray-900">
       <div className="mb-8">
         <PageHeader
           title="Settings"
@@ -183,7 +183,7 @@ const VendorProfile = () => {
                 </div>
 
                 <form onSubmit={handleSave} className="space-y-10">
-                  <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
+                  <div className="grid grid-cols-1 sm:grid-cols-2 gap-8">
                     <FormField
                       label="First Name"
                       name="firstName"
@@ -200,7 +200,7 @@ const VendorProfile = () => {
                     />
                   </div>
 
-                  <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
+                  <div className="grid grid-cols-1 sm:grid-cols-2 gap-8">
                     <FormField
                       label="Email Address"
                       name="email"
@@ -251,7 +251,7 @@ const VendorProfile = () => {
 
               <div className="p-10 bg-white dark:bg-gray-900">
                 <form onSubmit={handleSave} className="space-y-10">
-                  <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
+                  <div className="grid grid-cols-1 sm:grid-cols-2 gap-8">
                     <FormField
                       label="Business Name"
                       name="businessName"
@@ -308,7 +308,7 @@ const VendorProfile = () => {
 
                   <div className="pt-10 border-t border-gray-100 dark:border-gray-800">
                     <h3 className="text-sm font-black text-[#1D2939] dark:text-white uppercase tracking-widest mb-8">Social Links</h3>
-                    <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
+                    <div className="grid grid-cols-1 sm:grid-cols-3 gap-8">
                       <FormField
                         label="Website"
                         name="website"
@@ -380,7 +380,7 @@ const VendorProfile = () => {
                       value={securityData.currentPassword}
                       onChange={(val) => setSecurityData(prev => ({ ...prev, currentPassword: val }))}
                     />
-                    <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
+                    <div className="grid grid-cols-1 sm:grid-cols-2 gap-8">
                       <FormField
                         label="New Password"
                         name="newPassword"
@@ -503,7 +503,7 @@ const VendorProfile = () => {
               </div>
 
               <div className="p-10 bg-white dark:bg-gray-900">
-                <div className="grid grid-cols-1 xl:grid-cols-2 gap-10">
+                <div className="grid grid-cols-1 lg:grid-cols-2 gap-10">
                   <div className="p-10 bg-gray-50 dark:bg-gray-800 rounded-[40px] border border-gray-100 dark:border-gray-700 flex flex-col items-center text-center relative overflow-hidden group">
                     <div className="w-20 h-20 bg-white dark:bg-gray-700 shadow-xl shadow-gray-200/50 dark:shadow-none rounded-[28px] flex items-center justify-center mb-8 relative z-10">
                       <CreditCardIcon className="w-8 h-8 text-gray-400 dark:text-gray-500" />

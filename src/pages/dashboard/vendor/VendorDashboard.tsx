@@ -37,7 +37,7 @@ const VendorDashboard = () => {
   ];
 
   return (
-    <div className="max-w-[1600px] mx-auto px-8 py-8 h-full flex flex-col gap-10 dark:bg-gray-900 animate-in fade-in slide-in-from-bottom-4 duration-700">
+    <div className="max-w-[1600px] mx-auto px-4 sm:px-8 py-8 h-full flex flex-col gap-8 sm:gap-10 dark:bg-gray-900 animate-in fade-in slide-in-from-bottom-4 duration-700">
       <PageHeader
         breadcrumb="Dashboard"
         title="Vendor Dashboard"
@@ -45,13 +45,13 @@ const VendorDashboard = () => {
       />
 
       {/* Banner */}
-      <div className="relative overflow-hidden rounded-[40px] h-48 flex items-center px-16 shadow-2xl dark:shadow-none group border border-white/10">
+      <div className="relative overflow-hidden rounded-[32px] sm:rounded-[40px] h-auto sm:h-48 flex items-center px-6 sm:px-16 py-8 sm:py-0 shadow-2xl dark:shadow-none group border border-white/10">
         <div className="absolute inset-0 bg-gradient-to-r from-[#1A051D] via-[#2D0A31] to-[#1A051D] group-hover:scale-105 transition-transform duration-700"></div>
         <div className="absolute inset-0 opacity-10 bg-[url('https://www.transparenttextures.com/patterns/carbon-fibre.png')]"></div>
         <div className="absolute -right-20 -top-20 w-64 h-64 bg-orange-500/10 blur-[100px] rounded-full"></div>
         <div className="absolute -left-20 -bottom-20 w-64 h-64 bg-purple-500/10 blur-[100px] rounded-full"></div>
 
-        <div className="relative z-10 flex items-center justify-between w-full">
+        <div className="relative z-10 flex flex-col sm:flex-row items-start sm:items-center justify-between w-full gap-6">
           <div className="space-y-2">
             <div className="flex items-center gap-3">
               <span className="px-3 py-1 bg-orange-500/20 text-orange-400 text-[10px] font-black uppercase tracking-[0.2em] rounded-full border border-orange-500/30">
@@ -60,23 +60,23 @@ const VendorDashboard = () => {
               <span className="w-1.5 h-1.5 rounded-full bg-white/20"></span>
               <span className="text-white/60 text-[10px] font-black uppercase tracking-widest">July 2024</span>
             </div>
-            <h2 className="text-3xl font-black text-white tracking-tight uppercase">Good morning, Maya!</h2>
-            <p className="text-purple-200/70 text-sm font-medium leading-relaxed max-w-lg">
+            <h2 className="text-2xl sm:text-3xl font-black text-white tracking-tight uppercase">Good morning, Maya!</h2>
+            <p className="text-purple-200/70 text-xs sm:text-sm font-medium leading-relaxed max-w-lg">
               Your catering services are trending this week. You have <span className="text-orange-400 font-bold">3 new inquiries</span> waiting for your response.
             </p>
           </div>
-          <Button variant="outline" className="hidden md:flex border-white/20 text-white hover:bg-white/10 px-8 rounded-full text-[10px]">
+          <Button variant="outline" className="hidden sm:flex border-white/20 text-white hover:bg-white/10 px-8 rounded-full text-[10px]">
             View Analytics
             <ArrowRightIcon className="w-4 h-4 ml-2" />
           </Button>
         </div>
       </div>
 
-      <div className="grid grid-cols-1 xl:grid-cols-3 gap-10">
+      <div className="grid grid-cols-1 xl:grid-cols-3 gap-8 sm:gap-10">
         {/* Left Column: Metrics & Schedule */}
-        <div className="xl:col-span-2 space-y-10">
+        <div className="xl:col-span-2 space-y-8 sm:space-y-10">
           {/* Metrics Grid */}
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+          <div className="grid grid-cols-1 sm:grid-cols-2 gap-6">
             {metrics.map((metric, idx) => (
               <StatCard
                 key={idx}
@@ -88,8 +88,8 @@ const VendorDashboard = () => {
           </div>
 
           {/* Schedule */}
-          <PremiumCard className="p-10">
-            <div className="flex items-center justify-between mb-10">
+          <PremiumCard className="p-6 sm:p-10">
+            <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 sm:gap-0 mb-8 sm:mb-10">
               <div className="space-y-1">
                 <h3 className="text-lg font-black text-[#1D2939] dark:text-white uppercase tracking-tight">This Week's Schedule</h3>
                 <p className="text-[10px] font-black text-gray-400 dark:text-gray-500 uppercase tracking-widest">7 Planned sessions / activities</p>
@@ -101,7 +101,7 @@ const VendorDashboard = () => {
 
             <div className="space-y-4">
               {schedule.map((item, idx) => (
-                <div key={idx} className="flex items-center gap-6 p-6 rounded-[32px] bg-gray-50/50 dark:bg-gray-800/50 hover:bg-white dark:hover:bg-gray-700 hover:shadow-xl dark:hover:shadow-none hover:shadow-gray-200/50 transition-all border border-transparent hover:border-gray-100 dark:hover:border-gray-600 group">
+                <div key={idx} className="flex flex-col sm:flex-row items-start sm:items-center gap-4 sm:gap-6 p-4 sm:p-6 rounded-[24px] sm:rounded-[32px] bg-gray-50/50 dark:bg-gray-800/50 hover:bg-white dark:hover:bg-gray-700 hover:shadow-xl dark:hover:shadow-none hover:shadow-gray-200/50 transition-all border border-transparent hover:border-gray-100 dark:hover:border-gray-600 group">
                   <div className="flex flex-col items-center justify-center p-3 bg-[#1D2939] dark:bg-gray-900 text-white rounded-[20px] min-w-[80px] group-hover:bg-[#D0771E] transition-colors">
                     <span className="text-[9px] font-black uppercase tracking-[0.1em] opacity-60 mb-0.5">{item.date}</span>
                     <span className="text-xs font-black whitespace-nowrap uppercase tracking-tighter">{item.month}</span>
@@ -126,9 +126,9 @@ const VendorDashboard = () => {
         </div>
 
         {/* Right Column: Pending Actions & Health */}
-        <div className="space-y-10">
+        <div className="space-y-8 sm:space-y-10">
           {/* Pending Actions */}
-          <PremiumCard className="p-10 h-fit">
+          <PremiumCard className="p-6 sm:p-10 h-fit">
             <div className="space-y-1 mb-10">
               <h3 className="text-lg font-black text-[#1D2939] dark:text-white uppercase tracking-tight">Pending Actions</h3>
               <p className="text-[10px] font-black text-gray-400 dark:text-gray-500 uppercase tracking-widest">Needs your attention</p>

@@ -11,22 +11,42 @@ import {
 import PageHeader from '../../components/ui/PageHeader';
 import PremiumCard from '../../components/ui/PremiumCard';
 import { Button } from '../../components/ui/Button';
-import { TEAM_MEMBERS, TEAM_ROLES } from '../../data/mockTeam';
+import { TEAM_ROLES } from '../../data/mockTeam';
+import { api } from '@/api/client';
 
 const Team = () => {
   const { checkEntitlement } = useEntitlement();
-  const [members, setMembers] = useState(() => {
-    const saved = localStorage.getItem('ariya_team_members');
-    return saved ? JSON.parse(saved) : TEAM_MEMBERS;
-  });
+  const [members, setMembers] = useState<any[]>([]);
+  const [loading, setLoading] = useState(true);
   const [searchQuery, setSearchQuery] = useState('');
   const [showInviteModal, setShowInviteModal] = useState(false);
-  const [showUpgradeModal, setShowUpgradeModal] = useState(false); // Added
+  const [showUpgradeModal, setShowUpgradeModal] = useState(false);
   const [editingMember, setEditingMember] = useState<any>(null);
-  const [inviteForm, setInviteForm] = useState({ email: '', role: 'Coordinator' });
+  const [inviteForm, setInviteForm] = useState({ email: '', role: 'member' as any });
 
+  // Load members from API
   useEffect(() => {
-    localStorage.setItem('ariya_team_members', JSON.stringify(members));
+    setLoading(true);
+    api.api.teamControllerGetTeamMembers()
+      .then(res => {
+        // Casting through unknown because generated type is void
+        const data = (res.data as unknown) as any[];
+        setMembers(data || []);
+      })
+      .catch(err => {
+        console.error('Failed to fetch team:', err);
+        // Fallback to local storage or mock if needed for demo
+        const saved = localStorage.getItem('ariya_team_members');
+        if (saved) setMembers(JSON.parse(saved));
+      })
+      .finally(() => setLoading(false));
+  }, []);
+
+  // Save to local storage for persistence simulation alongside API
+  useEffect(() => {
+    if (members.length > 0) {
+      localStorage.setItem('ariya_team_members', JSON.stringify(members));
+    }
   }, [members]);
 
   // Presence Simulation
@@ -48,33 +68,35 @@ const Team = () => {
     m.email.toLowerCase().includes(searchQuery.toLowerCase()))
   );
 
-  const handleRemoveMember = (id: number) => {
+  const handleRemoveMember = (id: string) => {
     if (window.confirm('Are you sure you want to remove this team member?')) {
-      setMembers((prev: any[]) => prev.filter((m: any) => m.id !== id));
+      api.api.teamControllerRemoveTeamMember(id)
+        .then(() => {
+          setMembers((prev: any[]) => prev.filter((m: any) => m.id !== id));
+        })
+        .catch(err => console.error('Delete failed:', err));
     }
   };
 
   const handleSendInvite = (e: React.FormEvent) => {
     e.preventDefault();
 
-    const newMember = {
-      id: Math.max(0, ...members.map((m: any) => m.id)) + 1,
-      name: inviteForm.email.split('@')[0], // Simulate name from email
-      role: inviteForm.role,
+    api.api.teamControllerInviteTeamMember({
       email: inviteForm.email,
-      avatar: `https://ui-avatars.com/api/?name=${inviteForm.email}&background=random`,
-      status: 'Pending',
-      permissions: ['Guest Lists', 'Task Management'], // Default for now
-      lastActive: 'Invitation Sent'
-    };
-
-    setMembers((prev: any) => [...prev, newMember]);
-    setShowInviteModal(false);
-    setInviteForm({ email: '', role: 'Coordinator' });
+      role: inviteForm.role,
+      permissions: 4 // Default bitmask
+    })
+      .then(res => {
+        const newMember = res.data as any;
+        setMembers((prev: any) => [...prev, newMember]);
+        setShowInviteModal(false);
+        setInviteForm({ email: '', role: 'member' });
+      })
+      .catch(err => console.error('Invite failed:', err));
   };
 
   return (
-    <div className="max-w-[1600px] mx-auto px-8 py-8 h-full flex flex-col gap-10 dark:bg-gray-900 animate-in fade-in slide-in-from-bottom-4 duration-700">
+    <div className="max-w-[1600px] mx-auto px-4 sm:px-8 py-8 h-full flex flex-col gap-8 sm:gap-10 dark:bg-gray-900 animate-in fade-in slide-in-from-bottom-4 duration-700">
       <PageHeader
         breadcrumb="Professional Dashboard"
         title="Team Management"
@@ -98,7 +120,7 @@ const Team = () => {
       />
 
       {/* Stats Summary Bar */}
-      <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
+      <div className="grid grid-cols-1 sm:grid-cols-3 gap-6">
         <PremiumCard className="p-8 border-gray-100 dark:border-gray-800 flex items-center gap-6 shadow-sm">
           <div className="w-14 h-14 rounded-2xl bg-orange-50 dark:bg-orange-950/30 flex items-center justify-center text-[#D0771E]">
             <ShieldCheckIcon className="w-7 h-7" />
@@ -145,60 +167,67 @@ const Team = () => {
           </div>
         </div>
         <div className="overflow-x-auto">
-          <table className="w-full">
-            <thead>
-              <tr className="bg-[#F3F0EB]/30 dark:bg-gray-800/50">
-                <th className="px-10 py-5 text-left text-[10px] font-black text-gray-400 dark:text-gray-500 uppercase tracking-[0.2em]">Member</th>
-                <th className="px-10 py-5 text-left text-[10px] font-black text-gray-400 dark:text-gray-500 uppercase tracking-[0.2em]">Role</th>
-                <th className="px-10 py-5 text-left text-[10px] font-black text-gray-400 dark:text-gray-500 uppercase tracking-[0.2em]">Status</th>
-                <th className="px-10 py-5 text-left text-[10px] font-black text-gray-400 dark:text-gray-500 uppercase tracking-[0.2em]">Last Active</th>
-                <th className="px-10 py-5 text-right text-[10px] font-black text-gray-400 dark:text-gray-500 uppercase tracking-[0.2em]">Actions</th>
-              </tr>
-            </thead>
-            <tbody className="divide-y divide-gray-50/50 dark:divide-gray-800">
-              {filteredMembers.map((member: any) => (
-                <tr key={member.id} className="hover:bg-gray-50/30 dark:hover:bg-gray-800/30 transition-colors group bg-white dark:bg-gray-900">
-                  <td className="px-10 py-6">
-                    <div className="flex items-center gap-4">
-                      <img src={member.avatar} alt={member.name} className="w-10 h-10 rounded-xl object-cover" />
-                      <div>
-                        <div className="text-sm font-black text-[#1D2939] dark:text-white uppercase tracking-tight">{member.name}</div>
-                        <div className="text-[9px] font-medium text-gray-400 dark:text-gray-500">{member.email}</div>
-                      </div>
-                    </div>
-                  </td>
-                  <td className="px-10 py-6">
-                    <span className="px-3 py-1 bg-gray-100 dark:bg-gray-700 rounded-lg text-[8px] font-black uppercase tracking-widest text-[#D0771E]">
-                      {member.role}
-                    </span>
-                  </td>
-                  <td className="px-10 py-6">
-                    <div className="flex items-center gap-2">
-                      <div className={`w-1.5 h-1.5 rounded-full ${member.status === 'Active' ? 'bg-green-500' : 'bg-orange-500'}`}></div>
-                      <span className="text-[10px] font-black text-gray-500 dark:text-gray-400 uppercase tracking-widest">{member.status}</span>
-                    </div>
-                  </td>
-                  <td className="px-10 py-6 text-[10px] font-black text-gray-400 dark:text-gray-500 uppercase tracking-widest italic">{member.lastActive}</td>
-                  <td className="px-10 py-6 text-right">
-                    <div className="flex justify-end gap-2 text-gray-400">
-                      <button
-                        onClick={() => setEditingMember(member)}
-                        className="p-2 hover:bg-gray-50 dark:hover:bg-gray-800 rounded-lg transition-colors hover:text-[#D0771E]"
-                      >
-                        <ShieldCheckIcon className="w-4 h-4" />
-                      </button>
-                      <button className="p-2 hover:bg-gray-50 dark:hover:bg-gray-800 rounded-lg transition-colors hover:text-[#D0771E]">
-                        <EnvelopeIcon className="w-4 h-4" />
-                      </button>
-                      <button onClick={() => handleRemoveMember(member.id)} className="p-2 hover:bg-rose-50 dark:hover:bg-rose-900/20 rounded-lg transition-colors hover:text-rose-500">
-                        <TrashIcon className="w-4 h-4" />
-                      </button>
-                    </div>
-                  </td>
+          {loading ? (
+            <div className="p-20 flex flex-col items-center justify-center gap-4">
+              <div className="w-12 h-12 border-4 border-[#D0771E]/20 border-t-[#D0771E] rounded-full animate-spin"></div>
+              <p className="text-[10px] font-black text-gray-400 uppercase tracking-widest">Syncing with Ariya Cloud...</p>
+            </div>
+          ) : (
+            <table className="min-w-[900px] w-full">
+              <thead>
+                <tr className="bg-[#F3F0EB]/30 dark:bg-gray-800/50">
+                  <th className="px-10 py-5 text-left text-[10px] font-black text-gray-400 dark:text-gray-500 uppercase tracking-[0.2em]">Member</th>
+                  <th className="px-10 py-5 text-left text-[10px] font-black text-gray-400 dark:text-gray-500 uppercase tracking-[0.2em]">Role</th>
+                  <th className="px-10 py-5 text-left text-[10px] font-black text-gray-400 dark:text-gray-500 uppercase tracking-[0.2em]">Status</th>
+                  <th className="px-10 py-5 text-left text-[10px] font-black text-gray-400 dark:text-gray-500 uppercase tracking-[0.2em]">Last Active</th>
+                  <th className="px-10 py-5 text-right text-[10px] font-black text-gray-400 dark:text-gray-500 uppercase tracking-[0.2em]">Actions</th>
                 </tr>
-              ))}
-            </tbody>
-          </table>
+              </thead>
+              <tbody className="divide-y divide-gray-50/50 dark:divide-gray-800">
+                {filteredMembers.map((member: any) => (
+                  <tr key={member.id} className="hover:bg-gray-50/30 dark:hover:bg-gray-800/30 transition-colors group bg-white dark:bg-gray-900">
+                    <td className="px-10 py-6">
+                      <div className="flex items-center gap-4">
+                        <img src={member.avatar} alt={member.name} className="w-10 h-10 rounded-xl object-cover" />
+                        <div>
+                          <div className="text-sm font-black text-[#1D2939] dark:text-white uppercase tracking-tight">{member.name}</div>
+                          <div className="text-[9px] font-medium text-gray-400 dark:text-gray-500">{member.email}</div>
+                        </div>
+                      </div>
+                    </td>
+                    <td className="px-10 py-6">
+                      <span className="px-3 py-1 bg-gray-100 dark:bg-gray-700 rounded-lg text-[8px] font-black uppercase tracking-widest text-[#D0771E]">
+                        {member.role}
+                      </span>
+                    </td>
+                    <td className="px-10 py-6">
+                      <div className="flex items-center gap-2">
+                        <div className={`w-1.5 h-1.5 rounded-full ${member.status === 'Active' ? 'bg-green-500' : 'bg-orange-500'}`}></div>
+                        <span className="text-[10px] font-black text-gray-500 dark:text-gray-400 uppercase tracking-widest">{member.status}</span>
+                      </div>
+                    </td>
+                    <td className="px-10 py-6 text-[10px] font-black text-gray-400 dark:text-gray-500 uppercase tracking-widest italic">{member.lastActive}</td>
+                    <td className="px-10 py-6 text-right">
+                      <div className="flex justify-end gap-2 text-gray-400">
+                        <button
+                          onClick={() => setEditingMember(member)}
+                          className="p-2 hover:bg-gray-50 dark:hover:bg-gray-800 rounded-lg transition-colors hover:text-[#D0771E]"
+                        >
+                          <ShieldCheckIcon className="w-4 h-4" />
+                        </button>
+                        <button className="p-2 hover:bg-gray-50 dark:hover:bg-gray-800 rounded-lg transition-colors hover:text-[#D0771E]">
+                          <EnvelopeIcon className="w-4 h-4" />
+                        </button>
+                        <button onClick={() => handleRemoveMember(member.id)} className="p-2 hover:bg-rose-50 dark:hover:bg-rose-900/20 rounded-lg transition-colors hover:text-rose-500">
+                          <TrashIcon className="w-4 h-4" />
+                        </button>
+                      </div>
+                    </td>
+                  </tr>
+                ))}
+              </tbody>
+            </table>
+          )}
         </div>
       </PremiumCard>
 

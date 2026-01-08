@@ -515,7 +515,7 @@ const VendorPortfolio = () => {
     };
 
     return (
-        <div className="max-w-[1600px] mx-auto px-8 py-8 flex flex-col gap-10 min-h-screen">
+        <div className="max-w-[1600px] mx-auto px-4 sm:px-8 py-8 flex flex-col gap-8 sm:gap-10 min-h-screen">
             {renderUploadModal()}
 
             {/* Toast Notification */}
@@ -680,7 +680,7 @@ const VendorPortfolio = () => {
 
             {/* Performance Stats */}
             {!selectedEventId && (
-                <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
+                <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
                     {stats.map((stat, idx) => (
                         <StatCard
                             key={idx}
@@ -728,7 +728,7 @@ const VendorPortfolio = () => {
 
                 {/* Content Grid */}
                 {activeTab === 'By Event' && !selectedEventId ? (
-                    <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-10">
+                    <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-10">
                         {filteredEvents.map(event => renderEventCard(event))}
                         {filteredEvents.length === 0 && (
                             <div className="col-span-full py-20 bg-gray-50/50 dark:bg-gray-800/50 rounded-[40px] border border-dashed border-gray-200 dark:border-gray-700 flex flex-col items-center justify-center text-center">
@@ -742,7 +742,7 @@ const VendorPortfolio = () => {
                     </div>
                 ) : (
                     <div className={`
-                        ${viewMode === 'masonry' ? 'flex flex-wrap -mx-4' : 'grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-8'}
+                        ${viewMode === 'masonry' ? 'flex flex-wrap -mx-4' : 'grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-8'}
                     `}>
                         {viewMode === 'masonry' ? (
                             masonryColumns.map((col, colIdx) => (

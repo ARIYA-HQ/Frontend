@@ -343,7 +343,7 @@ const BudgetTracker = () => {
         </PremiumCard>
 
         {/* Categories Grid (Shifted) */}
-        <div className="lg:col-span-3 grid grid-cols-1 md:grid-cols-2 gap-6">
+        <div className="lg:col-span-3 grid grid-cols-1 sm:grid-cols-2 gap-6">
           {filteredCategories.map(cat => {
             const percentage = Math.min((cat.spentAmount / (cat.allocatedAmount || 1)) * 100, 100);
             const isOver = cat.spentAmount > cat.allocatedAmount;
@@ -457,7 +457,7 @@ const BudgetTracker = () => {
       </div>
       <PremiumCard className="p-0 overflow-hidden shadow-2xl dark:shadow-none">
         <div className="overflow-x-auto">
-          <table className="w-full text-left border-collapse">
+          <table className="min-w-[900px] w-full text-left border-collapse">
             <thead>
               <tr className="border-b border-gray-50 dark:border-gray-700 bg-[#F3F0EB]/20 dark:bg-gray-800/50">
                 <th className="px-8 py-5 text-[10px] font-black text-gray-400 dark:text-gray-400 uppercase tracking-widest w-12">
@@ -678,13 +678,13 @@ const BudgetTracker = () => {
   );
 
   return (
-    <div className="max-w-[1600px] mx-auto px-8 py-8 flex flex-col gap-8 dark:bg-gray-900">
+    <div className="max-w-[1600px] mx-auto px-4 sm:px-8 py-8 flex flex-col gap-6 sm:gap-8 dark:bg-gray-900">
       <PageHeader
         breadcrumb="Financial Planning"
         title="Budget Planner"
         subtitle="Strategic allocation and precise tracking of event funds"
         actions={
-          <div className="flex gap-4">
+          <div className="flex flex-col sm:flex-row gap-3 sm:gap-4 w-full sm:w-auto">
             <Button
               variant="outline"
               className={`h-14 px-6 rounded-2xl border-gray-100 dark:border-gray-700 transition-all ${isManagementMode ? 'bg-[#1D2939] text-white border-[#1D2939]' : 'bg-white dark:bg-gray-800 text-[#1D2939] dark:text-white'}`}
@@ -742,11 +742,11 @@ const BudgetTracker = () => {
       )}
 
       {/* Professional Summary Header */}
-      <div className="grid grid-cols-1 xl:grid-cols-4 gap-6">
+      <div className="grid grid-cols-1 lg:grid-cols-4 gap-6">
         <PremiumCard className="p-0 overflow-hidden bg-[#1D2939] border-none text-white lg:col-span-3 relative group">
           <div className="absolute right-0 top-0 w-1/3 h-full bg-gradient-to-l from-white/5 to-transparent skew-x-12 translate-x-32 group-hover:translate-x-16 transition-transform duration-1000"></div>
 
-          <div className="grid grid-cols-1 md:grid-cols-4 divide-y md:divide-y-0 md:divide-x divide-white/5 relative z-10">
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 divide-y sm:divide-y-0 sm:divide-x divide-white/5 relative z-10">
             <div className="p-10 space-y-2 border-white/5">
               <div className="flex items-center gap-2 text-[#D0771E]">
                 <AdjustmentsHorizontalIcon className="w-4 h-4" />

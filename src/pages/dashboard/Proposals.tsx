@@ -113,7 +113,7 @@ const Proposals = () => {
 
   return (
     <div className="max-w-[1600px] mx-auto pb-20 h-full flex flex-col">
-      <div className="w-full px-8 flex-1 flex flex-col">
+      <div className="w-full px-4 sm:px-8 flex-1 flex flex-col">
         <PageHeader
           breadcrumb="Professional Dashboard"
           title="Proposals"

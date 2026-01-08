@@ -230,7 +230,7 @@ const VendorDetail = () => {
                       <div className="grid grid-cols-1 md:grid-cols-2 gap-y-3 gap-x-8">
                         {[
                           'Full Event Planning', 'Venue Selection', 'Vendor Coordination', 'Timeline Management',
-                          'Timeline Management', 'Day-of Coordination', 'Decor & Styling', 'Catering Management',
+                          'Day-of Coordination', 'Decor & Styling', 'Catering Management',
                           'Photography Coordination', 'Entertainment Booking', 'Transportation'
                         ].map((service) => (
                           <div key={service} className="flex items-center gap-3 p-3 bg-gray-50 dark:bg-gray-700 rounded-xl group hover:bg-orange-50 dark:hover:bg-orange-900/20 transition-colors">
