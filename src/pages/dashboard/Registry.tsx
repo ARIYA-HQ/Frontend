@@ -151,19 +151,18 @@ const Registry = () => {
   };
 
   return (
-    <div className="max-w-7xl mx-auto px-8 py-8 pb-12 h-full flex flex-col gap-8 dark:bg-gray-900">
-      <div className="flex justify-between items-end mb-8">
+    <div className="max-w-[1600px] mx-auto px-4 sm:px-8 py-8 pb-12 h-full flex flex-col gap-6 sm:gap-8 dark:bg-gray-900">
+      <div className="flex flex-col sm:flex-row justify-between items-start sm:items-end gap-4 sm:gap-0 mb-6 sm:mb-8">
         <div>
           <div className="text-[10px] font-black text-gray-400 dark:text-gray-500 uppercase tracking-[0.2em] mb-1">Gift Hub</div>
-          <h1 className="text-3xl font-black text-[#1D2939] dark:text-white uppercase tracking-tighter">Event Registry</h1>
+          <h1 className="text-2xl sm:text-3xl font-black text-[#1D2939] dark:text-white uppercase tracking-tighter">Event Registry</h1>
           <p className="mt-1 text-sm text-gray-500 dark:text-gray-400 font-medium tracking-tight">Curate your wishlist and track gift contributions</p>
         </div>
-        <div className="flex gap-4">
+        <div className="flex gap-3 sm:gap-4 w-full sm:w-auto">
           <button
             onClick={() => handleOpenFundModal()}
             className="inline-flex items-center px-4 py-2 text-xs font-black uppercase tracking-widest text-[#D0771E] hover:text-[#B6651A] transition-colors"
           >
-            <CreditCardIcon className="w-4 h-4 mr-2" />
             Add Fund
           </button>
           <button
@@ -289,7 +288,7 @@ const Registry = () => {
         <PremiumCard className="rounded-3xl border-none shadow-xl dark:shadow-none overflow-hidden bg-white dark:bg-gray-800">
           <div className="p-0">
             <div className="overflow-x-auto">
-              <table className="min-w-full divide-y divide-gray-50 dark:divide-gray-700">
+              <table className="min-w-[700px] w-full divide-y divide-gray-50 dark:divide-gray-700">
                 <thead className="bg-gray-50/50 dark:bg-gray-800/50">
                   <tr>
                     <th className="px-8 py-5 text-left text-[10px] font-black text-gray-400 dark:text-gray-500 uppercase tracking-[0.2em]">Contributor</th>

@@ -100,8 +100,8 @@ const AppShell = ({ children }: AppShellProps) => {
         <div className="lg:pl-72 min-h-screen bg-[#F4F6F8] dark:bg-gray-900 transition-colors">
           <Header onMenuClick={() => setSidebarOpen(true)} />
 
-          <main className="py-10">
-            <div className="px-4 sm:px-6 lg:px-8">
+          <main className="py-8 sm:py-10">
+            <div className="px-4 sm:px-6 lg:px-8 max-w-[1600px] mx-auto">
               {children || <Outlet />}
             </div>
           </main>

@@ -221,7 +221,7 @@ const Tasks = () => {
   };
 
   return (
-    <div className="max-w-7xl mx-auto pb-12 animate-in fade-in slide-in-from-bottom-4 duration-700">
+    <div className="max-w-[1600px] mx-auto px-4 sm:px-8 pb-12 animate-in fade-in slide-in-from-bottom-4 duration-700">
       <PageHeader
         breadcrumb="Project Management"
         title="Tasks"
@@ -237,7 +237,7 @@ const Tasks = () => {
         }
       />
 
-      <div className="flex flex-col md:flex-row md:items-center justify-between gap-6 mb-8 border-b border-gray-100 dark:border-gray-700 pb-px">
+      <div className="flex flex-col lg:flex-row lg:items-center justify-between gap-4 sm:gap-6 mb-6 sm:mb-8 border-b border-gray-100 dark:border-gray-700 pb-px">
         <PremiumTabs
           tabs={[
             { id: 'all', label: 'All Tasks' },
@@ -250,7 +250,7 @@ const Tasks = () => {
           className="border-none"
         />
 
-        <div className="bg-gray-50 dark:bg-gray-800 p-1 rounded-2xl flex items-center gap-1 mb-4 md:mb-0">
+        <div className="bg-gray-50 dark:bg-gray-800 p-1 rounded-2xl flex items-center gap-1 mb-4 lg:mb-0 w-full sm:w-auto">
           {['list', 'timeline'].map((v) => (
             <button
               key={v}
@@ -270,16 +270,16 @@ const Tasks = () => {
         <PremiumCard hover={false} className="border-none shadow-2xl dark:shadow-none">
           <div className="p-0">
             <div className="overflow-x-auto text-left">
-              <table className="min-w-full divide-y divide-gray-100 dark:divide-gray-700">
+              <table className="min-w-[800px] w-full divide-y divide-gray-100 dark:divide-gray-700">
                 <thead className="bg-gray-50/50 dark:bg-gray-800/50">
                   <tr>
-                    <th className="px-8 py-5 text-left text-[10px] font-black text-gray-400 dark:text-gray-400 uppercase tracking-[0.2em]">Task Details</th>
-                    <th className="px-6 py-5 text-left text-[10px] font-black text-gray-400 dark:text-gray-400 uppercase tracking-[0.2em]">Category</th>
-                    <th className="px-6 py-5 text-left text-[10px] font-black text-gray-400 dark:text-gray-400 uppercase tracking-[0.2em]">Assignee</th>
-                    <th className="px-6 py-5 text-left text-[10px] font-black text-gray-400 dark:text-gray-400 uppercase tracking-[0.2em]">Schedule</th>
-                    <th className="px-6 py-5 text-left text-[10px] font-black text-gray-400 dark:text-gray-400 uppercase tracking-[0.2em]">Priority</th>
-                    <th className="px-6 py-5 text-left text-[10px] font-black text-gray-400 dark:text-gray-400 uppercase tracking-[0.2em]">Status</th>
-                    <th className="px-8 py-5 text-right text-[10px] font-black text-gray-400 dark:text-gray-400 uppercase tracking-[0.2em]">Actions</th>
+                    <th className="px-4 sm:px-8 py-4 sm:py-5 text-left text-[10px] font-black text-gray-400 dark:text-gray-400 uppercase tracking-[0.2em]">Task Details</th>
+                    <th className="px-4 sm:px-6 py-4 sm:py-5 text-left text-[10px] font-black text-gray-400 dark:text-gray-400 uppercase tracking-[0.2em]">Category</th>
+                    <th className="px-4 sm:px-6 py-4 sm:py-5 text-left text-[10px] font-black text-gray-400 dark:text-gray-400 uppercase tracking-[0.2em]">Assignee</th>
+                    <th className="px-4 sm:px-6 py-4 sm:py-5 text-left text-[10px] font-black text-gray-400 dark:text-gray-400 uppercase tracking-[0.2em]">Schedule</th>
+                    <th className="px-4 sm:px-6 py-4 sm:py-5 text-left text-[10px] font-black text-gray-400 dark:text-gray-400 uppercase tracking-[0.2em]">Priority</th>
+                    <th className="px-4 sm:px-6 py-4 sm:py-5 text-left text-[10px] font-black text-gray-400 dark:text-gray-400 uppercase tracking-[0.2em]">Status</th>
+                    <th className="px-4 sm:px-8 py-4 sm:py-5 text-right text-[10px] font-black text-gray-400 dark:text-gray-400 uppercase tracking-[0.2em]">Actions</th>
                   </tr>
                 </thead>
                 <tbody className="bg-white dark:bg-gray-800 divide-y divide-gray-50 dark:divide-gray-700">
@@ -294,7 +294,7 @@ const Tasks = () => {
                     </tr>
                   ) : filteredTasks.length > 0 ? filteredTasks.map((task) => (
                     <tr key={task.id} className="group hover:bg-orange-50/30 dark:hover:bg-orange-900/10 transition-colors">
-                      <td className="px-8 py-5">
+                      <td className="px-4 sm:px-8 py-4 sm:py-5">
                         <div className="flex items-center gap-4">
                           <button onClick={() => handleToggleComplete(task.id)} className="shrink-0 transition-transform active:scale-95">
                             {task.status === 'completed' ? (
@@ -309,7 +309,7 @@ const Tasks = () => {
                           </div>
                         </div>
                       </td>
-                      <td className="px-6 py-5 whitespace-nowrap text-xs font-bold text-gray-500 dark:text-gray-400 uppercase tracking-tighter">
+                      <td className="px-4 sm:px-6 py-4 sm:py-5 whitespace-nowrap text-xs font-bold text-gray-500 dark:text-gray-400 uppercase tracking-tighter">
                         {task.category}
                       </td>
                       <td className="px-6 py-5 whitespace-nowrap">
@@ -359,7 +359,7 @@ const Tasks = () => {
         </PremiumCard>
       ) : (
         <PremiumCard hover={false} className="border-none shadow-2xl dark:shadow-none">
-          <div className="p-10">
+          <div className="p-6 sm:p-10">
             <h3 className="text-xs font-black text-gray-400 dark:text-gray-400 uppercase tracking-[0.3em] mb-8">Calendar Timeline</h3>
             <div className="relative border-l-2 border-orange-100 dark:border-orange-900/30 ml-4 space-y-12">
               {loading ? (
@@ -419,7 +419,7 @@ const Tasks = () => {
                 leaveFrom="opacity-100 scale-100"
                 leaveTo="opacity-0 scale-95"
               >
-                <Dialog.Panel className="w-full max-w-lg transform overflow-hidden rounded-3xl bg-white dark:bg-gray-800 p-8 text-left align-middle shadow-2xl dark:shadow-none transition-all">
+                <Dialog.Panel className="w-full max-w-lg transform overflow-hidden rounded-3xl bg-white dark:bg-gray-800 p-6 sm:p-8 text-left align-middle shadow-2xl dark:shadow-none transition-all">
                   <div className="flex justify-between items-start mb-6">
                     <div>
                       <Dialog.Title as="h3" className="text-xl font-black text-gray-900 dark:text-white uppercase">

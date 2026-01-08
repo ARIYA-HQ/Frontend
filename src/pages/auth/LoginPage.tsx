@@ -46,25 +46,25 @@ const LoginPage = () => {
   return (
     <div className="min-h-screen flex flex-col lg:flex-row bg-white dark:bg-gray-900 selection:bg-[#D0771E]/30 transition-colors">
       {/* --- LEFT SIDE: LOGIN FORM --- */}
-      <div className="w-full lg:w-1/2 flex flex-col p-8 sm:p-12 lg:p-20 relative">
+      <div className="w-full lg:w-1/2 flex flex-col p-6 sm:p-12 lg:p-20 relative">
         {/* Background Accent */}
         <div className="absolute top-0 left-0 w-64 h-64 bg-[#F3F0EB]/50 dark:bg-gray-800/50 rounded-full blur-[100px] -translate-x-1/2 -translate-y-1/2 -z-10"></div>
 
         {/* Top Bar with Logo and Vendor Link */}
-        <div className="flex justify-between items-center mb-16 lg:mb-24">
-          <div className="text-[#D0771E] font-black text-4xl tracking-tighter uppercase italic">Àriyá</div>
-          <Link to="/auth/vendor-signup" className="group flex items-center gap-3">
-            <span className="text-[10px] font-black uppercase tracking-widest text-gray-400 dark:text-gray-400 group-hover:text-[#D0771E] transition-colors duration-300">Are you a vendor?</span>
-            <div className="h-10 px-6 rounded-xl bg-gray-50 dark:bg-gray-800 flex items-center justify-center text-[10px] font-black uppercase tracking-widest text-[#D0771E] border border-gray-100 dark:border-gray-700 group-hover:bg-[#D0771E] group-hover:text-white group-hover:border-[#D0771E] transition-all duration-300">
+        <div className="flex justify-between items-center mb-12 sm:mb-16 lg:mb-24">
+          <div className="text-[#D0771E] font-black text-3xl sm:text-4xl tracking-tighter uppercase italic">Àriyá</div>
+          <Link to="/auth/vendor-signup" className="group flex items-center gap-2 sm:gap-3">
+            <span className="hidden sm:block text-[10px] font-black uppercase tracking-widest text-gray-400 dark:text-gray-400 group-hover:text-[#D0771E] transition-colors duration-300">Are you a vendor?</span>
+            <div className="h-9 sm:h-10 px-4 sm:px-6 rounded-xl bg-gray-50 dark:bg-gray-800 flex items-center justify-center text-[9px] sm:text-[10px] font-black uppercase tracking-widest text-[#D0771E] border border-gray-100 dark:border-gray-700 group-hover:bg-[#D0771E] group-hover:text-white group-hover:border-[#D0771E] transition-all duration-300">
               Join Ariya Pro
             </div>
           </Link>
         </div>
 
         <div className="max-w-md w-full mx-auto lg:mx-0 flex-1 flex flex-col justify-center">
-          <div className="mb-12">
-            <h1 className="text-4xl font-black text-[#1D2939] dark:text-white mb-4 uppercase tracking-tighter">Welcome Back</h1>
-            <p className="text-[11px] font-black text-gray-400 dark:text-gray-400 uppercase tracking-widest leading-relaxed">
+          <div className="mb-10 sm:mb-12">
+            <h1 className="text-3xl sm:text-4xl font-black text-[#1D2939] dark:text-white mb-3 sm:mb-4 uppercase tracking-tighter">Welcome Back</h1>
+            <p className="text-[10px] sm:text-[11px] font-black text-gray-400 dark:text-gray-400 uppercase tracking-widest leading-relaxed">
               Log in to your dashboard to continue planning your spectacular events.
             </p>
           </div>
@@ -134,12 +134,12 @@ const LoginPage = () => {
           </form>
 
           {/* Divider */}
-          <div className="relative my-16">
+          <div className="relative my-12 sm:my-16">
             <div className="absolute inset-0 flex items-center">
               <div className="w-full border-t border-gray-50 dark:border-gray-800"></div>
             </div>
             <div className="relative flex justify-center">
-              <span className="px-6 bg-white dark:bg-gray-900 text-[10px] font-black uppercase tracking-[0.3em] text-gray-300 dark:text-gray-600">Security Layer</span>
+              <span className="px-6 bg-white dark:bg-gray-900 text-[9px] sm:text-[10px] font-black uppercase tracking-[0.3em] text-gray-300 dark:text-gray-600">Security Layer</span>
             </div>
           </div>
 
@@ -155,9 +155,9 @@ const LoginPage = () => {
             </button>
           </div>
 
-          <div className="text-center mt-12">
-            <p className="text-[11px] font-black uppercase tracking-widest text-gray-400 dark:text-gray-500">
-              First time here? <Link to="/auth/signup" className="text-[#D0771E] ml-2 border-b border-[#D0771E]/20 pb-0.5 hover:border-[#D0771E] transition-all cursor-pointer hover:text-[#D0771E]/80">CREATE AN ACCOUNT</Link>
+          <div className="text-center mt-10 sm:mt-12">
+            <p className="text-[10px] sm:text-[11px] font-black uppercase tracking-widest text-gray-400 dark:text-gray-500">
+              First time here? <Link to="/auth/signup" className="text-[#D0771E] ml-1 sm:ml-2 border-b border-[#D0771E]/20 pb-0.5 hover:border-[#D0771E] transition-all cursor-pointer hover:text-[#D0771E]/80">CREATE AN ACCOUNT</Link>
             </p>
           </div>
         </div>

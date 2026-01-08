@@ -23,7 +23,7 @@ const PageHeader: React.FC<PageHeaderProps> = ({ breadcrumb, title, subtitle, ac
             )}
             <div className="flex flex-col md:flex-row md:items-end justify-between gap-6">
                 <div>
-                    <h1 className="text-4xl font-black text-[#1D2939] dark:text-white uppercase tracking-tighter leading-none">{title}</h1>
+                    <h1 className="text-2xl sm:text-4xl font-black text-[#1D2939] dark:text-white uppercase tracking-tighter leading-none">{title}</h1>
                     {subtitle && (
                         <p className="text-xs text-gray-400 dark:text-gray-400 font-bold uppercase tracking-widest mt-3">{subtitle}</p>
                     )}

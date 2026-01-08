@@ -30,13 +30,12 @@ const UrgentActionCard: React.FC<UrgentActionCardProps> = ({ title, subtitle, va
                 <Icon className="w-12 h-12" />
             </div>
 
-            <div className="relative z-10 flex flex-col gap-1.5">
-                <h4 className={`font-black text-[11px] uppercase tracking-widest ${
-                    variant === 'danger' ? 'text-[#1D2939] dark:text-red-200' :
-                    variant === 'info' ? 'text-[#1D2939] dark:text-blue-200' :
-                    'text-[#1D2939] dark:text-orange-200'
-                }`}>{title}</h4>
-                <p className="text-[10px] font-bold opacity-60 dark:opacity-80 uppercase tracking-[0.2em] leading-relaxed pr-8">{subtitle}</p>
+            <div className="relative z-10 flex flex-col gap-1.5 sm:gap-2">
+                <h4 className={`font-black text-[10px] sm:text-[11px] uppercase tracking-widest ${variant === 'danger' ? 'text-[#1D2939] dark:text-red-200' :
+                        variant === 'info' ? 'text-[#1D2939] dark:text-blue-200' :
+                            'text-[#1D2939] dark:text-orange-200'
+                    }`}>{title}</h4>
+                <p className="text-[9px] sm:text-[10px] font-bold opacity-60 dark:opacity-80 uppercase tracking-[0.2em] leading-relaxed pr-6 sm:pr-8">{subtitle}</p>
             </div>
         </div>
     );

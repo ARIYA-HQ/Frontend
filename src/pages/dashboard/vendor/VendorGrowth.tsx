@@ -29,58 +29,60 @@ const VendorGrowth = () => {
     );
 
     const renderPerformance = () => (
-        <div className="space-y-8 animate-fade-in">
+        <div className="space-y-6 sm:space-y-8 animate-fade-in">
             {/* Chart Section */}
-            <PremiumCard className="p-10 border-gray-100 dark:border-gray-800">
-                <div className="flex items-center justify-between mb-12">
+            <PremiumCard className="p-6 sm:p-10 border-gray-100 dark:border-gray-800">
+                <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-6 mb-8 sm:mb-12">
                     <div className="space-y-1">
-                        <h3 className="text-xl font-black text-[#1D2939] dark:text-white uppercase tracking-tight">Performance Overview</h3>
+                        <h3 className="text-lg sm:text-xl font-black text-[#1D2939] dark:text-white uppercase tracking-tight">Performance Overview</h3>
                         <p className="text-[10px] font-black text-gray-400 dark:text-gray-500 uppercase tracking-widest">Profile views vs enquiries over the last 7 months</p>
                     </div>
-                    <select className="h-11 px-4 rounded-xl bg-gray-50 dark:bg-gray-800 border-none text-[10px] font-black uppercase tracking-widest text-gray-700 dark:text-gray-300 focus:ring-2 focus:ring-[#D0771E]/20 transition-all cursor-pointer">
+                    <select className="h-10 sm:h-11 px-4 rounded-xl bg-gray-50 dark:bg-gray-800 border-none text-[10px] font-black uppercase tracking-widest text-gray-700 dark:text-gray-300 focus:ring-2 focus:ring-[#D0771E]/20 transition-all cursor-pointer w-full sm:w-auto">
                         <option>Last 7 months</option>
                         <option>Last 12 months</option>
                         <option>Year to date</option>
                     </select>
                 </div>
 
-                <div className="h-[300px] flex items-end justify-between px-4 pb-8 border-b border-dashed border-gray-100 dark:border-gray-800 relative">
-                    {/* Y-axis grid lines (Background) */}
-                    <div className="absolute inset-x-0 bottom-0 h-full pointer-events-none flex flex-col justify-between pb-8">
-                        {[...Array(5)].map((_, i) => (
-                            <div key={i} className="w-full h-px bg-gray-50 dark:bg-gray-800/50"></div>
+                <div className="overflow-x-auto -mx-6 sm:mx-0 px-6 sm:px-0 scrollbar-hide">
+                    <div className="h-[300px] flex items-end justify-between px-4 pb-8 border-b border-dashed border-gray-100 dark:border-gray-800 relative min-w-[500px]">
+                        {/* Y-axis grid lines (Background) */}
+                        <div className="absolute inset-x-0 bottom-0 h-full pointer-events-none flex flex-col justify-between pb-8">
+                            {[...Array(5)].map((_, i) => (
+                                <div key={i} className="w-full h-px bg-gray-50 dark:bg-gray-800/50"></div>
+                            ))}
+                        </div>
+
+                        {MONTHLY_DATA.map((data, index) => (
+                            <div key={index} className="flex flex-col items-center flex-1 group relative z-10 mx-1">
+                                <div className="flex items-end justify-center w-full gap-1.5 sm:gap-2 mb-6 h-[200px]">
+                                    {/* Views Bar */}
+                                    <div className="relative group/bar flex flex-col justify-end h-full w-2.5 sm:w-5">
+                                        <div className="absolute -top-10 left-1/2 -translate-x-1/2 opacity-0 group-hover/bar:opacity-100 transition-opacity whitespace-nowrap bg-[#1D2939] dark:bg-white text-white dark:text-black text-[9px] font-black px-3 py-1.5 rounded-lg z-20 shadow-xl dark:shadow-none">
+                                            {data.views} views
+                                            <div className="absolute -bottom-1 left-1/2 -translate-x-1/2 w-2 h-2 bg-[#1D2939] dark:bg-white rotate-45"></div>
+                                        </div>
+                                        <div
+                                            className="w-full bg-[#D0771E]/20 dark:bg-[#D0771E]/40 rounded-t-lg group-hover:bg-[#D0771E] transition-all duration-300 transform origin-bottom hover:scale-y-105"
+                                            style={{ height: `${(data.views / 1400) * 100}%` }}
+                                        ></div>
+                                    </div>
+                                    {/* Inquiries Bar */}
+                                    <div className="relative group/bar flex flex-col justify-end h-full w-1.5 sm:w-3">
+                                        <div className="absolute -top-10 left-1/2 -translate-x-1/2 opacity-0 group-hover/bar:opacity-100 transition-opacity whitespace-nowrap bg-gray-900 dark:bg-gray-100 text-white dark:text-black text-[9px] font-black px-3 py-1.5 rounded-lg z-20 shadow-xl dark:shadow-none">
+                                            {data.inquiries} inquiries
+                                            <div className="absolute -bottom-1 left-1/2 -translate-x-1/2 w-2 h-2 bg-gray-900 dark:bg-gray-100 rotate-45"></div>
+                                        </div>
+                                        <div
+                                            className="w-full bg-gray-200 dark:bg-gray-700 rounded-t-sm group-hover:bg-gray-400 dark:group-hover:bg-gray-500 transition-all duration-300 transform origin-bottom hover:scale-y-105"
+                                            style={{ height: `${(data.inquiries / 50) * 100}%` }}
+                                        ></div>
+                                    </div>
+                                </div>
+                                <div className="text-[10px] font-black text-gray-400 dark:text-gray-500 uppercase tracking-widest group-hover:text-[#D0771E] transition-colors">{data.month}</div>
+                            </div>
                         ))}
                     </div>
-
-                    {MONTHLY_DATA.map((data, index) => (
-                        <div key={index} className="flex flex-col items-center flex-1 group relative z-10">
-                            <div className="flex items-end justify-center w-full gap-2 mb-6 h-[200px]">
-                                {/* Views Bar */}
-                                <div className="relative group/bar flex flex-col justify-end h-full w-3 md:w-5">
-                                    <div className="absolute -top-10 left-1/2 -translate-x-1/2 opacity-0 group-hover/bar:opacity-100 transition-opacity whitespace-nowrap bg-[#1D2939] dark:bg-white text-white dark:text-black text-[9px] font-black px-3 py-1.5 rounded-lg z-20 shadow-xl dark:shadow-none">
-                                        {data.views} views
-                                        <div className="absolute -bottom-1 left-1/2 -translate-x-1/2 w-2 h-2 bg-[#1D2939] dark:bg-white rotate-45"></div>
-                                    </div>
-                                    <div
-                                        className="w-full bg-[#D0771E]/20 dark:bg-[#D0771E]/40 rounded-t-lg group-hover:bg-[#D0771E] transition-all duration-300 transform origin-bottom hover:scale-y-105"
-                                        style={{ height: `${(data.views / 1400) * 100}%` }}
-                                    ></div>
-                                </div>
-                                {/* Inquiries Bar */}
-                                <div className="relative group/bar flex flex-col justify-end h-full w-2 md:w-3">
-                                    <div className="absolute -top-10 left-1/2 -translate-x-1/2 opacity-0 group-hover/bar:opacity-100 transition-opacity whitespace-nowrap bg-gray-900 dark:bg-gray-100 text-white dark:text-black text-[9px] font-black px-3 py-1.5 rounded-lg z-20 shadow-xl dark:shadow-none">
-                                        {data.inquiries} inquiries
-                                        <div className="absolute -bottom-1 left-1/2 -translate-x-1/2 w-2 h-2 bg-gray-900 dark:bg-gray-100 rotate-45"></div>
-                                    </div>
-                                    <div
-                                        className="w-full bg-gray-200 dark:bg-gray-700 rounded-t-sm group-hover:bg-gray-400 dark:group-hover:bg-gray-500 transition-all duration-300 transform origin-bottom hover:scale-y-105"
-                                        style={{ height: `${(data.inquiries / 50) * 100}%` }}
-                                    ></div>
-                                </div>
-                            </div>
-                            <div className="text-[10px] font-black text-gray-400 dark:text-gray-500 uppercase tracking-widest group-hover:text-[#D0771E] transition-colors">{data.month}</div>
-                        </div>
-                    ))}
                 </div>
 
                 <div className="flex justify-center gap-6 mt-6">
@@ -97,8 +99,8 @@ const VendorGrowth = () => {
 
             {/* Top Performing Services */}
             <PremiumCard className="p-0 overflow-hidden border-gray-100 dark:border-gray-800">
-                <div className="p-10 border-b border-gray-50 dark:border-gray-800 bg-white dark:bg-gray-900">
-                    <h3 className="text-xl font-black text-[#1D2939] dark:text-white uppercase tracking-tight">Top Performing Services</h3>
+                <div className="p-6 sm:p-10 border-b border-gray-50 dark:border-gray-800 bg-white dark:bg-gray-900">
+                    <h3 className="text-lg sm:text-xl font-black text-[#1D2939] dark:text-white uppercase tracking-tight">Top Performing Services</h3>
                 </div>
                 <div className="overflow-x-auto">
                     <table className="w-full">
@@ -113,12 +115,12 @@ const VendorGrowth = () => {
                         <tbody className="divide-y divide-gray-50/50 dark:divide-gray-800">
                             {filteredServices.map((service, idx) => (
                                 <tr key={idx} className="hover:bg-gray-50/30 dark:hover:bg-gray-800/30 transition-colors group bg-white dark:bg-gray-900">
-                                    <td className="px-10 py-6">
-                                        <div className="text-sm font-black text-[#1D2939] dark:text-white group-hover:text-[#D0771E] transition-colors uppercase tracking-tight">{service.name}</div>
-                                        <div className="text-[9px] font-black text-gray-400 dark:text-gray-500 uppercase tracking-widest mt-1">{service.category}</div>
+                                    <td className="px-6 sm:px-10 py-4 sm:py-6">
+                                        <div className="text-xs sm:text-sm font-black text-[#1D2939] dark:text-white group-hover:text-[#D0771E] transition-colors uppercase tracking-tight">{service.name}</div>
+                                        <div className="text-[8px] sm:text-[9px] font-black text-gray-400 dark:text-gray-500 uppercase tracking-widest mt-1">{service.category}</div>
                                     </td>
-                                    <td className="px-10 py-6 text-sm font-black text-gray-500 dark:text-gray-400">{service.bookings}</td>
-                                    <td className="px-10 py-6 text-sm font-black text-[#1D2939] dark:text-white">{service.revenue}</td>
+                                    <td className="px-6 sm:px-10 py-4 sm:py-6 text-xs sm:text-sm font-black text-gray-500 dark:text-gray-400">{service.bookings}</td>
+                                    <td className="px-6 sm:px-10 py-4 sm:py-6 text-xs sm:text-sm font-black text-[#1D2939] dark:text-white">{service.revenue}</td>
                                     <td className="px-10 py-6">
                                         <span className="text-sm font-black text-green-600 dark:text-green-500 bg-green-50 dark:bg-green-500/10 px-3 py-1 rounded-lg">
                                             {service.conversion}
@@ -241,18 +243,18 @@ const VendorGrowth = () => {
     );
 
     return (
-        <div className="max-w-[1600px] mx-auto px-8 py-8 flex flex-col gap-10">
+        <div className="max-w-[1600px] mx-auto px-4 sm:px-8 py-8 flex flex-col gap-8 sm:gap-10">
             <PageHeader
                 breadcrumb="Operations"
                 title="Growth"
                 subtitle="Track your business performance and market insights"
                 actions={
-                    <div className="flex gap-4">
-                        <Button variant="outline" className="h-12 px-6 rounded-2xl border-gray-100 dark:border-gray-700 bg-white dark:bg-gray-800 text-gray-900 dark:text-white">
+                    <div className="flex flex-col sm:flex-row gap-3 sm:gap-4 w-full sm:w-auto">
+                        <Button variant="outline" className="h-10 sm:h-12 px-6 rounded-2xl border-gray-100 dark:border-gray-700 bg-white dark:bg-gray-800 text-gray-900 dark:text-white text-[10px] sm:text-xs">
                             <ArrowDownTrayIcon className="w-4 h-4 mr-2" />
-                            Export Report
+                            Export
                         </Button>
-                        <Button className="h-12 px-8 rounded-2xl shadow-xl shadow-orange-100 dark:shadow-none bg-[#D0771E] text-white">
+                        <Button className="h-10 sm:h-12 px-8 rounded-2xl shadow-xl shadow-orange-100 dark:shadow-none bg-[#D0771E] text-white text-[10px] sm:text-xs">
                             <ChartBarIcon className="w-5 h-5 mr-2" />
                             Live Analytics
                         </Button>
@@ -260,8 +262,8 @@ const VendorGrowth = () => {
                 }
             />
 
-            {/* Stats Bar */}
-            <div className="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-4 gap-6">
+            {/* Stats Bar - Stack on mobile, 2 on sm, 4 on xl */}
+            <div className="grid grid-cols-1 sm:grid-cols-2 xl:grid-cols-4 gap-6">
                 {GROWTH_STATS.map((stat, idx) => (
                     <div key={idx} className="relative group">
                         <StatCard

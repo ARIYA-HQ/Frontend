@@ -66,7 +66,7 @@ const PlannerSettings = () => {
     };
 
     return (
-        <div className="max-w-[1600px] mx-auto px-8 py-8 h-full flex flex-col dark:bg-gray-900">
+        <div className="max-w-[1600px] mx-auto px-4 sm:px-8 py-8 h-full flex flex-col dark:bg-gray-900">
             <div className="mb-8">
                 <PageHeader
                     title="Settings"
@@ -76,9 +76,9 @@ const PlannerSettings = () => {
             </div>
 
             <div className="flex flex-col lg:flex-row gap-10 flex-1 min-h-0">
-                {/* Sidebar Navigation */}
-                <div className="w-full lg:w-80 shrink-0">
-                    <nav className="flex flex-col gap-2">
+                {/* Sidebar Navigation - Horizontal on mobile */}
+                <div className="w-full lg:w-80 shrink-0 overflow-x-auto pb-4 lg:pb-0 lg:overflow-visible">
+                    <nav className="flex flex-row lg:flex-col gap-2 min-w-max lg:min-w-0">
                         {tabs.map((tab) => (
                             <button
                                 key={tab.name}
@@ -104,15 +104,15 @@ const PlannerSettings = () => {
                 <div className="flex-1 min-w-0">
                     {activeTab === 'Profile' && (
                         <PremiumCard className="animate-fade-in p-0 overflow-hidden dark:shadow-none">
-                            <div className="p-8 border-b border-gray-50 dark:border-gray-700 bg-gray-50/30 dark:bg-gray-800/30">
-                                <h2 className="text-xl font-black text-[#1D2939] dark:text-white uppercase tracking-tighter">Public Profile</h2>
+                            <div className="p-6 sm:p-8 border-b border-gray-50 dark:border-gray-700 bg-gray-50/30 dark:bg-gray-800/30">
+                                <h2 className="text-lg sm:text-xl font-black text-[#1D2939] dark:text-white uppercase tracking-tighter">Public Profile</h2>
                                 <p className="text-[10px] text-gray-400 dark:text-gray-500 font-bold uppercase tracking-widest mt-1">Manage how your account appears to vendors and partners</p>
                             </div>
 
-                            <div className="p-10">
-                                <div className="flex items-center gap-10 mb-12">
-                                    <div className="relative group">
-                                        <div className="w-32 h-32 rounded-[40px] bg-gray-100 dark:bg-gray-700 flex items-center justify-center border-4 border-white dark:border-gray-800 shadow-2xl dark:shadow-none overflow-hidden group-hover:scale-[1.02] transition-transform duration-500">
+                            <div className="p-6 sm:p-10">
+                                <div className="flex flex-col sm:items-center sm:flex-row gap-8 sm:gap-10 mb-12">
+                                    <div className="relative group self-center sm:self-auto">
+                                        <div className="w-24 h-24 sm:w-32 sm:h-32 rounded-[40px] bg-gray-100 dark:bg-gray-700 flex items-center justify-center border-4 border-white dark:border-gray-800 shadow-2xl dark:shadow-none overflow-hidden group-hover:scale-[1.02] transition-transform duration-500">
                                             <img
                                                 src="https://images.unsplash.com/photo-1494790108377-be9c29b29330?ixlib=rb-1.2.1&auto=format&fit=facearea&facepad=2&w=256&h=256&q=80"
                                                 alt="Profile"
@@ -222,7 +222,7 @@ const PlannerSettings = () => {
                                         <Button
                                             type="submit"
                                             isLoading={isSaving}
-                                            className="px-12 py-5 shadow-2xl dark:shadow-none shadow-orange-200"
+                                            className="w-full sm:w-auto px-12 py-5 shadow-2xl dark:shadow-none shadow-orange-200"
                                         >
                                             Save Changes
                                         </Button>
@@ -234,12 +234,12 @@ const PlannerSettings = () => {
 
                     {activeTab === 'Security' && (
                         <PremiumCard className="animate-fade-in p-0 overflow-hidden dark:shadow-none">
-                            <div className="p-8 border-b border-gray-50 dark:border-gray-700 bg-gray-50/30 dark:bg-gray-800/30">
-                                <h2 className="text-xl font-black text-[#1D2939] dark:text-white uppercase tracking-tighter">Security & Privacy</h2>
+                            <div className="p-6 sm:p-8 border-b border-gray-50 dark:border-gray-700 bg-gray-50/30 dark:bg-gray-800/30">
+                                <h2 className="text-lg sm:text-xl font-black text-[#1D2939] dark:text-white uppercase tracking-tighter">Security & Privacy</h2>
                                 <p className="text-[10px] text-gray-400 dark:text-gray-500 font-bold uppercase tracking-widest mt-1">Manage your password and account security</p>
                             </div>
 
-                            <div className="p-10">
+                            <div className="p-6 sm:p-10">
                                 <form onSubmit={handleSave} className="space-y-8 max-w-2xl">
                                     <div className="space-y-8">
                                         <FormField
@@ -323,7 +323,7 @@ const PlannerSettings = () => {
                                         </div>
                                     </div>
                                     <div className="pt-6 flex justify-end">
-                                        <Button type="submit" className="px-12 py-5 shadow-2xl dark:shadow-none shadow-orange-200">
+                                        <Button type="submit" className="w-full sm:w-auto px-12 py-5 shadow-2xl dark:shadow-none shadow-orange-200">
                                             Update Password
                                         </Button>
                                     </div>
@@ -334,12 +334,12 @@ const PlannerSettings = () => {
 
                     {activeTab === 'Notifications' && (
                         <PremiumCard className="animate-fade-in p-0 overflow-hidden dark:shadow-none">
-                            <div className="p-8 border-b border-gray-50 dark:border-gray-700 bg-gray-50/30 dark:bg-gray-800/30">
-                                <h2 className="text-xl font-black text-[#1D2939] dark:text-white uppercase tracking-tighter">Notifications</h2>
+                            <div className="p-6 sm:p-8 border-b border-gray-50 dark:border-gray-700 bg-gray-50/30 dark:bg-gray-800/30">
+                                <h2 className="text-lg sm:text-xl font-black text-[#1D2939] dark:text-white uppercase tracking-tighter">Notifications</h2>
                                 <p className="text-[10px] text-gray-400 dark:text-gray-500 font-bold uppercase tracking-widest mt-1">Control how you receive alerts and updates</p>
                             </div>
 
-                            <div className="p-10">
+                            <div className="p-6 sm:p-10">
                                 <div className="space-y-6">
                                     {[
                                         { id: 'email', title: 'Email Notifications', desc: 'Receive daily digests and important updates via email.' },
@@ -367,7 +367,7 @@ const PlannerSettings = () => {
                                     ))}
                                 </div>
                                 <div className="mt-12 pt-8 border-t border-gray-100 dark:border-gray-700 flex justify-end">
-                                    <Button onClick={handleSave} className="px-12 py-5 shadow-2xl dark:shadow-none shadow-orange-200">Save Preferences</Button>
+                                    <Button onClick={handleSave} className="w-full sm:w-auto px-12 py-5 shadow-2xl dark:shadow-none shadow-orange-200">Save Preferences</Button>
                                 </div>
                             </div>
                         </PremiumCard>
@@ -375,12 +375,12 @@ const PlannerSettings = () => {
 
                     {activeTab === 'Billing' && (
                         <PremiumCard className="animate-fade-in p-0 overflow-hidden dark:shadow-none">
-                            <div className="p-8 border-b border-gray-50 dark:border-gray-700 bg-gray-50/30 dark:bg-gray-800/30">
-                                <h2 className="text-xl font-black text-[#1D2939] dark:text-white uppercase tracking-tighter">Billing & Subscription</h2>
+                            <div className="p-6 sm:p-8 border-b border-gray-50 dark:border-gray-700 bg-gray-50/30 dark:bg-gray-800/30">
+                                <h2 className="text-lg sm:text-xl font-black text-[#1D2939] dark:text-white uppercase tracking-tighter">Billing & Subscription</h2>
                                 <p className="text-[10px] text-gray-400 dark:text-gray-500 font-bold uppercase tracking-widest mt-1">Manage your plan and payment methods</p>
                             </div>
 
-                            <div className="p-10">
+                            <div className="p-6 sm:p-10">
                                 <div className="grid grid-cols-1 xl:grid-cols-2 gap-10">
                                     <div className="p-10 bg-gray-50 dark:bg-gray-800 rounded-[40px] border border-gray-100 dark:border-gray-700 flex flex-col items-center text-center relative overflow-hidden group">
                                         <div className="absolute top-0 right-0 p-8 opacity-5 dark:opacity-10 group-hover:scale-110 transition-transform duration-700">

@@ -17,9 +17,9 @@ const RecentActivities = ({ items = [], loading = false }: { items?: any[], load
                 <p className="text-[10px] font-black text-gray-400 dark:text-gray-400 uppercase tracking-widest">Latest updates from your event</p>
             </div>
 
-            <div className="relative border-l-2 border-dashed border-gray-100 dark:border-gray-700 ml-5 space-y-10 py-2">
+            <div className="relative border-l-2 border-dashed border-gray-100 dark:border-gray-700 ml-4 sm:ml-5 space-y-8 sm:space-y-10 py-2">
                 {loading ? (
-                    <div className="space-y-10 pl-10">
+                    <div className="space-y-10 pl-8 sm:pl-10">
                         <div className="h-4 w-3/4 bg-gray-50 dark:bg-gray-800 animate-pulse rounded"></div>
                         <div className="h-4 w-1/2 bg-gray-50 dark:bg-gray-800 animate-pulse rounded"></div>
                         <div className="h-4 w-2/3 bg-gray-50 dark:bg-gray-800 animate-pulse rounded"></div>
@@ -27,9 +27,9 @@ const RecentActivities = ({ items = [], loading = false }: { items?: any[], load
                 ) : displayActivities.map((activity) => {
                     const Icon = activity.icon || UserGroupIcon;
                     return (
-                        <div key={activity.id} className="relative pl-10 group cursor-default">
+                        <div key={activity.id} className="relative pl-8 sm:pl-10 group cursor-default">
                             {/* Timeline dot */}
-                            <span className={`absolute -left-[18px] top-0 w-8 h-8 rounded-[12px] flex items-center justify-center ${activity.color || 'bg-orange-50 text-orange-600 border-orange-100'} border group-hover:scale-110 transition-transform duration-300`}>
+                            <span className={`absolute -left-[17px] sm:-left-[18px] top-0 w-8 h-8 rounded-[12px] flex items-center justify-center ${activity.color || 'bg-orange-50 text-orange-600 border-orange-100'} border group-hover:scale-110 transition-transform duration-300`}>
                                 <Icon className="w-4 h-4" />
                             </span>
                             <div className="flex flex-col gap-1">

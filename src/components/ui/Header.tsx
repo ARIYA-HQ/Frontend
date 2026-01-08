@@ -48,10 +48,10 @@ const Header = ({ onMenuClick }: HeaderProps) => {
     : quickLinks;
 
   return (
-    <div className="sticky top-0 z-40 flex h-20 shrink-0 items-center gap-x-4 border-b border-gray-100 dark:border-gray-700 bg-white dark:bg-gray-800 px-4 sm:gap-x-6 sm:px-6 lg:px-10 transition-colors">
+    <div className="sticky top-0 z-40 flex h-16 sm:h-20 shrink-0 items-center gap-x-4 border-b border-gray-100 dark:border-gray-700 bg-white dark:bg-gray-800 px-4 sm:px-6 lg:px-10 transition-colors">
       <button type="button" className="-m-2.5 p-2.5 text-gray-700 dark:text-gray-300 lg:hidden" onClick={onMenuClick}>
         <span className="sr-only">Open sidebar</span>
-        <Bars3Icon className="h-6 w-6" aria-hidden="true" />
+        <Bars3Icon className="h-5 w-5 sm:h-6 sm:w-6" aria-hidden="true" />
       </button>
 
       {/* Separator (keeps left padding consistent when menu button is hidden) */}
@@ -107,14 +107,14 @@ const Header = ({ onMenuClick }: HeaderProps) => {
           </Transition>
         </div>
 
-        <div className="flex items-center gap-x-4 lg:gap-x-8">
-          <div className="flex items-center gap-x-2">
+        <div className="flex items-center gap-x-2 sm:gap-x-4 lg:gap-x-8">
+          <div className="flex items-center gap-x-1 sm:gap-x-2">
             <ThemeToggle />
           </div>
 
           <div className="flex items-center gap-x-1 sm:gap-x-2">
-            {/* Messages */}
-            <Popover className="relative">
+            {/* Messages - Hidden on XS */}
+            <Popover className="relative hidden sm:block">
               <Popover.Button className="p-1.5 text-gray-400 dark:text-gray-500 hover:text-[#D0771E] transition-colors relative outline-none">
                 <EnvelopeIcon className="h-6 w-6" aria-hidden="true" />
                 <span className="absolute top-1.5 right-1.5 block h-2 w-2 rounded-full bg-orange-500 ring-2 ring-white dark:ring-gray-800" />
@@ -315,12 +315,12 @@ const Header = ({ onMenuClick }: HeaderProps) => {
               <Menu.Button className="flex items-center outline-none">
                 <span className="sr-only">Open user menu</span>
                 <Avatar
-                  size="md"
+                  size="sm"
                   src="https://images.unsplash.com/photo-1494790108377-be9c29b29330?ixlib=rb-1.2.1&auto=format&fit=facearea&facepad=2&w=256&h=256&q=80"
                   alt="User"
-                  className="border-2 border-white dark:border-gray-800 shadow-md dark:shadow-none active:scale-95 transition-transform"
+                  className="border-2 border-white dark:border-gray-800 shadow-md dark:shadow-none active:scale-95 transition-transform sm:w-10 sm:h-10"
                 />
-                <ChevronDownIcon className="ml-2 h-4 w-4 text-gray-400 dark:text-gray-500 group-hover:text-gray-500 dark:group-hover:text-gray-400" aria-hidden="true" />
+                <ChevronDownIcon className="ml-1 sm:ml-2 h-3 w-3 sm:h-4 sm:w-4 text-gray-400 dark:text-gray-500 group-hover:text-gray-500 dark:group-hover:text-gray-400" aria-hidden="true" />
               </Menu.Button>
               <Transition
                 as={Fragment}

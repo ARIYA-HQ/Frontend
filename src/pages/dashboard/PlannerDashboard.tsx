@@ -71,7 +71,7 @@ const PlannerDashboard = () => {
   }, []);
 
   return (
-    <div className="max-w-[1600px] mx-auto px-8 py-8 h-full flex flex-col gap-10 dark:bg-gray-900 animate-in fade-in slide-in-from-bottom-4 duration-700">
+    <div className="max-w-[1600px] mx-auto px-4 sm:px-8 py-8 h-full flex flex-col gap-8 sm:gap-10 dark:bg-gray-900 animate-in fade-in slide-in-from-bottom-4 duration-700">
       <PageHeader
         breadcrumb={isProfessionalPlanner ? "Professional Dashboard" : "Overview"}
         title={isProfessionalPlanner ? "Client Events Dashboard" : "Dashboard"}
@@ -88,8 +88,8 @@ const PlannerDashboard = () => {
         {/* Main Content Column (2/3) */}
         <div className="lg:col-span-2 space-y-10">
 
-          {/* Stats Grid */}
-          <div className="grid grid-cols-1 sm:grid-cols-2 gap-6">
+          {/* Stats Grid - 1 col on mobile, 2 on sm/md, 4 on lg */}
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
             {loading ? (
               <>
                 <div className="h-24 bg-gray-50 dark:bg-gray-800 animate-pulse rounded-2xl"></div>
@@ -152,8 +152,8 @@ const PlannerDashboard = () => {
             )}
           </div>
 
-          {/* Actions & Suggestions Split */}
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-10">
+          {/* Actions & Suggestions Split - Stack on md screens */}
+          <div className="grid grid-cols-1 xl:grid-cols-2 gap-8 sm:gap-10">
 
             <div className="space-y-6">
               <h3 className="text-[10px] font-black text-gray-400 dark:text-gray-400 uppercase tracking-[0.2em] ml-2">

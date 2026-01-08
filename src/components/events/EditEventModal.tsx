@@ -29,14 +29,14 @@ const EditEventModal: React.FC<EditEventModalProps> = ({ isOpen, onClose, event,
         <div className="fixed inset-0 z-50 overflow-hidden">
             <div className="absolute inset-0 bg-gray-900/50 backdrop-blur-sm transition-opacity" onClick={onClose}></div>
 
-            <div className="fixed inset-y-0 right-0 z-50 flex max-w-full pl-10">
-                <div className="w-screen max-w-md transform transition-all">
+            <div className="fixed inset-y-0 right-0 z-50 flex max-w-full sm:pl-10">
+                <div className="w-screen max-w-full sm:max-w-md transform transition-all">
                     <div className="flex h-full flex-col overflow-y-scroll bg-white shadow-2xl">
 
                         {/* Header */}
-                        <div className="px-6 py-8 border-b border-gray-100">
+                        <div className="px-4 sm:px-6 py-6 sm:py-8 border-b border-gray-100">
                             <div className="flex items-center justify-between mb-2">
-                                <h2 className="text-xl font-black text-gray-900 uppercase tracking-tight italic">Edit Manifest</h2>
+                                <h2 className="text-lg sm:text-xl font-black text-gray-900 uppercase tracking-tight italic">Edit Manifest</h2>
                                 <button type="button" className="rounded-full p-2 bg-gray-50 text-gray-400 hover:text-[#D0771E] hover:bg-orange-50 transition-colors" onClick={onClose}>
                                     <XMarkIcon className="h-5 w-5" />
                                 </button>
@@ -45,7 +45,7 @@ const EditEventModal: React.FC<EditEventModalProps> = ({ isOpen, onClose, event,
                         </div>
 
                         {/* Form Content */}
-                        <form onSubmit={handleSubmit} className="relative flex-1 px-6 py-8 space-y-8">
+                        <form onSubmit={handleSubmit} className="relative flex-1 px-4 sm:px-6 py-6 sm:py-8 space-y-6 sm:space-y-8">
                             <div>
                                 <label className="block text-[10px] font-black text-gray-400 uppercase tracking-widest mb-2">Event Title</label>
                                 <input

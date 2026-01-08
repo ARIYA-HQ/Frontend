@@ -1,4 +1,3 @@
-import React from 'react';
 import { MapPinIcon, CalendarIcon } from '@heroicons/react/24/solid';
 
 const DashboardHero = () => {
@@ -8,7 +7,7 @@ const DashboardHero = () => {
     const daysToGo = 50;
 
     return (
-        <div className="relative w-full rounded-[40px] overflow-hidden bg-gradient-to-br from-[#1A051D] via-[#2D0A31] to-[#1A051D] text-white p-10 md:p-16 mb-10 shadow-2xl dark:shadow-none group border border-white/5">
+        <div className="relative w-full rounded-[40px] overflow-hidden bg-gradient-to-br from-[#1A051D] via-[#2D0A31] to-[#1A051D] text-white p-8 sm:p-12 lg:p-16 mb-10 shadow-2xl dark:shadow-none group border border-white/5">
             {/* Immersive Background Decorations */}
             <div className="absolute top-0 right-0 p-4 opacity-30 group-hover:scale-110 transition-transform duration-1000">
                 <div className="w-96 h-96 bg-[#D0771E] rounded-full blur-[120px] -mr-32 -mt-32 opacity-20"></div>
@@ -18,7 +17,7 @@ const DashboardHero = () => {
             </div>
             <div className="absolute inset-0 opacity-10 bg-[url('https://www.transparenttextures.com/patterns/carbon-fibre.png')]"></div>
 
-            <div className="relative z-10 flex flex-col lg:flex-row justify-between items-center gap-12">
+            <div className="relative z-10 flex flex-col xl:flex-row justify-between items-center gap-10 sm:gap-12">
                 <div className="flex-1 space-y-6">
                     <div className="flex items-center gap-3">
                         <span className="px-4 py-1.5 bg-orange-500/20 text-orange-400 text-[10px] font-black uppercase tracking-[0.2em] rounded-full border border-orange-500/30">
@@ -28,7 +27,7 @@ const DashboardHero = () => {
                         <span className="text-white/60 text-[10px] font-black uppercase tracking-widest italic">Live Status</span>
                     </div>
 
-                    <h1 className="text-4xl md:text-6xl font-black tracking-tighter uppercase leading-[0.95] max-w-2xl group-hover:text-orange-100 transition-colors">
+                    <h1 className="text-3xl sm:text-4xl md:text-5xl lg:text-6xl font-black tracking-tighter uppercase leading-[0.95] max-w-2xl group-hover:text-orange-100 transition-colors">
                         {eventName}
                     </h1>
 
@@ -50,22 +49,22 @@ const DashboardHero = () => {
 
                 {/* Countdown Circle Container */}
                 <div className="flex-shrink-0">
-                    <div className="relative w-40 h-40 flex items-center justify-center group/circle">
+                    <div className="relative w-32 h-32 sm:w-40 sm:h-40 flex items-center justify-center group/circle">
                         {/* SVG Circle Progress */}
                         <svg className="w-full h-full transform -rotate-90">
                             <circle
-                                cx="80"
-                                cy="80"
-                                r="74"
+                                cx="50%"
+                                cy="50%"
+                                r="45%"
                                 stroke="white"
                                 strokeWidth="2"
                                 fill="transparent"
                                 className="opacity-10"
                             />
                             <circle
-                                cx="80"
-                                cy="80"
-                                r="74"
+                                cx="50%"
+                                cy="50%"
+                                r="45%"
                                 stroke="#D0771E"
                                 strokeWidth="6"
                                 fill="transparent"
@@ -76,8 +75,8 @@ const DashboardHero = () => {
                             />
                         </svg>
                         <div className="absolute inset-0 flex flex-col items-center justify-center text-center">
-                            <span className="text-5xl font-black tracking-tighter transition-transform group-hover/circle:scale-110 duration-500">{daysToGo}</span>
-                            <span className="text-[9px] font-black uppercase tracking-[0.2em] text-[#D0771E] mt-1">Days To Go</span>
+                            <span className="text-3xl sm:text-5xl font-black tracking-tighter transition-transform group-hover/circle:scale-110 duration-500">{daysToGo}</span>
+                            <span className="text-[8px] sm:text-[9px] font-black uppercase tracking-[0.2em] text-[#D0771E] mt-0.5 sm:mt-1">Days To Go</span>
                         </div>
                     </div>
                 </div>

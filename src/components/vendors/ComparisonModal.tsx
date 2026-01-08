@@ -79,10 +79,10 @@ const ComparisonModal: React.FC<ComparisonModalProps> = ({ isOpen, onClose, vend
             {/* Modal Content */}
             <div className="relative w-full max-w-6xl max-h-[90vh] flex flex-col bg-white dark:bg-gray-900 rounded-[2.5rem] shadow-2xl overflow-hidden animate-scale-in">
                 {/* Header */}
-                <div className="p-8 border-b border-gray-100 dark:border-gray-800 flex justify-between items-center bg-white dark:bg-gray-900 z-10">
+                <div className="p-6 sm:p-8 border-b border-gray-100 dark:border-gray-800 flex justify-between items-center bg-white dark:bg-gray-900 z-10">
                     <div>
-                        <h2 className="text-3xl font-black text-black dark:text-white uppercase tracking-tighter italic">Vendor Comparison</h2>
-                        <p className="text-sm font-bold text-gray-400 uppercase tracking-widest mt-1">Side by side evaluation</p>
+                        <h2 className="text-xl sm:text-3xl font-black text-black dark:text-white uppercase tracking-tighter italic">Vendor Comparison</h2>
+                        <p className="text-[10px] sm:text-sm font-bold text-gray-400 uppercase tracking-widest mt-1">Side by side evaluation</p>
                     </div>
                     <button
                         onClick={onClose}
@@ -93,29 +93,29 @@ const ComparisonModal: React.FC<ComparisonModalProps> = ({ isOpen, onClose, vend
                 </div>
 
                 {/* Comparison Grid */}
-                <div className="flex-1 overflow-auto p-8">
-                    <div className="grid gap-8" style={{ gridTemplateColumns: `auto repeat(${vendors.length}, 1fr)` }}>
+                <div className="flex-1 overflow-auto p-4 sm:p-8">
+                    <div className="grid gap-4 sm:gap-8 min-w-[600px] lg:min-w-0" style={{ gridTemplateColumns: `auto repeat(${vendors.length}, 1fr)` }}>
 
                         {/* Legend Column */}
-                        <div className="space-y-12 py-32 lg:pt-48">
+                        <div className="space-y-12 py-24 sm:py-32 lg:pt-48">
                             {attributes.map((attr, idx) => (
                                 <div key={idx} className="h-16 flex items-center gap-3 text-gray-400 dark:text-gray-500">
-                                    <attr.icon className="w-5 h-5" />
-                                    <span className="text-xs font-black uppercase tracking-widest hidden lg:block">{attr.label}</span>
+                                    <attr.icon className="w-5 h-5 shrink-0" />
+                                    <span className="text-[10px] font-black uppercase tracking-widest hidden lg:block">{attr.label}</span>
                                 </div>
                             ))}
                         </div>
 
                         {/* Vendor Columns */}
                         {vendors.map((vendor) => (
-                            <PremiumCard key={vendor.id} className="h-full flex flex-col border-gray-100 dark:border-gray-800 shadow-none dark:shadow-none hover:border-[#D0771E]/30 transition-colors">
+                            <PremiumCard key={vendor.id} className="h-full flex flex-col border-gray-100 dark:border-gray-800 shadow-none dark:shadow-none hover:border-[#D0771E]/30 transition-colors p-6 sm:p-10">
                                 <div className="text-center mb-8">
                                     <div className="relative w-full aspect-square mb-6 rounded-2xl overflow-hidden shadow-lg dark:shadow-none">
                                         <img src={vendor.image} alt={vendor.name} className="w-full h-full object-cover transform hover:scale-105 transition-transform duration-700" />
                                     </div>
                                     <div className="text-[10px] font-black text-[#D0771E] uppercase tracking-widest mb-2">{vendor.category}</div>
-                                    <h3 className="text-xl font-black text-black dark:text-white uppercase tracking-tight leading-none mb-4">{vendor.name}</h3>
-                                    <button className="w-full py-3 bg-black dark:bg-white text-white dark:text-black text-[10px] font-black uppercase tracking-[0.2em] rounded-xl hover:opacity-80 transition-opacity">
+                                    <h3 className="text-lg sm:text-xl font-black text-black dark:text-white uppercase tracking-tight leading-none mb-4">{vendor.name}</h3>
+                                    <button className="w-full py-3 bg-black dark:bg-white text-white dark:text-black text-[9px] sm:text-[10px] font-black uppercase tracking-[0.2em] rounded-xl hover:opacity-80 transition-opacity">
                                         Contact
                                     </button>
                                 </div>
@@ -123,7 +123,7 @@ const ComparisonModal: React.FC<ComparisonModalProps> = ({ isOpen, onClose, vend
                                 <div className="space-y-12">
                                     {attributes.map((attr, idx) => (
                                         <div key={idx} className="h-16 flex items-center justify-center border-t border-gray-50 dark:border-gray-800/50">
-                                            <div className="text-sm font-bold text-black dark:text-white">
+                                            <div className="text-xs sm:text-sm font-bold text-black dark:text-white">
                                                 {attr.render(vendor)}
                                             </div>
                                         </div>
