@@ -8,6 +8,7 @@ import {
     ArrowRightIcon,
     ChevronLeftIcon
 } from '@heroicons/react/24/outline';
+import { TRANSACTION_FEE } from '../../../data/pricing';
 
 interface BookingPaymentModalProps {
     isOpen: boolean;
@@ -21,7 +22,8 @@ const BookingPaymentModal = ({ isOpen, onClose, booking, onSuccess }: BookingPay
     const [paymentMethod, setPaymentMethod] = useState('card');
     const [isProcessing, setIsProcessing] = useState(false);
 
-    const ariyaFee = (booking?.amount || 0) * 0.05; // 5% fee
+    // Updated to use flat transaction fee from pricing model
+    const ariyaFee = TRANSACTION_FEE;
     const totalAmount = (booking?.amount || 0) + ariyaFee;
 
     const handlePayment = () => {
@@ -88,7 +90,7 @@ const BookingPaymentModal = ({ isOpen, onClose, booking, onSuccess }: BookingPay
                                                     <span className="text-gray-900 dark:text-white font-black">₦{booking?.amount?.toLocaleString()}</span>
                                                 </div>
                                                 <div className="flex justify-between items-center text-sm">
-                                                    <span className="text-gray-500 dark:text-gray-400 font-bold uppercase tracking-tight text-[11px]">Ariya Escrow Fee (5%)</span>
+                                                    <span className="text-gray-500 dark:text-gray-400 font-bold uppercase tracking-tight text-[11px]">Processing Fee</span>
                                                     <span className="text-gray-900 dark:text-white font-black">₦{ariyaFee.toLocaleString()}</span>
                                                 </div>
                                                 <div className="pt-4 border-t border-gray-200 dark:border-gray-700 flex justify-between items-center">

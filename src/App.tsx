@@ -4,6 +4,7 @@ import { ThemeProvider } from './contexts/ThemeContext';
 import { UIProvider } from './contexts/UIContext';
 import { CartProvider } from './contexts/CartContext';
 import { NotificationProvider } from './contexts/NotificationContext';
+import { EntitlementProvider } from './contexts/EntitlementContext';
 import ErrorBoundary from './components/ErrorBoundary';
 import { authService } from './services/authService';
 import AppRoutes from './routes/AppRoutes';
@@ -74,21 +75,23 @@ function App() {
     <ErrorBoundary>
       <ThemeProvider>
         <UIProvider>
-          <NotificationProvider>
-            <CartProvider>
-              {/* Repository: ARIYA-HQ/Frontend */}
-              <Router basename={process.env.NODE_ENV === 'production' ? '/Frontend' : '/'}>
-                <AuthSetup />
-                <SubdomainRouter />
-                <div className="App">
-                  <AppRoutes />
-                </div>
-              </Router>
-            </CartProvider>
-          </NotificationProvider>
+          <EntitlementProvider>
+            <NotificationProvider>
+              <CartProvider>
+                {/* Repository: ARIYA-HQ/Frontend */}
+                <Router basename={process.env.NODE_ENV === 'production' ? '/Frontend' : '/'}>
+                  <AuthSetup />
+                  <SubdomainRouter />
+                  <div className="App">
+                    <AppRoutes />
+                  </div>
+                </Router>
+              </CartProvider>
+            </NotificationProvider>
+          </EntitlementProvider>
         </UIProvider>
-      </ThemeProvider>
-    </ErrorBoundary>
+      </ThemeProvider >
+    </ErrorBoundary >
   );
 }
 

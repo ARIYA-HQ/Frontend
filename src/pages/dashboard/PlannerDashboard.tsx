@@ -1,4 +1,9 @@
 import { useNavigate } from 'react-router-dom';
+import { useState } from 'react';
+import { Button } from '../../components/ui/Button';
+import { PlusIcon } from '@heroicons/react/24/outline';
+import UpgradeModal from '../../components/ui/UpgradeModal';
+import { useEntitlement } from '../../contexts/EntitlementContext';
 import DashboardHero from '../../components/dashboard/DashboardHero';
 import StatCard from '../../components/dashboard/StatCard';
 import RecentActivities from '../../components/dashboard/RecentActivities';
@@ -11,6 +16,19 @@ import { authService } from '../../services/authService';
 
 const PlannerDashboard = () => {
   const navigate = useNavigate();
+  const { checkEntitlement } = useEntitlement();
+  const [showUpgradeModal, setShowUpgradeModal] = useState(false);
+  const [upgradeFeature, setUpgradeFeature] = useState<any>('create_event');
+
+  const handleCreateEvent = () => {
+    const entitlement = checkEntitlement('create_event');
+    if (!entitlement.allowed) {
+      setUpgradeFeature('create_event');
+      setShowUpgradeModal(true);
+      return;
+    }
+    navigate('/events/new');
+  };
   const currentUser = authService.getCurrentUser();
   const isProfessionalPlanner = currentUser?.role === 'professional_event_planner';
 
@@ -160,6 +178,13 @@ const PlannerDashboard = () => {
                       priority="Medium"
                       onClick={() => navigate('/vendors')}
                     />
+                    <Button
+                      onClick={handleCreateEvent}
+                      className="bg-[#D0771E] hover:bg-[#B56619] text-white px-6 py-3 rounded-full flex items-center gap-2 shadow-lg shadow-orange-900/10 hover:shadow-orange-900/20 transition-all transform hover:-translate-y-0.5 active:translate-y-0"
+                    >
+                      <PlusIcon className="w-5 h-5" />
+                      <span className="font-medium">New Event</span>
+                    </Button>
                     <SmartSuggestionCard
                       title="Client retention strategy"
                       subtitle="Follow up with recent event clients"
@@ -208,6 +233,12 @@ const PlannerDashboard = () => {
           </PremiumCard>
         </div>
       </div>
+
+      <UpgradeModal
+        isOpen={showUpgradeModal}
+        onClose={() => setShowUpgradeModal(false)}
+        featureId={upgradeFeature}
+      />
     </div>
   );
 };

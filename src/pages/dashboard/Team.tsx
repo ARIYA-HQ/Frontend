@@ -1,4 +1,6 @@
 import { useState, useEffect } from 'react';
+import UpgradeModal from '../../components/ui/UpgradeModal';
+import { useEntitlement } from '../../contexts/EntitlementContext';
 import {
   PlusIcon,
   MagnifyingGlassIcon,
@@ -12,12 +14,14 @@ import { Button } from '../../components/ui/Button';
 import { TEAM_MEMBERS, TEAM_ROLES } from '../../data/mockTeam';
 
 const Team = () => {
+  const { checkEntitlement } = useEntitlement();
   const [members, setMembers] = useState(() => {
     const saved = localStorage.getItem('ariya_team_members');
     return saved ? JSON.parse(saved) : TEAM_MEMBERS;
   });
   const [searchQuery, setSearchQuery] = useState('');
   const [showInviteModal, setShowInviteModal] = useState(false);
+  const [showUpgradeModal, setShowUpgradeModal] = useState(false); // Added
   const [editingMember, setEditingMember] = useState<any>(null);
   const [inviteForm, setInviteForm] = useState({ email: '', role: 'Coordinator' });
 
@@ -46,7 +50,7 @@ const Team = () => {
 
   const handleRemoveMember = (id: number) => {
     if (window.confirm('Are you sure you want to remove this team member?')) {
-      setMembers(prev => prev.filter(m => m.id !== id));
+      setMembers((prev: any[]) => prev.filter((m: any) => m.id !== id));
     }
   };
 
@@ -77,7 +81,14 @@ const Team = () => {
         subtitle="Manage your collaborators, planners, and permissions"
         actions={
           <Button
-            onClick={() => setShowInviteModal(true)}
+            onClick={() => {
+              const entitlement = checkEntitlement('add_team_member');
+              if (!entitlement.allowed) {
+                setShowUpgradeModal(true);
+                return;
+              }
+              setShowInviteModal(true);
+            }}
             className="h-12 px-8 rounded-2xl shadow-xl shadow-orange-100 dark:shadow-none bg-[#D0771E] text-white"
           >
             <PlusIcon className="w-5 h-5 mr-2" />
@@ -145,7 +156,7 @@ const Team = () => {
               </tr>
             </thead>
             <tbody className="divide-y divide-gray-50/50 dark:divide-gray-800">
-              {filteredMembers.map((member) => (
+              {filteredMembers.map((member: any) => (
                 <tr key={member.id} className="hover:bg-gray-50/30 dark:hover:bg-gray-800/30 transition-colors group bg-white dark:bg-gray-900">
                   <td className="px-10 py-6">
                     <div className="flex items-center gap-4">
@@ -276,9 +287,28 @@ const Team = () => {
           </PremiumCard>
         </div>
       )}
+
+      {/* The following components are not fully defined in the original code or the provided diff,
+          but are included to match the structure implied by the diff's final snippet.
+          Assuming `showRoleModal`, `handleRoleUpdate`, `selectedMember` would be defined elsewhere
+          if this were a complete refactor. For this specific instruction, only UpgradeModal is directly relevant. */}
+      {/* <RoleModal
+        isOpen={showRoleModal}
+        onClose={() => setShowRoleModal(false)}
+        onSave={handleRoleUpdate}
+        currentRole={selectedMember?.role || 'Viewer'}
+        memberName={selectedMember?.name || ''}
+      /> */}
+
+      <UpgradeModal
+        isOpen={showUpgradeModal}
+        onClose={() => setShowUpgradeModal(false)}
+        featureId="add_team_member"
+      />
     </div>
   );
 };
 
 export default Team;
+
 
