@@ -201,7 +201,7 @@ const Guests = () => {
             {/* Guest List Content */}
             {activeTab === 'Guest List' && (
                 <>
-                    <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-5 gap-6 mb-10">
+                    <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-5 gap-6 mb-10">
                         {stats.map((stat, idx) => (
                             <StatCard
                                 key={idx}
@@ -224,7 +224,7 @@ const Guests = () => {
 
                     <PremiumCard hover={false} className="border-none shadow-2xl dark:shadow-none p-0 overflow-hidden">
                         {/* Toolbar */}
-                        <div className="p-6 border-b border-gray-50 dark:border-gray-700 flex flex-col sm:flex-row gap-6 justify-between items-center">
+                        <div className="p-6 border-b border-gray-50 dark:border-gray-700 flex flex-col sm:flex-row gap-4 sm:gap-6 justify-between items-stretch sm:items-center">
                             <div className="flex gap-4 w-full sm:w-auto">
                                 <PremiumSearch
                                     placeholder="Search guests..."
@@ -247,7 +247,7 @@ const Guests = () => {
 
                         {/* Table */}
                         <div className="overflow-x-auto">
-                            <table className="w-full text-left">
+                            <table className="min-w-[1000px] w-full text-left">
                                 <thead className="bg-[#FCFCFC] dark:bg-gray-800/50 border-b border-gray-100 dark:border-gray-700 font-inter">
                                     <tr>
                                         <th className="px-8 py-5 w-10 text-[10px] font-black text-gray-400 dark:text-gray-400 uppercase tracking-widest">
@@ -320,7 +320,7 @@ const Guests = () => {
             {activeTab === 'RSVP' && (
                 <div className="space-y-8 animate-in fade-in duration-500">
                     {/* KPI Cards */}
-                    <div className="grid grid-cols-1 md:grid-cols-4 gap-6">
+                    <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
                         <PremiumCard className="p-6 dark:bg-gray-800 border-none">
                             <div className="flex gap-4">
                                 <div className="p-3 bg-blue-50 dark:bg-blue-900/30 rounded-2xl text-blue-600 dark:text-blue-400">
@@ -435,7 +435,7 @@ const Guests = () => {
             {/* Guest Analytics Content */}
             {activeTab === 'Guest Analytics' && (
                 <div className="space-y-8 animate-in fade-in duration-500">
-                    <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+                    <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-8">
                         {/* Breakdown 1: Category */}
                         <PremiumCard className="p-8 dark:bg-gray-800 border-none">
                             <div className="flex items-center gap-3 mb-8">
@@ -568,7 +568,7 @@ const Guests = () => {
                         </div>
                     </div>
 
-                    <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+                    <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
                         {filteredCheckInGuests.map((guest: any) => (
                             <div key={guest.id} className={`p-6 rounded-3xl border cursor-pointer transition-all group ${guest.checkedIn
                                 ? 'bg-green-50 dark:bg-green-900/10 border-green-200 dark:border-green-900/30'
