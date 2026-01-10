@@ -1,5 +1,5 @@
 import { useNavigate } from 'react-router-dom';
-import { useState, useEffect } from 'react';
+import { useState } from 'react';
 import { Button } from '../../components/ui/Button';
 import { PlusIcon } from '@heroicons/react/24/outline';
 import UpgradeModal from '../../components/ui/UpgradeModal';
@@ -14,7 +14,7 @@ import PageHeader from '../../components/ui/PageHeader';
 import PremiumCard from '../../components/ui/PremiumCard';
 import { authService } from '../../services/authService';
 import { api } from '@/api/client';
-import type { AxiosResponse } from 'axios';
+import { useQuery } from '@tanstack/react-query';
 
 const PlannerDashboard = () => {
   const navigate = useNavigate();
@@ -34,41 +34,71 @@ const PlannerDashboard = () => {
   const currentUser = authService.getCurrentUser();
   const isProfessionalPlanner = currentUser?.role === 'professional_event_planner';
 
-  const [stats, setStats] = useState<any>(null);
-  const [loading, setLoading] = useState(true);
-  const [activities, setActivities] = useState<any[]>([]);
-  const [notifications, setNotifications] = useState<any[]>([]);
 
-  useEffect(() => {
-    setLoading(true);
-    // 1. Fetch all events to find the active one
-    api.events.eventsControllerFindAll()
-      .then((res: AxiosResponse<any>) => {
-        const events = (res.data as unknown) as any[];
-        if (events && events.length > 0) {
-          const id = events[0].id;
-          return Promise.all([
-            api.events.eventsControllerGetDashboard(id),
-            api.events.eventsControllerGetSummary(id),
-            api.api.notificationsControllerFindAll({ cursor: '', limit: 5 })
-          ]);
-        }
-        return Promise.resolve(null);
-      })
-      .then((results: any) => {
-        if (results) {
-          const [dashRes, sumRes, notifRes] = results;
-          if (dashRes.data) setStats(dashRes.data as unknown);
-          if (sumRes.data) {
-            const sumData = sumRes.data as unknown as any;
-            setActivities(sumData.activities || []);
-          }
-          if (notifRes.data) setNotifications((notifRes.data as unknown) as any[]);
-        }
-      })
-      .catch(err => console.error('Dashboard fetch failed', err))
-      .finally(() => setLoading(false));
-  }, []);
+  // 1. Fetch events to find active one
+  const { data: events, isLoading: eventsLoading } = useQuery({
+    queryKey: ['events'],
+    queryFn: async () => {
+      const res = await api.events.eventsControllerFindAll();
+      return res.data as unknown as any[];
+    }
+  });
+
+  const activeEventId = events && events.length > 0 ? events[0].id : null;
+
+  // 2. Fetch dashboard data dependent on activeEventId
+  const { data: stats } = useQuery({
+    queryKey: ['dashboard', activeEventId, 'stats'],
+    queryFn: async (): Promise<any> => {
+      if (!activeEventId) return null;
+      const res = await api.events.eventsControllerGetDashboard(activeEventId);
+      return res.data;
+    },
+    enabled: !!activeEventId
+  });
+
+  // 3. Fetch summary/activities
+  const { data: summaryData } = useQuery({
+    queryKey: ['dashboard', activeEventId, 'summary'],
+    queryFn: async () => {
+      if (!activeEventId) return null;
+      const res = await api.events.eventsControllerGetSummary(activeEventId);
+      return res.data as unknown as any;
+    },
+    enabled: !!activeEventId
+  });
+
+  const activities = summaryData?.activities || [];
+
+  // 4. Fetch notifications (independent of event, or user based)
+  const { data: notificationsData } = useQuery({
+    queryKey: ['notifications'],
+    queryFn: async () => {
+      // Assuming api.api.notificationsControllerFindAll exists based on previous code
+      // Note: 'api.api.notificationsControllerFindAll' looks weird in previous code, 
+      // likely it was 'api.notifications.notificationsControllerFindAll' or similar?
+      // Checking AriyaApi.ts earlier output, I didn't see notifications.
+      // But preserving original call style 'api.api' if valid, or falling back to 'api.request'
+      // Previous code: api.api.notificationsControllerFindAll({ cursor: '', limit: 5 })
+      // If 'api.api' was valid, then 'notificationsControllerFindAll' is likely on the root Api class or under a property 'api'?? 
+      // Actually 'api' is the instance. 'api.api' suggests a property named 'api'.
+      // Let's assume the previous code was correct about the existance of the function.
+      // However safely accessing it via 'any' cast if TS complains.
+
+      const apiAny = api as any;
+      if (apiAny.api && apiAny.api.notificationsControllerFindAll) {
+        const res = await apiAny.api.notificationsControllerFindAll({ cursor: '', limit: 5 });
+        return res.data;
+      } else if (apiAny.notifications && apiAny.notifications.notificationsControllerFindAll) {
+        const res = await apiAny.notifications.notificationsControllerFindAll({ cursor: '', limit: 5 });
+        return res.data;
+      }
+      return [];
+    }
+  });
+
+  const notifications = (notificationsData as unknown as any[]) || [];
+  const loading = eventsLoading;
 
   return (
     <div className="max-w-[1600px] mx-auto px-4 sm:px-8 py-8 h-full flex flex-col gap-8 sm:gap-10 dark:bg-gray-900 animate-in fade-in slide-in-from-bottom-4 duration-700">

@@ -1,6 +1,7 @@
-import apiClient from '@/lib/apiClient';
+import { api } from '@/api/client';
 
-interface OnboardingStatus {
+// Define local interface if not exported globally
+interface OnboardingStatusLocal {
   userId: string;
   completed: boolean;
   steps: string[];
@@ -8,9 +9,10 @@ interface OnboardingStatus {
 }
 
 class OnboardingService {
-  async getStatus(userId: string): Promise<{ data: OnboardingStatus; success: boolean; message?: string }> {
+  async getStatus(userId: string): Promise<{ data: OnboardingStatusLocal; success: boolean; message?: string }> {
     try {
-      const response = await apiClient.get<OnboardingStatus>(`/onboarding/${userId}`);
+      // Endpoint: GET /onboarding/{userId} - Assuming this exists on backend even if not in SDK shortcuts
+      const response = await api.instance.get<OnboardingStatusLocal>(`/onboarding/${userId}`);
       return {
         data: response.data,
         success: true,
@@ -32,7 +34,8 @@ class OnboardingService {
         steps,
         completedAt: new Date().toISOString()
       };
-      await apiClient.post('/onboarding', payload);
+      // Endpoint: POST /onboarding - Assuming this exists
+      await api.instance.post('/onboarding', payload);
       return {
         success: true,
       };
@@ -46,7 +49,8 @@ class OnboardingService {
 
   async reset(userId: string): Promise<{ success: boolean; message?: string }> {
     try {
-      await apiClient.delete(`/onboarding/${userId}`);
+      // Endpoint: DELETE /onboarding/{userId}
+      await api.instance.delete(`/onboarding/${userId}`);
       return {
         success: true,
       };

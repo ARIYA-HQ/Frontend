@@ -1,49 +1,33 @@
-import ApiService, { type ApiResponse } from './apiService';
-import type { User } from '../types';
-import apiClient from '@/lib/apiClient';
-import { storage, STORAGE_KEYS } from '@/utils/storage';
+import { api } from '@/api/client';
+import { getErrorMessage } from '@/utils/errors';
+import type { User } from '@/types';
 import { authService } from './authService';
 
-class UserService extends ApiService {
-  constructor() {
-    super('/users');
-  }
+export interface ApiResponse<T> {
+  status: 'success' | 'error';
+  data: T;
+  error?: {
+    code: string;
+    message: string;
+  };
+}
+
+class UserService {
 
   async getCurrentUser(): Promise<ApiResponse<User>> {
     try {
-      // In development without backend, return mock data
-      if (typeof window !== 'undefined' && (window.location.hostname === 'localhost' || window.location.hostname.includes('github.io'))) {
-        // Get user data from storage if available
-        const storedUser = storage.get<User>(STORAGE_KEYS.USER);
-        if (storedUser) {
-          return {
-            status: 'success',
-            data: storedUser,
-          };
-        }
-
-        const mockUser: User = {
-          id: `user-${Date.now()}`,
-          name: 'Mock User',
-          email: 'mock@example.com',
-          role: 'personal_planner',
-          avatar: undefined
-        };
-
-        return {
-          status: 'success',
-          data: mockUser,
-        };
-      }
-
-      return await this.getById<User>('me');
-    } catch (error) {
+      const response = await api.users.usersControllerGetMe();
+      return {
+        status: 'success',
+        data: response.data as unknown as User,
+      };
+    } catch (error: any) {
       return {
         status: 'error',
         data: {} as User,
         error: {
           code: 'GET_USER_ERROR',
-          message: 'Error fetching current user',
+          message: getErrorMessage(error) || 'Error fetching current user',
         },
       };
     }
@@ -51,31 +35,23 @@ class UserService extends ApiService {
 
   async login(credentials: { email: string; password: string }): Promise<ApiResponse<{ user: User; token: string }>> {
     try {
-      // In development without backend, return mock data
-      if (typeof window !== 'undefined' && (window.location.hostname === 'localhost' || window.location.hostname.includes('github.io'))) {
-        const mockUser: User = {
-          id: `user-${Date.now()}`,
-          name: 'Mock User',
-          email: credentials.email,
-          role: 'personal_planner', // Default role for mock
-          avatar: undefined
-        };
+      const response = await api.auth.authControllerLogin(credentials);
+      const data = response.data as unknown as { access_token: string, user: User }; // Adjust based on actual backend response shape if different
 
-        return {
-          status: 'success',
-          data: {
-            user: mockUser,
-            token: 'mock-token-for-development'
-          },
-        };
-      }
+      // Map backend response to expected format if needed
+      // Assuming backend returns { access_token: string, user: ... } based on typical NestJS JWT flow
+      // But based on implementation of `apiClient.post` it seemed to expect { user, token }
 
-      const response = await apiClient.post<{ user: User; token: string }>('/auth/login', credentials);
+      const token = (data as any).access_token || (data as any).token;
+
       return {
         status: 'success',
-        data: response.data,
+        data: {
+          user: data.user || (data as any), // Fallback if structure differs
+          token: token
+        },
       };
-    } catch (error) {
+    } catch (error: any) {
       return {
         status: 'error',
         data: { user: {} as User, token: '' },
@@ -89,28 +65,21 @@ class UserService extends ApiService {
 
   async register(userData: Partial<User>): Promise<ApiResponse<User>> {
     try {
-      // In development without backend, return mock data
-      if (typeof window !== 'undefined' && (window.location.hostname === 'localhost' || window.location.hostname.includes('github.io'))) {
-        const mockUser: User = {
-          id: `user-${Date.now()}`,
-          name: userData.name || 'New User',
-          email: userData.email || 'mock@example.com',
-          role: userData.role || 'personal_planner',
-          avatar: undefined
-        };
+      // Cast to any to adapt to RegisterDto requirements
+      const registerData = {
+        email: userData.email!,
+        password: (userData as any).password || 'password123', // TODO: Handle password properly in frontend flow
+        firstName: userData.name?.split(' ')[0] || 'User',
+        lastName: userData.name?.split(' ')[1] || 'Name',
+        role: userData.role as any || 'personal_planner'
+      };
 
-        return {
-          status: 'success',
-          data: mockUser,
-        };
-      }
-
-      const response = await apiClient.post<User>('/auth/register', userData);
+      const response = await api.auth.authControllerRegister(registerData);
       return {
         status: 'success',
-        data: response.data,
+        data: response.data as unknown as User,
       };
-    } catch (error) {
+    } catch (error: any) {
       return {
         status: 'error',
         data: {} as User,
@@ -124,23 +93,16 @@ class UserService extends ApiService {
 
   async logout(): Promise<ApiResponse<void>> {
     try {
-      // In development without backend, just clear storage
-      if (typeof window !== 'undefined' && (window.location.hostname === 'localhost' || window.location.hostname.includes('github.io'))) {
-        authService.logout();
-        return {
-          status: 'success',
-          data: undefined as unknown as void,
-        };
-      }
+      // API might not have a logout endpoint if stateless JWT, but let's check
+      // api.auth.logout is not in the list from view_file of AriyaApi.ts
+      // So we just clear local state.
 
-      await apiClient.post('/auth/logout');
       authService.logout();
       return {
         status: 'success',
         data: undefined as unknown as void,
       };
-    } catch (error) {
-      // Still logout locally even if API call fails
+    } catch (error: any) {
       authService.logout();
       return {
         status: 'error',

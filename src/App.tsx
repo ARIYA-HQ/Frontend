@@ -8,6 +8,7 @@ import { EntitlementProvider } from './contexts/EntitlementContext';
 import ErrorBoundary from './components/ErrorBoundary';
 import { authService } from './services/authService';
 import AppRoutes from './routes/AppRoutes';
+import { QueryProvider } from './contexts/QueryProvider';
 import './App.css';
 
 // Component to handle subdomain routing
@@ -75,20 +76,22 @@ function App() {
     <ErrorBoundary>
       <ThemeProvider>
         <UIProvider>
-          <EntitlementProvider>
-            <NotificationProvider>
-              <CartProvider>
-                {/* Repository: ARIYA-HQ/Frontend */}
-                <Router basename={process.env.NODE_ENV === 'production' ? '/Frontend' : '/'}>
-                  <AuthSetup />
-                  <SubdomainRouter />
-                  <div className="App">
-                    <AppRoutes />
-                  </div>
-                </Router>
-              </CartProvider>
-            </NotificationProvider>
-          </EntitlementProvider>
+          <QueryProvider>
+            <EntitlementProvider>
+              <NotificationProvider>
+                <CartProvider>
+                  {/* Repository: ARIYA-HQ/Frontend */}
+                  <Router basename={process.env.NODE_ENV === 'production' ? '/Frontend' : '/'}>
+                    <AuthSetup />
+                    <SubdomainRouter />
+                    <div className="App">
+                      <AppRoutes />
+                    </div>
+                  </Router>
+                </CartProvider>
+              </NotificationProvider>
+            </EntitlementProvider>
+          </QueryProvider>
         </UIProvider>
       </ThemeProvider >
     </ErrorBoundary >
